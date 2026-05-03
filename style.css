@@ -140,44 +140,54 @@ td:first-child {
 }
 
 /* =========================================
-   💀 อัปเกรดปุ่มคะแนน 1-5 (ให้ดูนูนและเต้นได้) 
+   💀 อัปเกรดปุ่มคะแนน 5 4 3 2 1 (ไล่ขนาดใหญ่ไปเล็ก)
    ========================================= */
+
+/* จัดตำแหน่งและดีไซน์หลักให้เป็นวงกลมนูน 3D */
 .rating-label { 
-    display: inline-block; 
-    width: 45px; 
-    height: 45px; 
-    line-height: 43px; 
-    text-align: center; 
+    display: flex; /* ใช้ flex เพื่อให้ตัวเลขอยู่กึ่งกลางเสมอ ไม่ว่าจะปรับขนาดเท่าไหร่ */
+    justify-content: center;
+    align-items: center;
     border: 2px solid #222; 
-    border-radius: 50%; /* เปลี่ยนเป็นวงกลม */
-    background: linear-gradient(145deg, #1a1a1a, #0a0a0a); /* ไล่สีให้ดูนูนแบบ 3D */
+    border-radius: 50%; 
+    background: linear-gradient(145deg, #1a1a1a, #0a0a0a); 
     color: #666; 
     cursor: pointer; 
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* เอฟเฟกต์เด้งดึ๋งตอนชี้เมาส์ */
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
     font-weight: bold; 
-    font-size: 16px;
-    box-shadow: 3px 3px 6px #000000, -3px -3px 6px #1c1c1c; /* เงาให้ปุ่มดูนูนขึ้นมาจากจอ */
+    box-shadow: 3px 3px 6px #000000, -3px -3px 6px #1c1c1c; 
     user-select: none;
 }
+
+/* 🔥 เวทมนตร์กำหนดขนาด: ไล่จากเบอร์ 5 (ตัวแรก) ไปเบอร์ 1 (ตัวสุดท้าย) */
+.rating-label:nth-of-type(1) { width: 55px; height: 55px; font-size: 22px; } /* เบอร์ 5 */
+.rating-label:nth-of-type(2) { width: 50px; height: 50px; font-size: 19px; } /* เบอร์ 4 */
+.rating-label:nth-of-type(3) { width: 45px; height: 45px; font-size: 16px; } /* เบอร์ 3 */
+.rating-label:nth-of-type(4) { width: 40px; height: 40px; font-size: 14px; } /* เบอร์ 2 */
+.rating-label:nth-of-type(5) { width: 35px; height: 35px; font-size: 12px; } /* เบอร์ 1 */
 
 /* ตอนเอาเมาส์ชี้ */
 .rating-label:hover { 
     border-color: #8b0000; 
     color: #ff4d4d; 
-    transform: translateY(-4px) scale(1.1); /* ลอยขึ้นและขยายขนาดนิดนึง */
+    transform: translateY(-4px) scale(1.1); 
     box-shadow: 0 5px 15px rgba(139, 0, 0, 0.5); 
 }
 
-/* ตอนที่ปุ่มถูกกดเลือกแล้ว! */
+/* ตอนที่ปุ่มถูกกดเลือกแล้ว ให้เต้นตุบๆ พร้อมเรืองแสง */
 input[type="radio"]:checked + .rating-label { 
-    background: linear-gradient(145deg, #8b0000, #4a0000); /* เปลี่ยนเป็นสีเลือด */
+    background: linear-gradient(145deg, #8b0000, #4a0000); 
     color: #fff; 
     border-color: var(--bright-red); 
-    /* เอฟเฟกต์แอนิเมชันหัวใจเต้น */
     animation: heartbeat 1.5s infinite; 
 }
 
-/* สร้างจังหวะการเต้นของปุ่ม */
+/* จัดให้วงกลมที่ขนาดไม่เท่ากัน เรียงอยู่กึ่งกลางเส้นบรรทัดเดียวกันพอดี */
+.question-box div[style*="display:flex"] {
+    align-items: center !important;
+}
+
+/* สร้างจังหวะการเต้นของปุ่ม (ถ้ามีของเดิมอยู่แล้ว ไม่ต้องก๊อปซ้ำก็ได้ครับ) */
 @keyframes heartbeat {
     0% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 26, 26, 0.6); }
     14% { transform: scale(1.25); box-shadow: 0 0 25px rgba(255, 26, 26, 1); }
