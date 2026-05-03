@@ -1,0 +1,382 @@
+:root { 
+    --blood: #8b0000; 
+    --dark-bg: #0f0f0f; 
+    --text: #d3d3d3; 
+    --bright-red: #ff1a1a; 
+}
+
+* { 
+    box-sizing: border-box; 
+}
+
+body { 
+    font-family: 'Kanit', sans-serif; 
+    background: #000; 
+    color: var(--text); 
+    margin: 0; 
+    padding: 20px; 
+    display: flex; 
+    justify-content: center; 
+}
+
+.container { 
+    width: 100%; 
+    max-width: 800px; 
+    background: rgba(15, 15, 15, 0.95); 
+    border-radius: 10px; 
+    border: 1px solid #333; 
+    padding: 0 0 30px 0; 
+    overflow: hidden; 
+    box-shadow: 0 0 25px rgba(139, 0, 0, 0.4); 
+    animation: bloodPulse 3s infinite ease-in-out;
+}
+
+.header-img { 
+    width: 100%; 
+    height: 200px; 
+    object-fit: cover; 
+    border-bottom: 2px solid var(--blood); 
+}
+
+/* --- ส่วนหัวบันทึกผู้รอดชีวิตแบบกะพริบ --- */
+.survivor-header { 
+    text-align: center; 
+    padding: 40px 20px; 
+    background: #0a0a0a; 
+    border-top: 1px solid var(--blood); 
+    margin-bottom: 10px; 
+}
+
+.survivor-title { 
+    color: var(--bright-red); 
+    font-size: 32px; 
+    font-weight: 700; 
+    margin: 0; 
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.7); 
+    animation: pulse-blink 2s infinite ease-in-out; 
+}
+
+.survivor-subtext { 
+    color: #888; 
+    font-size: 16px; 
+    margin-top: 10px; 
+    letter-spacing: 1px; 
+}
+
+/* เอฟเฟกต์กรอบแดงกะพริบ */
+@keyframes bloodPulse {
+    0% { box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); border-color: #4a0000; }
+    50% { box-shadow: 0 0 35px rgba(255, 0, 0, 0.9); border-color: #ff0000; }
+    100% { box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); border-color: #4a0000; }
+}
+
+/* เอฟเฟกต์ตัวอักษรกะพริบ */
+.flicker-text {
+    animation: textFlicker 4s infinite alternate;
+}
+
+@keyframes textFlicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% { 
+        opacity: 1; text-shadow: 0 0 10px #ff0000, 0 0 20px #8b0000; 
+    }
+    20%, 24%, 55% { opacity: 0.3; text-shadow: none; }
+}
+
+/* --- ซ่อนจุดขาว Radio Button มาตรฐานทั้งหมด --- */
+input[type="radio"] { display: none; }
+
+.section { 
+    padding: 25px; 
+    border-bottom: 1px solid #222; 
+}
+
+h2 { 
+    color: var(--bright-red); 
+    font-size: 22px; 
+    margin-bottom: 20px; 
+    border-left: 5px solid var(--blood); 
+    padding-left: 15px; 
+}
+
+.question-box { 
+    background: #1a1a1a; 
+    padding: 20px; 
+    border-radius: 8px; 
+    margin-bottom: 20px; 
+    border: 1px solid #222; 
+}
+
+label.main-q { 
+    display: block; 
+    margin-bottom: 15px; 
+    font-weight: bold; 
+    color: #ffffff; 
+}
+
+/* ตารางคะแนนแบบกล่องกด (Rating Labels) */
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 10px; 
+}
+
+th, td { 
+    padding: 12px 5px; 
+    text-align: center; 
+    border-bottom: 1px solid #222; 
+}
+
+th { 
+    color: #888; 
+    font-weight: 300; 
+    font-size: 14px; 
+}
+
+td:first-child { 
+    text-align: left; 
+    width: 45%; 
+    color: var(--text); 
+    font-size: 15px; 
+}
+
+/* =========================================
+   💀 อัปเกรดปุ่มคะแนน 1-5 (ให้ดูนูนและเต้นได้) 
+   ========================================= */
+.rating-label { 
+    display: inline-block; 
+    width: 45px; 
+    height: 45px; 
+    line-height: 43px; 
+    text-align: center; 
+    border: 2px solid #222; 
+    border-radius: 50%; /* เปลี่ยนเป็นวงกลม */
+    background: linear-gradient(145deg, #1a1a1a, #0a0a0a); /* ไล่สีให้ดูนูนแบบ 3D */
+    color: #666; 
+    cursor: pointer; 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* เอฟเฟกต์เด้งดึ๋งตอนชี้เมาส์ */
+    font-weight: bold; 
+    font-size: 16px;
+    box-shadow: 3px 3px 6px #000000, -3px -3px 6px #1c1c1c; /* เงาให้ปุ่มดูนูนขึ้นมาจากจอ */
+    user-select: none;
+}
+
+/* ตอนเอาเมาส์ชี้ */
+.rating-label:hover { 
+    border-color: #8b0000; 
+    color: #ff4d4d; 
+    transform: translateY(-4px) scale(1.1); /* ลอยขึ้นและขยายขนาดนิดนึง */
+    box-shadow: 0 5px 15px rgba(139, 0, 0, 0.5); 
+}
+
+/* ตอนที่ปุ่มถูกกดเลือกแล้ว! */
+input[type="radio"]:checked + .rating-label { 
+    background: linear-gradient(145deg, #8b0000, #4a0000); /* เปลี่ยนเป็นสีเลือด */
+    color: #fff; 
+    border-color: var(--bright-red); 
+    /* เอฟเฟกต์แอนิเมชันหัวใจเต้น */
+    animation: heartbeat 1.5s infinite; 
+}
+
+/* สร้างจังหวะการเต้นของปุ่ม */
+@keyframes heartbeat {
+    0% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 26, 26, 0.6); }
+    14% { transform: scale(1.25); box-shadow: 0 0 25px rgba(255, 26, 26, 1); }
+    28% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 26, 26, 0.6); }
+    42% { transform: scale(1.25); box-shadow: 0 0 25px rgba(255, 26, 26, 1); }
+    70% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 26, 26, 0.6); }
+}
+
+
+/* =========================================
+   🔪 อัปเกรดปุ่มแถวยาว (เช่น เลือกอายุ) 
+   ========================================= */
+.age-label { 
+    display: block; 
+    padding: 16px 20px; 
+    margin-bottom: 12px; 
+    background: #0f0f0f; 
+    border: 1px solid #333; 
+    border-left: 5px solid #333; /* แถบหนาด้านซ้าย */
+    border-radius: 8px; 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+    position: relative;
+    overflow: hidden;
+    color: #888;
+    font-size: 16px;
+}
+
+/* ตอนเอาเมาส์ชี้ */
+.age-label:hover { 
+    background: #1a1a1a; 
+    border-left-color: var(--blood); /* แถบซ้ายเปลี่ยนเป็นสีแดง */
+    color: #ccc; 
+    transform: translateX(10px); /* สไลด์ปุ่มไปทางขวานิดๆ ดูมีลูกเล่น */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+}
+
+/* ตอนที่ปุ่มถูกกดเลือกแล้ว! */
+input[type="radio"]:checked + .age-label { 
+    border-color: var(--blood); 
+    border-left: 5px solid var(--bright-red); 
+    background: rgba(139, 0, 0, 0.15); /* พื้นหลังแดงจางๆ */
+    color: var(--bright-red); 
+    font-weight: bold; 
+    box-shadow: 0 0 20px rgba(139, 0, 0, 0.3); 
+    transform: translateX(10px);
+}
+
+/* เส้นแสงวิ่งผ่านปุ่มตอนถูกกด */
+input[type="radio"]:checked + .age-label::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 26, 26, 0.1), transparent);
+    animation: scanline 2s infinite linear;
+}
+
+@keyframes scanline {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* Ghost Grid Selection */
+.ghost-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); 
+    gap: 10px; 
+}
+
+.ghost-card { 
+    cursor: pointer; 
+    text-align: center; 
+    font-size: 12px; 
+}
+
+.ghost-card img { 
+    width: 100%; 
+    aspect-ratio: 1; 
+    object-fit: cover; 
+    border-radius: 8px; 
+    border: 2px solid #333; 
+    filter: grayscale(100%); 
+    transition: 0.3s; 
+}
+
+.ghost-card span { 
+    display: block; 
+    margin-top: 5px; 
+    color: #888; 
+}
+
+.ghost-card input:checked + img { 
+    border-color: var(--bright-red); 
+    filter: grayscale(0%); 
+    transform: translateY(-5px); 
+    box-shadow: 0 5px 15px rgba(255,0,0,0.3); 
+}
+
+.ghost-card input:checked ~ span { 
+    color: var(--bright-red); 
+    font-weight: bold; 
+}
+
+.ghost-card input { 
+    display: none; 
+}
+
+/* Input & Button */
+input[type="text"] { 
+    width: 100%; 
+    padding: 14px; 
+    background: #000; 
+    border: 1px solid #444; 
+    color: #fff; 
+    border-radius: 5px; 
+    outline: none; 
+    font-size: 16px; 
+}
+
+input[type="text"]:focus { 
+    border-color: var(--bright-red); 
+    box-shadow: 0 0 10px rgba(255,0,0,0.2); 
+}
+
+button { 
+    background: var(--blood); 
+    color: #fff; 
+    border: none; 
+    padding: 20px; 
+    font-size: 18px; 
+    cursor: pointer; 
+    width: 100%; 
+    font-weight: bold; 
+    transition: 0.3s; 
+    text-transform: uppercase; 
+    letter-spacing: 2px; 
+    margin-top: 10px; 
+}
+
+button:hover:not(:disabled) { 
+    background: #ff0000; 
+    box-shadow: 0 0 25px #ff0000; 
+}
+
+button:disabled { 
+    background: #333; 
+    cursor: not-allowed; 
+    color: #777; 
+}
+
+#splash-screen { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100vh; 
+    background: #000; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    z-index: 9999; 
+    transition: 1s; 
+}
+
+#logo-img { 
+    max-width: 180px; 
+    animation: logo-pulse 2s infinite alternate; 
+}
+
+@keyframes logo-pulse { 
+    from { transform: scale(1); filter: drop-shadow(0 0 5px #f00); } 
+    to { transform: scale(1.1); filter: drop-shadow(0 0 25px #f00); } 
+}
+
+/* เอฟเฟกต์หน้าจอช็อตตอนชี้เมาส์ */
+h2:hover, .survivor-title:hover {
+    animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    color: #ff0000;
+}
+
+@keyframes glitch-skew {
+    0% { transform: skew(0deg); text-shadow: none; }
+    20% { transform: skew(-10deg); text-shadow: 4px 4px #8b0000, -4px -4px #000; }
+    40% { transform: skew(10deg); text-shadow: -4px 4px #ff1a1a, 4px -4px #000; }
+    60% { transform: skew(-5deg); }
+    80% { transform: skew(5deg); text-shadow: 2px -2px #8b0000; }
+    100% { transform: skew(0deg); text-shadow: none; }
+}
+
+body { 
+    font-family: 'Kanit', sans-serif; 
+    background: #000; 
+    color: var(--text); 
+    margin: 0; 
+    padding: 20px; 
+    display: flex; 
+    justify-content: center; 
+    
+    /* เพิ่มบรรทัดนี้ลงไป (เปลี่ยนลิงก์รูปเป็นรูปเมาส์หลอนๆ ของคุณเองได้) */
+    cursor: url('https://cur.cursors-4u.net/symbols/sym-1/sym46.cur'), auto;
+}
