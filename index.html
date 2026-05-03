@@ -19,9 +19,33 @@
         .survivor-title { color: var(--bright-red); font-size: 32px; font-weight: 700; margin: 0; text-shadow: 0 0 15px rgba(255, 0, 0, 0.7); animation: pulse-blink 2s infinite ease-in-out; }
         .survivor-subtext { color: #888; font-size: 16px; margin-top: 10px; letter-spacing: 1px; }
 
-        @keyframes pulse-blink {
-            0%, 100% { opacity: 1; text-shadow: 0 0 15px rgba(255, 0, 0, 0.8); transform: scale(1); }
-            50% { opacity: 0.4; text-shadow: 0 0 5px rgba(255, 0, 0, 0.2); transform: scale(0.98); }
+        /* เอฟเฟกต์กรอบแดงกะพริบ */
+        @keyframes bloodPulse {
+            0% { box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); border-color: #4a0000; }
+            50% { box-shadow: 0 0 35px rgba(255, 0, 0, 0.9); border-color: #ff0000; }
+            100% { box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); border-color: #4a0000; }
+        }
+
+        .container {
+            background-color: rgba(15, 15, 15, 0.85);
+            padding: 30px 20px;
+            border-radius: 12px;
+            border: 1px solid #4a0000; /* กรอบแดงเริ่มต้น */
+            width: 100%;
+            max-width: 800px;
+            animation: bloodPulse 3s infinite ease-in-out; /* เรียกใช้ Animation */
+        }
+
+        /* เอฟเฟกต์ตัวอักษรกะพริบ */
+        .flicker-text {
+            animation: textFlicker 4s infinite alternate;
+        }
+
+        @keyframes textFlicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% { 
+                opacity: 1; text-shadow: 0 0 10px #ff0000, 0 0 20px #8b0000; 
+            }
+            20%, 24%, 55% { opacity: 0.3; text-shadow: none; }
         }
 
         /* --- ซ่อนจุดขาว Radio Button มาตรฐานทั้งหมด --- */
@@ -84,7 +108,7 @@
         <img src="https://via.placeholder.com/800x200/400000/ffffff?text=HorrorGram+Evaluation+System" class="header-img" alt="Banner">
         
         <div class="survivor-header">
-            <h1 class="survivor-title">บันทึกผู้รอดชีวิต</h1>
+            <h1 class="survivor-title flicker-text">บันทึกผู้รอดชีวิต</h1>
             <p class="survivor-subtext">โปรดทิ้งร่องรอยของคุณไว้ด้านล่าง</p>
         </div>
 
@@ -224,6 +248,30 @@
     </div>
 
     <script>
+        const textTitle = "บันทึกผู้รอดชีวิต...";
+        const textSub = "โปรดทิ้งร่องรอยของคุณไว้ด้านล่าง ข้อมูลนี้จะเป็นประโยชน์ต่อการพัฒนาความหลอน...";
+
+        function typeWriter(element, text, speed, i = 0) {
+            if (i < text.length) {
+                element.innerHTML += text.charAt(i);
+                setTimeout(() => typeWriter(element, text, speed, i + 1), speed);
+            }
+        }
+
+        // เรียกใช้ตอนโหลดหน้าจอเสร็จ (หลังจาก Splash Screen หายไป)
+        window.onload = () => {
+            setTimeout(() => {
+                const ss = document.getElementById('splash-screen');
+                ss.style.opacity = '0';
+                setTimeout(() => {
+                    ss.style.display = 'none';
+                    // เริ่มพิมพ์ข้อความ
+                    document.querySelector('.survivor-title').innerHTML = "";
+                    typeWriter(document.querySelector('.survivor-title'), textTitle, 100);
+                }, 1000);
+            }, 2000);
+        };
+        
         // ควบคุม Splash Screen
         window.onload = () => setTimeout(() => { 
             const ss = document.getElementById('splash-screen');
