@@ -1,6 +1,7 @@
 const textTitle = "บันทึกผู้รอดชีวิต...";
 const textSub = "โปรดทิ้งร่องรอยของคุณไว้ด้านล่าง ข้อมูลนี้จะเป็นประโยชน์ต่อการพัฒนาความหลอน...";
 
+// ฟังก์ชันสำหรับพิมพ์ดีดข้อความ
 function typeWriter(element, text, speed, i = 0) {
     if (i < text.length) {
         element.innerHTML += text.charAt(i);
@@ -8,89 +9,81 @@ function typeWriter(element, text, speed, i = 0) {
     }
 }
 
-// เรียกใช้ตอนโหลดหน้าจอเสร็จ (หลังจาก Splash Screen หายไป)
+// 🎬 จัดคิวฉากเปิดตัว (Logo -> Credit IG -> แบบฟอร์ม)
 window.onload = () => {
+    const logoSplash = document.getElementById('splash-screen');
+    const igSplash = document.getElementById('ig-screen');
+    const container = document.querySelector('.container');
+    const titleElement = document.querySelector('.survivor-title');
+
+    // 🛑 1. ซ่อนหน้าแบบประเมินไว้ก่อน
+    if (container) container.style.display = 'none'; 
+    
+    // 2. โชว์โลโก้ HorrorGram ค้างไว้ 2 วินาที แล้วสั่งให้จางหาย
     setTimeout(() => {
-        const ss = document.getElementById('splash-screen');
-        ss.style.opacity = '0';
+        if (logoSplash) logoSplash.style.opacity = '0';
+        
+        // 3. รอ 1 วิ ให้โลโก้จางสนิท -> ปิดกล่องโลโก้ -> เปิดกล่อง IG
         setTimeout(() => {
-            ss.style.display = 'none';
-            // เริ่มพิมพ์ข้อความ
-            document.querySelector('.survivor-title').innerHTML = "";
-            typeWriter(document.querySelector('.survivor-title'), textTitle, 100);
-        }, 1000);
-    }, 2000);
+            if (logoSplash) logoSplash.style.display = 'none';
+            if (igSplash) igSplash.style.display = 'flex';
+            
+            // สั่งให้ IG ค่อยๆ ชัดขึ้น
+            setTimeout(() => {
+                if (igSplash) igSplash.style.opacity = '1';
+                
+                // 4. โชว์ IG Credit ค้างไว้ 2.5 วินาที แล้วสั่งให้จางหาย
+                setTimeout(() => {
+                    if (igSplash) igSplash.style.opacity = '0';
+                    
+                    // 5. จบ Intro -> ปิดจอ IG ทิ้ง -> โชว์หน้าแบบประเมิน!
+                    setTimeout(() => {
+                        if (igSplash) igSplash.style.display = 'none';
+                        
+                        // เสกหน้าฟอร์มขึ้นมา พร้อมเอฟเฟกต์ Fade in
+                        if (container) {
+                            container.style.display = 'block'; 
+                            container.style.animation = 'fadeIn 1s ease-in-out';
+                        }
+                        
+                        // เริ่มพิมพ์ข้อความหัวเรื่อง
+                        if (titleElement) {
+                            titleElement.innerHTML = "";
+                            typeWriter(titleElement, textTitle, 100);
+                        }
+                    }, 1000);
+                    
+                }, 2500); 
+                
+            }, 50); 
+            
+        }, 1000); 
+        
+    }, 2000); 
 };
 
-// URL สำหรับส่งข้อมูลไปยัง Google Sheets (นำ URL ของคุณมาใส่ที่นี่)
-const scriptURL = 'https://script.google.com/macros/s/AKfycbzfTE1-uEOZkRE5DdQfsIsB8gk7Wu2nPjpND3UfJmbhriTsomDowdlTfXy706vNsNpI1g/exec';
+
+// ==========================================
+// 🔴 ⚠️ อย่าลืมเอา URL ของ Google Apps Script ของคุณมาวางทับในบรรทัดนี้ด้วยนะครับ
+const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL_HERE'; 
+// ==========================================
+
 const form = document.getElementById('assessmentForm');
 
-form.addEventListener('submit', e => {
-    e.preventDefault();
-    const submitBtn = document.getElementById('submitBtn');
-    submitBtn.disabled = true;
-    submitBtn.innerText = 'กำลังบันทึกร่องรอย...';
+if (form) {
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'กำลังเปิดประตูปรโลก...';
 
-    const formData = new FormData(form);
-    
-    // ประมวลผล Checkbox วิญญาณ
-    const ghosts = [];
-    document.querySelectorAll('input[name="fav_ghost"]:checked').forEach(cb => ghosts.push(cb.value));
-    formData.set('fav_ghost', ghosts.join(', '));
+        const formData = new FormData(form);
+        
+        // ประมวลผล Checkbox วิญญาณ
+        const ghosts = [];
+        document.querySelectorAll('input[name="fav_ghost"]:checked').forEach(cb => ghosts.push(cb.value));
+        formData.set('fav_ghost', ghosts.join(', '));
 
-    fetch(scriptURL, { method: 'POST', body: formData })
-        .then(res => {
-            Swal.fire({ 
-                title: 'สำเร็จ!', 
-                text: 'ร่องรอยของคุณถูกบันทึกแล้ว', 
-                icon: 'success', 
-                background: '#111', 
-                color: '#fff', 
-                confirmButtonColor: '#8b0000' 
-            });
-            form.reset();
-            submitBtn.disabled = false;
-            submitBtn.innerText = 'ยืนยันการส่งข้อมูล';
-        })
-        .catch(err => {
-            Swal.fire({ 
-                title: 'ล้มเหลว!', 
-                text: 'วิญญาณรบกวนสัญญาณ กรุณาลองใหม่อีกครั้ง', 
-                icon: 'error', 
-                background: '#111', 
-                color: '#fff' 
-            });
-            submitBtn.disabled = false;
-            submitBtn.innerText = 'ยืนยันการส่งข้อมูล';
-        });
-});
-
-form.addEventListener('submit', e => {
-    e.preventDefault();
-    const submitBtn = document.getElementById('submitBtn');
-    submitBtn.disabled = true;
-    submitBtn.innerText = 'กำลังเปิดประตูปรโลก...';
-
-    const formData = new FormData(form);
-    
-    // ประมวลผล Checkbox วิญญาณ
-    const ghosts = [];
-    document.querySelectorAll('input[name="fav_ghost"]:checked').forEach(cb => ghosts.push(cb.value));
-    formData.set('fav_ghost', ghosts.join(', '));
-
-    // 🔴 ปล่อย Jumpscare ทำงานก่อนส่งข้อมูล!
-    const jumpBox = document.getElementById('jumpscare-box');
-    const scream = document.getElementById('scream-sound');
-    
-    jumpBox.style.display = 'flex'; // โชว์รูปผี
-    scream.play(); // เล่นเสียงกรี๊ด
-    
-    // ตั้งเวลาให้รูปผีหายไปใน 0.6 วินาที แล้วค่อยส่งข้อมูล
-    setTimeout(() => {
-        jumpBox.style.display = 'none'; // ซ่อนผี
-
-        // เริ่มส่งข้อมูลจริงๆ
         fetch(scriptURL, { method: 'POST', body: formData })
             .then(res => {
                 Swal.fire({ 
@@ -116,5 +109,5 @@ form.addEventListener('submit', e => {
                 submitBtn.disabled = false;
                 submitBtn.innerText = 'ยืนยันการส่งข้อมูล';
             });
-    }, 600); // 600 มิลลิวินาที (0.6 วิ) คือความยาวของ Jumpscare
-});
+    });
+}
