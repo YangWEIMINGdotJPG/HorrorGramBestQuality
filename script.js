@@ -23,7 +23,7 @@ window.onload = () => {
 };
 
 // URL สำหรับส่งข้อมูลไปยัง Google Sheets (นำ URL ของคุณมาใส่ที่นี่)
-const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzfTE1-uEOZkRE5DdQfsIsB8gk7Wu2nPjpND3UfJmbhriTsomDowdlTfXy706vNsNpI1g/exec';
 const form = document.getElementById('assessmentForm');
 
 form.addEventListener('submit', e => {
