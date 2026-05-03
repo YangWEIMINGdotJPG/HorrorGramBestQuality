@@ -25,22 +25,20 @@
             overflow-x: hidden;
         }
 
-        /* 🔴 1. สไตล์สำหรับหน้าจอโลโก้ (Splash Screen) */
         #splash-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100vh;
-            background-color: #000; /* พื้นหลังดำสนิท */
+            background-color: #000; 
             display: flex;
             justify-content: center;
             align-items: center;
-            z-index: 9999; /* บังคับให้อยู่หน้าสุดเสมอ */
-            transition: opacity 1s ease-out; /* เอฟเฟกต์ตอนเฟดหายไป (ใช้เวลา 1 วินาที) */
+            z-index: 9999; 
+            transition: opacity 1s ease-out; 
         }
 
-        /* เอฟเฟกต์ให้รูปโลโก้เต้นเป็นจังหวะชีพจร */
         #logo-img {
             max-width: 250px;
             width: 80%;
@@ -51,7 +49,6 @@
             0% { transform: scale(1); filter: drop-shadow(0 0 5px #ff0000); }
             100% { transform: scale(1.05); filter: drop-shadow(0 0 25px #8b0000); }
         }
-        /* ------------------------------------------- */
 
         @keyframes bloodPulse {
             0% { box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); }
@@ -118,17 +115,9 @@
             min-height: 3.2em;
         }
 
-        #assessment-section {
-            display: none;
-            text-align: left;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-            text-align: left;
-        }
-
-        label {
+        #assessment-section { display: none; text-align: left; }
+        .form-group { margin-bottom: 20px; text-align: left; }
+        label.main-label {
             display: block;
             margin-bottom: 8px;
             font-weight: bold;
@@ -154,6 +143,69 @@
             background-color: #1a0000;
         }
 
+        /* 🔴 สไตล์สำหรับตารางเลือกรูปผี */
+        .ghost-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* แบ่งเป็น 3 คอลัมน์ */
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        /* ให้รูปที่ 7 อยู่ตรงกลางแถวสุดท้าย */
+        .ghost-card:nth-child(7) {
+            grid-column: 2; 
+        }
+
+        .ghost-card {
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        /* ซ่อนปุ่ม Radio ของจริง */
+        .ghost-card input[type="radio"] {
+            display: none;
+        }
+
+        .ghost-card img {
+            width: 100%;
+            aspect-ratio: 1 / 1; /* บังคับให้เป็นสี่เหลี่ยมจัตุรัส */
+            object-fit: cover;
+            border-radius: 8px;
+            border: 2px solid #333;
+            filter: grayscale(80%) brightness(0.5); /* มืดๆ หม่นๆ */
+            transition: all 0.3s ease;
+        }
+
+        .ghost-card span {
+            display: block;
+            margin-top: 5px;
+            font-size: 12px;
+            color: #888;
+            transition: all 0.3s ease;
+        }
+
+        /* เอฟเฟกต์ตอนชี้เมาส์ */
+        .ghost-card:hover img {
+            filter: grayscale(30%) brightness(0.8);
+            border-color: #666;
+        }
+
+        /* เอฟเฟกต์ตอนถูกเลือก (คลิก) */
+        .ghost-card input[type="radio"]:checked + img {
+            filter: grayscale(0%) brightness(1); /* สีสดใสขึ้น */
+            border-color: #ff0000; /* ขอบแดง */
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8); /* เรืองแสง */
+            transform: scale(1.05); /* เด้งขึ้นมานิดนึง */
+        }
+
+        .ghost-card input[type="radio"]:checked ~ span {
+            color: #ff4d4d;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(255,0,0,0.5);
+        }
+
         @keyframes glitchShake {
             0% { transform: translate(0) }
             20% { transform: translate(-2px, 2px) }
@@ -175,6 +227,7 @@
             width: 100%;
             letter-spacing: 1px;
             transition: all 0.3s ease;
+            margin-top: 15px;
         }
 
         button:hover:not(:disabled) {
@@ -203,7 +256,6 @@
 
     <!-- 0. หน้า Splash Screen (โลโก้) -->
     <div id="splash-screen">
-        <!-- ⚠️ แก้ไขลิงก์รูปภาพโลโก้ตรง src ด้านล่างนี้ ให้เป็นรูปของคุณ -->
         <img src="https://via.placeholder.com/300x300/000000/ff0000?text=HorrorGram+Logo" alt="Logo" id="logo-img">
     </div>
 
@@ -221,12 +273,61 @@
         
         <form id="assessmentForm" method="POST">
             <div class="form-group">
-                <label for="name">ชื่อผู้รอดชีวิต (ไม่บังคับ):</label>
+                <label class="main-label" for="name">ชื่อผู้รอดชีวิต (ไม่บังคับ):</label>
                 <input type="text" id="name" name="name" placeholder="ระบุนามของคุณ...">
             </div>
 
+            <!-- 🔥 คำถามรูปภาพ 7 ตัวเลือก 🔥 -->
             <div class="form-group">
-                <label for="jumpscare">จังหวะ Jumpscare ทำให้คุณตกใจระดับไหน?:</label>
+                <label class="main-label">ประทับใจวิญญาณตนไหนมากที่สุด?:</label>
+                <div class="ghost-grid">
+                    <!-- รูปที่ 1 -->
+                    <label class="ghost-card">
+                        <input type="radio" name="favorite_ghost" value="Ghost_1" required>
+                        <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+1" alt="ผีตัวที่ 1">
+                        <span>ผีตัวที่ 1</span>
+                    </label>
+                    <!-- รูปที่ 2 -->
+                    <label class="ghost-card">
+                        <input type="radio" name="favorite_ghost" value="Ghost_2" required>
+                        <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+2" alt="ผีตัวที่ 2">
+                        <span>ผีตัวที่ 2</span>
+                    </label>
+                    <!-- รูปที่ 3 -->
+                    <label class="ghost-card">
+                        <input type="radio" name="favorite_ghost" value="Ghost_3" required>
+                        <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+3" alt="ผีตัวที่ 3">
+                        <span>ผีตัวที่ 3</span>
+                    </label>
+                    <!-- รูปที่ 4 -->
+                    <label class="ghost-card">
+                        <input type="radio" name="favorite_ghost" value="Ghost_4" required>
+                        <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+4" alt="ผีตัวที่ 4">
+                        <span>ผีตัวที่ 4</span>
+                    </label>
+                    <!-- รูปที่ 5 -->
+                    <label class="ghost-card">
+                        <input type="radio" name="favorite_ghost" value="Ghost_5" required>
+                        <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+5" alt="ผีตัวที่ 5">
+                        <span>ผีตัวที่ 5</span>
+                    </label>
+                    <!-- รูปที่ 6 -->
+                    <label class="ghost-card">
+                        <input type="radio" name="favorite_ghost" value="Ghost_6" required>
+                        <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+6" alt="ผีตัวที่ 6">
+                        <span>ผีตัวที่ 6</span>
+                    </label>
+                    <!-- รูปที่ 7 (จะจัดให้อยู่ตรงกลางแถวที่ 3 อัตโนมัติ) -->
+                    <label class="ghost-card">
+                        <input type="radio" name="favorite_ghost" value="Ghost_7" required>
+                        <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+7" alt="ผีตัวที่ 7">
+                        <span>ผีตัวที่ 7</span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="main-label" for="jumpscare">จังหวะ Jumpscare ทำให้คุณตกใจระดับไหน?:</label>
                 <select id="jumpscare" name="jumpscare" required>
                     <option value="" style="background: #111;">-- โปรดเลือกระดับความตกใจ --</option>
                     <option value="5" style="background: #111;">หัวใจแทบวาย สะดุ้งสุดตัว</option>
@@ -238,7 +339,7 @@
             </div>
 
             <div class="form-group">
-                <label for="atmosphere">บรรยากาศและเสียงประกอบสยองขวัญแค่ไหน?:</label>
+                <label class="main-label" for="atmosphere">บรรยากาศและเสียงประกอบสยองขวัญแค่ไหน?:</label>
                 <select id="atmosphere" name="atmosphere" required>
                     <option value="" style="background: #111;">-- โปรดให้คะแนนบรรยากาศ --</option>
                     <option value="5" style="background: #111;">หลอนจัด บิ้วอารมณ์ได้ดีมาก</option>
@@ -250,7 +351,7 @@
             </div>
 
             <div class="form-group">
-                <label for="rating">ระดับความหวาดผวาโดยรวม:</label>
+                <label class="main-label" for="rating">ระดับความหวาดผวาโดยรวม:</label>
                 <select id="rating" name="rating" required>
                     <option value="" style="background: #111;">-- โปรดเลือกความรู้สึกโดยรวม --</option>
                     <option value="5" style="background: #111;">สุดยอดแห่งความสยอง</option>
@@ -262,7 +363,7 @@
             </div>
 
             <div class="form-group">
-                <label for="feedback">คำสั่งเสีย (ข้อเสนอแนะเพื่อการพัฒนา):</label>
+                <label class="main-label" for="feedback">คำสั่งเสีย (ข้อเสนอแนะเพื่อการพัฒนา):</label>
                 <input type="text" id="feedback" name="feedback" placeholder="พิมพ์ข้อความของคุณที่นี่...">
             </div>
             
@@ -270,7 +371,6 @@
         </form>
     </div>
 
-    <!-- 3. ส่วนควบคุม JavaScript -->
     <script>
         const textH1 = "ยินดีต้อนรับสู่ขุมนรก...";
         const textP = "ขอบคุณที่หลงเข้ามาทำแบบประเมิน ข้อมูลของท่านจะเป็นประโยชน์อย่างยิ่งในการพัฒนาความหลอนครั้งต่อไป...";
@@ -290,18 +390,14 @@
             type();
         }
 
-        // จัดการเรื่องการแสดงผลตามลำดับเวลา
         window.onload = function() {
-            // 1. รอให้โลโก้แสดง 2.5 วินาที (2500ms) แล้วค่อยเริ่มเฟดออก
             setTimeout(function() {
                 const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0'; // สั่งให้โปร่งใส
+                splash.style.opacity = '0'; 
 
-                // 2. รออีก 1 วินาที ให้เอฟเฟกต์เฟดออกทำงานเสร็จ ค่อยซ่อนกล่องโลโก้ทิ้ง
                 setTimeout(function() {
                     splash.style.display = 'none';
                     
-                    // 3. หลังจากหน้าโลโก้หายไปสนิทแล้ว จึงเริ่มเล่นเอฟเฟกต์เครื่องพิมพ์ดีด
                     typeWriter("typing-h1", textH1, 100, function() {
                         typeWriter("typing-p", textP, 60, function() {
                             document.getElementById("enter-btn").classList.add("show");
@@ -322,7 +418,7 @@
             window.scrollTo(0, 0);
         }
 
-        // ⚠️ เอาลิงก์ Web App ของคุณมาใส่ตรงนี้ ⚠️
+        // ฝัง URL ของคุณไว้ตรงนี้เรียบร้อยแล้ว!
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwNozFr7rVaqdynguigFN4PSilW9OBGegsV1JnrB1tEfFWGhe8gUQPXYLNFDlysA2YjEg/exec';
         const form = document.getElementById('assessmentForm');
 
@@ -348,6 +444,12 @@
                     });
                     
                     form.reset(); 
+                    
+                    // รีเซ็ตการแสดงผลรูปที่ถูกเลือกให้กลับไปเป็นแบบเดิม
+                    document.querySelectorAll('.ghost-card input[type="radio"]').forEach(radio => {
+                        radio.checked = false;
+                    });
+
                     submitBtn.innerHTML = originalText;
                     submitBtn.disabled = false;
                 })
