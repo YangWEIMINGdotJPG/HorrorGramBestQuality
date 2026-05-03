@@ -17,6 +17,8 @@ body {
     padding: 20px; 
     display: flex; 
     justify-content: center; 
+    /* เมาส์หลอน */
+    cursor: url('https://cur.cursors-4u.net/symbols/sym-1/sym46.cur'), auto;
 }
 
 .container { 
@@ -98,6 +100,21 @@ h2 {
     padding-left: 15px; 
 }
 
+/* เอฟเฟกต์หน้าจอช็อตตอนชี้เมาส์ */
+h2:hover, .survivor-title:hover {
+    animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    color: #ff0000;
+}
+
+@keyframes glitch-skew {
+    0% { transform: skew(0deg); text-shadow: none; }
+    20% { transform: skew(-10deg); text-shadow: 4px 4px #8b0000, -4px -4px #000; }
+    40% { transform: skew(10deg); text-shadow: -4px 4px #ff1a1a, 4px -4px #000; }
+    60% { transform: skew(-5deg); }
+    80% { transform: skew(5deg); text-shadow: 2px -2px #8b0000; }
+    100% { transform: skew(0deg); text-shadow: none; }
+}
+
 .question-box { 
     background: #1a1a1a; 
     padding: 20px; 
@@ -142,10 +159,8 @@ td:first-child {
 /* =========================================
    💀 อัปเกรดปุ่มคะแนน 5 4 3 2 1 (ไล่ขนาดใหญ่ไปเล็ก)
    ========================================= */
-
-/* จัดตำแหน่งและดีไซน์หลักให้เป็นวงกลมนูน 3D */
 .rating-label { 
-    display: flex; /* ใช้ flex เพื่อให้ตัวเลขอยู่กึ่งกลางเสมอ ไม่ว่าจะปรับขนาดเท่าไหร่ */
+    display: flex; 
     justify-content: center;
     align-items: center;
     border: 2px solid #222; 
@@ -159,14 +174,12 @@ td:first-child {
     user-select: none;
 }
 
-/* 🔥 เวทมนตร์กำหนดขนาด: ไล่จากเบอร์ 5 (ตัวแรก) ไปเบอร์ 1 (ตัวสุดท้าย) */
-.rating-label:nth-of-type(1) { width: 55px; height: 55px; font-size: 22px; } /* เบอร์ 5 */
-.rating-label:nth-of-type(2) { width: 50px; height: 50px; font-size: 19px; } /* เบอร์ 4 */
-.rating-label:nth-of-type(3) { width: 45px; height: 45px; font-size: 16px; } /* เบอร์ 3 */
-.rating-label:nth-of-type(4) { width: 40px; height: 40px; font-size: 14px; } /* เบอร์ 2 */
-.rating-label:nth-of-type(5) { width: 35px; height: 35px; font-size: 12px; } /* เบอร์ 1 */
+.rating-label:nth-of-type(1) { width: 55px; height: 55px; font-size: 22px; } 
+.rating-label:nth-of-type(2) { width: 50px; height: 50px; font-size: 19px; } 
+.rating-label:nth-of-type(3) { width: 45px; height: 45px; font-size: 16px; } 
+.rating-label:nth-of-type(4) { width: 40px; height: 40px; font-size: 14px; } 
+.rating-label:nth-of-type(5) { width: 35px; height: 35px; font-size: 12px; } 
 
-/* ตอนเอาเมาส์ชี้ */
 .rating-label:hover { 
     border-color: #8b0000; 
     color: #ff4d4d; 
@@ -174,7 +187,6 @@ td:first-child {
     box-shadow: 0 5px 15px rgba(139, 0, 0, 0.5); 
 }
 
-/* ตอนที่ปุ่มถูกกดเลือกแล้ว ให้เต้นตุบๆ พร้อมเรืองแสง */
 input[type="radio"]:checked + .rating-label { 
     background: linear-gradient(145deg, #8b0000, #4a0000); 
     color: #fff; 
@@ -182,12 +194,10 @@ input[type="radio"]:checked + .rating-label {
     animation: heartbeat 1.5s infinite; 
 }
 
-/* จัดให้วงกลมที่ขนาดไม่เท่ากัน เรียงอยู่กึ่งกลางเส้นบรรทัดเดียวกันพอดี */
 .question-box div[style*="display:flex"] {
     align-items: center !important;
 }
 
-/* สร้างจังหวะการเต้นของปุ่ม (ถ้ามีของเดิมอยู่แล้ว ไม่ต้องก๊อปซ้ำก็ได้ครับ) */
 @keyframes heartbeat {
     0% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 26, 26, 0.6); }
     14% { transform: scale(1.25); box-shadow: 0 0 25px rgba(255, 26, 26, 1); }
@@ -195,7 +205,6 @@ input[type="radio"]:checked + .rating-label {
     42% { transform: scale(1.25); box-shadow: 0 0 25px rgba(255, 26, 26, 1); }
     70% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 26, 26, 0.6); }
 }
-
 
 /* =========================================
    🔪 อัปเกรดปุ่มแถวยาว (เช่น เลือกอายุ) 
@@ -206,7 +215,7 @@ input[type="radio"]:checked + .rating-label {
     margin-bottom: 12px; 
     background: #0f0f0f; 
     border: 1px solid #333; 
-    border-left: 5px solid #333; /* แถบหนาด้านซ้าย */
+    border-left: 5px solid #333; 
     border-radius: 8px; 
     cursor: pointer; 
     transition: all 0.3s ease; 
@@ -216,27 +225,24 @@ input[type="radio"]:checked + .rating-label {
     font-size: 16px;
 }
 
-/* ตอนเอาเมาส์ชี้ */
 .age-label:hover { 
     background: #1a1a1a; 
-    border-left-color: var(--blood); /* แถบซ้ายเปลี่ยนเป็นสีแดง */
+    border-left-color: var(--blood); 
     color: #ccc; 
-    transform: translateX(10px); /* สไลด์ปุ่มไปทางขวานิดๆ ดูมีลูกเล่น */
+    transform: translateX(10px); 
     box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-/* ตอนที่ปุ่มถูกกดเลือกแล้ว! */
 input[type="radio"]:checked + .age-label { 
     border-color: var(--blood); 
     border-left: 5px solid var(--bright-red); 
-    background: rgba(139, 0, 0, 0.15); /* พื้นหลังแดงจางๆ */
+    background: rgba(139, 0, 0, 0.15); 
     color: var(--bright-red); 
     font-weight: bold; 
     box-shadow: 0 0 20px rgba(139, 0, 0, 0.3); 
     transform: translateX(10px);
 }
 
-/* เส้นแสงวิ่งผ่านปุ่มตอนถูกกด */
 input[type="radio"]:checked + .age-label::after {
     content: '';
     position: absolute;
@@ -363,30 +369,51 @@ button:disabled {
     to { transform: scale(1.1); filter: drop-shadow(0 0 25px #f00); } 
 }
 
-/* เอฟเฟกต์หน้าจอช็อตตอนชี้เมาส์ */
-h2:hover, .survivor-title:hover {
-    animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
-    color: #ff0000;
-}
-
-@keyframes glitch-skew {
-    0% { transform: skew(0deg); text-shadow: none; }
-    20% { transform: skew(-10deg); text-shadow: 4px 4px #8b0000, -4px -4px #000; }
-    40% { transform: skew(10deg); text-shadow: -4px 4px #ff1a1a, 4px -4px #000; }
-    60% { transform: skew(-5deg); }
-    80% { transform: skew(5deg); text-shadow: 2px -2px #8b0000; }
-    100% { transform: skew(0deg); text-shadow: none; }
-}
-
-body { 
-    font-family: 'Kanit', sans-serif; 
+/* =========================================
+   📱 หน้าจอโชว์ Instagram Credit
+   ========================================= */
+#ig-screen { 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100vh; 
     background: #000; 
-    color: var(--text); 
-    margin: 0; 
-    padding: 20px; 
-    display: flex; 
+    display: none; 
     justify-content: center; 
-    
-    /* เพิ่มบรรทัดนี้ลงไป (เปลี่ยนลิงก์รูปเป็นรูปเมาส์หลอนๆ ของคุณเองได้) */
-    cursor: url('https://cur.cursors-4u.net/symbols/sym-1/sym46.cur'), auto;
+    align-items: center; 
+    z-index: 9998; 
+    opacity: 0; 
+    transition: opacity 1s ease-in-out; 
+}
+
+.ig-content {
+    display: flex;
+    align-items: center;
+    gap: 15px; 
+    animation: pulse-ig 2s infinite alternate; 
+}
+
+.ig-icon-img {
+    width: 65px;  
+    height: 65px; 
+    object-fit: contain; 
+    filter: drop-shadow(0 0 15px rgba(220, 39, 67, 0.6)); 
+}
+
+.ig-handle {
+    color: #ffffff;
+    font-size: 55px;
+    font-weight: 700;
+    font-family: Arial, Helvetica, sans-serif; 
+    letter-spacing: -1px;
+}
+
+@keyframes pulse-ig {
+    0% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(255,255,255,0.1)); }
+    100% { transform: scale(1.03); filter: drop-shadow(0 0 15px rgba(255,255,255,0.3)); }
+}
+
+/* เอฟเฟกต์ค่อยๆ ปรากฏตัวสำหรับหน้าแบบประเมิน */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
 }
