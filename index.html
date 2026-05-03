@@ -161,7 +161,8 @@
             position: relative;
         }
 
-        .ghost-card input[type="radio"] {
+        /* 🔴 เปลี่ยนจาก Radio เป็น Checkbox ตรงนี้ */
+        .ghost-card input[type="checkbox"] {
             display: none;
         }
 
@@ -188,14 +189,15 @@
             border-color: #666;
         }
 
-        .ghost-card input[type="radio"]:checked + img {
+        /* 🔴 สไตล์ตอนที่ Checkbox ถูกติ๊กเลือก */
+        .ghost-card input[type="checkbox"]:checked + img {
             filter: grayscale(0%) brightness(1); 
             border-color: #ff0000; 
             box-shadow: 0 0 15px rgba(255, 0, 0, 0.8); 
             transform: scale(1.05); 
         }
 
-        .ghost-card input[type="radio"]:checked ~ span {
+        .ghost-card input[type="checkbox"]:checked ~ span {
             color: #ff4d4d;
             font-weight: bold;
             text-shadow: 0 0 5px rgba(255,0,0,0.5);
@@ -249,7 +251,7 @@
 </head>
 <body>
 
-    <!-- 0. หน้า Splash Screen (โลโก้) แก้ไขให้ดึงรูป LogoHG.png มาแสดง -->
+    <!-- 0. หน้า Splash Screen (โลโก้) -->
     <div id="splash-screen">
         <img src="LogoHG.png" alt="HorrorGram Logo" id="logo-img">
     </div>
@@ -272,42 +274,42 @@
                 <input type="text" id="name" name="name" placeholder="ระบุนามของคุณ...">
             </div>
 
-            <!-- 🔥 คำถามรูปภาพ 7 ตัวเลือก 🔥 -->
+            <!-- 🔥 เปลี่ยนเป็น checkbox (เลือกได้หลายข้อ) ลบคำว่า required ออกเพื่อไม่ให้บังคับเลือกทุกรูป 🔥 -->
             <div class="form-group">
-                <label class="main-label">ประทับใจวิญญาณตนไหนมากที่สุด?:</label>
+                <label class="main-label">ประทับใจวิญญาณตนไหนมากที่สุด? (เลือกได้มากกว่า 1):</label>
                 <div class="ghost-grid">
                     <label class="ghost-card">
-                        <input type="radio" name="favorite_ghost" value="Ghost_1" required>
+                        <input type="checkbox" name="favorite_ghost" value="Ghost_1">
                         <img src="G1.png" alt="ผีตัวที่ 1">
                         <span>ผีตัวที่ 1</span>
                     </label>
                     <label class="ghost-card">
-                        <input type="radio" name="favorite_ghost" value="Ghost_2" required>
+                        <input type="checkbox" name="favorite_ghost" value="Ghost_2">
                         <img src="G2.png" alt="ผีตัวที่ 2">
                         <span>ผีตัวที่ 2</span>
                     </label>
                     <label class="ghost-card">
-                        <input type="radio" name="favorite_ghost" value="Ghost_3" required>
+                        <input type="checkbox" name="favorite_ghost" value="Ghost_3">
                         <img src="G3.png" alt="ผีตัวที่ 3">
                         <span>ผีตัวที่ 3</span>
                     </label>
                     <label class="ghost-card">
-                        <input type="radio" name="favorite_ghost" value="Ghost_4" required>
+                        <input type="checkbox" name="favorite_ghost" value="Ghost_4">
                         <img src="G4.png" alt="ผีตัวที่ 4">
                         <span>ผีตัวที่ 4</span>
                     </label>
                     <label class="ghost-card">
-                        <input type="radio" name="favorite_ghost" value="Ghost_5" required>
+                        <input type="checkbox" name="favorite_ghost" value="Ghost_5">
                         <img src="G5.png" alt="ผีตัวที่ 5">
                         <span>ผีตัวที่ 5</span>
                     </label>
                     <label class="ghost-card">
-                        <input type="radio" name="favorite_ghost" value="Ghost_6" required>
+                        <input type="checkbox" name="favorite_ghost" value="Ghost_6">
                         <img src="G6.png" alt="ผีตัวที่ 6">
                         <span>ผีตัวที่ 6</span>
                     </label>
                     <label class="ghost-card">
-                        <input type="radio" name="favorite_ghost" value="Ghost_7" required>
+                        <input type="checkbox" name="favorite_ghost" value="Ghost_7">
                         <img src="G7.png" alt="ผีตัวที่ 7">
                         <span>ผีตัวที่ 7</span>
                     </label>
@@ -418,7 +420,18 @@
             submitBtn.innerHTML = 'กำลังประกอบพิธีกรรม...';
             submitBtn.disabled = true;
 
-            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+            // 🔴 ดึงค่าจากรูปผีทั้งหมดที่ถูกเลือก มารวมกันเป็นข้อความเดียว 🔴
+            const formData = new FormData(form);
+            const selectedGhosts = [];
+            document.querySelectorAll('input[name="favorite_ghost"]:checked').forEach(cb => {
+                selectedGhosts.push(cb.value);
+            });
+            
+            // ลบของเดิมทิ้ง แล้วใส่ข้อความที่รวมแล้วเข้าไปแทน
+            formData.delete('favorite_ghost'); 
+            formData.append('favorite_ghost', selectedGhosts.length > 0 ? selectedGhosts.join(', ') : '-');
+
+            fetch(scriptURL, { method: 'POST', body: formData })
                 .then(response => {
                     Swal.fire({
                         title: 'สำเร็จ...',
@@ -432,8 +445,9 @@
                     
                     form.reset(); 
                     
-                    document.querySelectorAll('.ghost-card input[type="radio"]').forEach(radio => {
-                        radio.checked = false;
+                    // ล้างการเลือกรูปภาพ
+                    document.querySelectorAll('.ghost-card input[type="checkbox"]').forEach(checkbox => {
+                        checkbox.checked = false;
                     });
 
                     submitBtn.innerHTML = originalText;
