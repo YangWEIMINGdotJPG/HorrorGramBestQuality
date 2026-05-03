@@ -54,8 +54,8 @@
             <div class="section">
                 <h2>1. ข้อมูลทั่วไป</h2>
                 <div class="question-box">
-                    <label class="main-q">ชื่อผู้เข้าชม (ถ้ามี)</label>
-                    <input type="text" name="name" placeholder="ระบุชื่อของคุณ...">
+                    <label class="main-q">ชื่อผู้รอดชีวิต</label>
+                    <input type="text" name="name" placeholder="ระบุนามของคุณ...">
                 </div>
                 <div class="question-box">
                     <label class="main-q">อายุ</label>
@@ -85,8 +85,8 @@
                     <thead><tr><th>หัวข้อประเมิน</th><th>5</th><th>4</th><th>3</th><th>2</th><th>1</th></tr></thead>
                     <tbody>
                         <tr><td>ความสวยงามและรายละเอียดตัวละคร</td><td><input type="radio" name="design_1" value="5" required></td><td><input type="radio" name="design_1" value="4"></td><td><input type="radio" name="design_1" value="3"></td><td><input type="radio" name="design_1" value="2"></td><td><input type="radio" name="design_1" value="1"></td></tr>
-                        <tr><td>การตกแต่งบรรยากาศในห้อง</td><td><input type="radio" name="design_2" value="5" required></td><td><input type="radio" name="design_2" value="4"></td><td><input type="radio" name="design_2" value="3"></td><td><input type="radio" name="design_2" value="2"></td><td><input type="radio" name="design_2" value="1"></td></tr>
                         <tr><td>คุณภาพของสื่อแสดงผล (Visual Quality)</td><td><input type="radio" name="design_3" value="5" required></td><td><input type="radio" name="design_3" value="4"></td><td><input type="radio" name="design_3" value="3"></td><td><input type="radio" name="design_3" value="2"></td><td><input type="radio" name="design_3" value="1"></td></tr>
+                        <tr><td>การตกแต่งบรรยากาศในห้อง</td><td><input type="radio" name="design_2" value="5" required></td><td><input type="radio" name="design_2" value="4"></td><td><input type="radio" name="design_2" value="3"></td><td><input type="radio" name="design_2" value="2"></td><td><input type="radio" name="design_2" value="1"></td></tr>
                     </tbody>
                 </table>
             </div>
@@ -106,8 +106,20 @@
                         <span>มาก</span>
                     </div>
                 </div>
+                <div class="question-box">
+                    <label class="main-q">ความพึงพอใจในเสียง</label>
+                    <div class="scale-group">
+                        <span>น้อย</span>
+                        <input type="radio" name="hologram_score" value="1" required>
+                        <input type="radio" name="hologram_score" value="2">
+                        <input type="radio" name="hologram_score" value="3">
+                        <input type="radio" name="hologram_score" value="4">
+                        <input type="radio" name="hologram_score" value="5">
+                        <span>มาก</span>
+                    </div>
+                </div>
             </div>
-
+ 
             <!-- ส่วนที่ 5: เลือกผี (Checkbox) -->
             <div class="section">
                 <h2>5. วิญญาณที่ประทับใจ (เลือกได้หลายตัว)</h2>
@@ -115,6 +127,10 @@
                     <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G1"><img src="G1.png"><span>ผี 1</span></label>
                     <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G2"><img src="G2.png"><span>ผี 2</span></label>
                     <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G3"><img src="G3.png"><span>ผี 3</span></label>
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G4"><img src="G4.png"><span>ผี 4</span></label>
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G5"><img src="G5.png"><span>ผี 5</span></label>
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G6"><img src="G6.png"><span>ผี 6</span></label>
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G7"><img src="G7.png"><span>ผี 7</span></label>
                 </div>
             </div>
 
