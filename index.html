@@ -2,474 +2,160 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>ระบบแบบประเมิน - ห้องเชือด</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HorrorGram - แบบประเมินประสิทธิภาพ</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
-
     <style>
+        :root { --blood: #8b0000; --dark-bg: #0f0f0f; --text: #d3d3d3; }
         * { box-sizing: border-box; }
-
-        body {
-            font-family: 'Kanit', sans-serif;
-            background-color: #050505;
-            background-image: radial-gradient(circle, #2a0000 0%, #000000 80%);
-            margin: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 15px;
-            color: #d3d3d3;
-            overflow-x: hidden;
-        }
-
-        #splash-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
-            background-color: #000; 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 9999; 
-            transition: opacity 1s ease-out; 
-        }
-
-        #logo-img {
-            max-width: 250px;
-            width: 80%;
-            animation: pulseLogo 2s infinite alternate;
-        }
-
-        @keyframes pulseLogo {
-            0% { transform: scale(1); filter: drop-shadow(0 0 5px #ff0000); }
-            100% { transform: scale(1.05); filter: drop-shadow(0 0 25px #8b0000); }
-        }
-
-        @keyframes bloodPulse {
-            0% { box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); }
-            50% { box-shadow: 0 0 35px rgba(255, 0, 0, 0.9); }
-            100% { box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); }
-        }
-
-        .container {
-            background-color: rgba(15, 15, 15, 0.85);
-            padding: 30px 20px;
-            border-radius: 12px;
-            border: 1px solid #4a0000;
-            width: 100%;
-            max-width: 500px;
-            text-align: center;
-            animation: bloodPulse 3s infinite ease-in-out;
-        }
-
-        @keyframes creepIn {
-            0% { opacity: 0; transform: scale(0.85) translateY(20px); filter: blur(5px); }
-            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
-        }
-        .creepy-show {
-            animation: creepIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-        }
-
-        .typing-text { display: inline; }
-        .cursor {
-            display: inline-block;
-            width: 3px;
-            background-color: #8b0000;
-            margin-left: 2px;
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0; }
-        }
-
-        .flicker-text {
-            animation: textFlicker 4s infinite alternate;
-        }
-        @keyframes textFlicker {
-            0%, 18%, 22%, 25%, 53%, 57%, 100% { 
-                opacity: 1; text-shadow: 0 0 10px #ff0000, 0 0 20px #8b0000; 
-            }
-            20%, 24%, 55% { opacity: 0.3; text-shadow: none; }
-        }
-
-        h1, h2 {
-            font-size: 26px;
-            color: #ff1a1a;
-            margin-top: 0;
-            margin-bottom: 15px;
-            min-height: 1.2em;
-            letter-spacing: 1px;
-        }
-
-        p {
-            font-size: 16px;
-            color: #aaa;
-            line-height: 1.6;
-            margin-bottom: 25px;
-            min-height: 3.2em;
-        }
-
-        #assessment-section { display: none; text-align: left; }
-        .form-group { margin-bottom: 20px; text-align: left; }
-        label.main-label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            font-size: 15px;
-            color: #ff4d4d;
-        }
-
-        input[type="text"], select {
-            width: 100%;
-            padding: 14px;
-            border: 1px solid #444;
-            border-radius: 8px;
-            font-size: 16px; 
-            background-color: #111;
-            color: #fff;
-            transition: all 0.3s ease;
-        }
-
-        input[type="text"]:focus, select:focus {
-            outline: none;
-            border-color: #ff0000;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-            background-color: #1a0000;
-        }
-
-        .ghost-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr); 
-            gap: 10px;
-            margin-top: 10px;
-        }
+        body { font-family: 'Kanit', sans-serif; background: #000; color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; }
         
-        .ghost-card:nth-child(7) {
-            grid-column: 2; 
-        }
-
-        .ghost-card {
-            cursor: pointer;
-            text-align: center;
-            transition: all 0.3s;
-            position: relative;
-        }
-
-        /* 🔴 เปลี่ยนจาก Radio เป็น Checkbox ตรงนี้ */
-        .ghost-card input[type="checkbox"] {
-            display: none;
-        }
-
-        .ghost-card img {
-            width: 100%;
-            aspect-ratio: 1 / 1; 
-            object-fit: cover;
-            border-radius: 8px;
-            border: 2px solid #333;
-            filter: grayscale(80%) brightness(0.5); 
-            transition: all 0.3s ease;
-        }
-
-        .ghost-card span {
-            display: block;
-            margin-top: 5px;
-            font-size: 12px;
-            color: #888;
-            transition: all 0.3s ease;
-        }
-
-        .ghost-card:hover img {
-            filter: grayscale(30%) brightness(0.8);
-            border-color: #666;
-        }
-
-        /* 🔴 สไตล์ตอนที่ Checkbox ถูกติ๊กเลือก */
-        .ghost-card input[type="checkbox"]:checked + img {
-            filter: grayscale(0%) brightness(1); 
-            border-color: #ff0000; 
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8); 
-            transform: scale(1.05); 
-        }
-
-        .ghost-card input[type="checkbox"]:checked ~ span {
-            color: #ff4d4d;
-            font-weight: bold;
-            text-shadow: 0 0 5px rgba(255,0,0,0.5);
-        }
-
-        @keyframes glitchShake {
-            0% { transform: translate(0) }
-            20% { transform: translate(-2px, 2px) }
-            40% { transform: translate(-2px, -2px) }
-            60% { transform: translate(2px, 2px) }
-            80% { transform: translate(2px, -2px) }
-            100% { transform: translate(0) }
-        }
-
-        button {
-            background-color: #5c0000;
-            color: #fff;
-            border: 1px solid #8b0000;
-            padding: 16px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            letter-spacing: 1px;
-            transition: all 0.3s ease;
-            margin-top: 15px;
-        }
-
-        button:hover:not(:disabled) {
-            background-color: #8b0000;
-            box-shadow: 0 0 15px #ff0000;
-            text-shadow: 0 0 5px #fff;
-            animation: glitchShake 0.3s infinite;
-        }
+        .container { width: 100%; max-width: 800px; background: rgba(15, 15, 15, 0.95); border-radius: 10px; border: 1px solid #333; padding: 0 0 30px 0; overflow: hidden; box-shadow: 0 0 20px rgba(139, 0, 0, 0.2); }
+        .header-img { width: 100%; height: 200px; object-fit: cover; border-bottom: 5px solid var(--blood); }
+        .section { padding: 25px; border-bottom: 1px solid #222; }
+        h2 { color: #ff1a1a; font-size: 22px; margin-bottom: 20px; border-left: 5px solid var(--blood); padding-left: 15px; }
+        .question-box { background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #222; }
+        label.main-q { display: block; margin-bottom: 15px; font-weight: bold; color: #ff4d4d; }
         
-        button:active:not(:disabled) { transform: scale(0.98); }
-        button:disabled {
-            background-color: #333;
-            color: #666;
-            border-color: #222;
-            cursor: not-allowed;
-            box-shadow: none;
-            animation: none;
-        }
+        /* Table Styles for Grid */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px; text-align: center; border-bottom: 1px solid #333; }
+        th { color: #888; font-weight: normal; }
+        td:first-child { text-align: left; width: 50%; color: var(--text); }
+        tr:hover { background: #220000; }
 
-        #enter-btn { opacity: 0; pointer-events: none; }
-        #enter-btn.show { opacity: 1; pointer-events: auto; }
+        /* Scale & Ghost Grid Styles */
+        .scale-group { display: flex; justify-content: space-between; align-items: center; padding: 10px 40px; }
+        .ghost-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
+        .ghost-card { cursor: pointer; text-align: center; }
+        .ghost-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; border: 2px solid #333; filter: grayscale(80%); transition: 0.3s; }
+        .ghost-card input:checked + img { border-color: #ff1a1a; filter: grayscale(0%); transform: scale(1.05); }
+        .ghost-card input { display: none; }
 
+        input[type="text"] { width: 100%; padding: 12px; background: #000; border: 1px solid #444; color: #fff; border-radius: 5px; }
+        button { background: var(--blood); color: #fff; border: none; padding: 15px 40px; font-size: 18px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s; }
+        button:hover { background: #ff0000; box-shadow: 0 0 15px #ff0000; }
+        
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #000; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: 1s; }
+        #logo-img { max-width: 200px; animation: pulse 2s infinite alternate; }
+        @keyframes pulse { from { transform: scale(1); filter: drop-shadow(0 0 5px #f00); } to { transform: scale(1.1); filter: drop-shadow(0 0 20px #f00); } }
     </style>
 </head>
 <body>
 
-    <!-- 0. หน้า Splash Screen (โลโก้) -->
-    <div id="splash-screen">
-        <img src="LogoHG.png" alt="HorrorGram Logo" id="logo-img">
-    </div>
+    <div id="splash-screen"><img src="LogoHG.png" id="logo-img"></div>
 
-    <!-- 1. หน้า Intro -->
-    <div id="intro-section" class="container">
-        <h1 class="flicker-text"><span id="typing-h1" class="typing-text"></span><span class="cursor">&nbsp;</span></h1>
-        <p><span id="typing-p" class="typing-text"></span></p>
-        <button id="enter-btn" onclick="enterAssessment()">ก้าวเข้ามาสิ...</button>
-    </div>
-
-    <!-- 2. หน้าแบบประเมิน -->
-    <div id="assessment-section" class="container">
-        <h2 class="flicker-text" style="text-align: center;">บันทึกผู้รอดชีวิต</h2>
-        <p style="text-align: center; margin-bottom: 20px; min-height: auto;">โปรดทิ้งร่องรอยของคุณไว้ด้านล่าง</p>
+    <div class="container">
+        <img src="https://via.placeholder.com/800x200/400000/ffffff?text=HorrorGram+UX+Design" class="header-img">
         
-        <form id="assessmentForm" method="POST">
-            <div class="form-group">
-                <label class="main-label" for="name">ชื่อผู้รอดชีวิต (ไม่บังคับ):</label>
-                <input type="text" id="name" name="name" placeholder="ระบุนามของคุณ...">
-            </div>
-
-            <!-- 🔥 เปลี่ยนเป็น checkbox (เลือกได้หลายข้อ) ลบคำว่า required ออกเพื่อไม่ให้บังคับเลือกทุกรูป 🔥 -->
-            <div class="form-group">
-                <label class="main-label">ประทับใจวิญญาณตนไหนมากที่สุด? (เลือกได้มากกว่า 1):</label>
-                <div class="ghost-grid">
-                    <label class="ghost-card">
-                        <input type="checkbox" name="favorite_ghost" value="Ghost_1">
-                        <img src="G1.png" alt="ผีตัวที่ 1">
-                        <span>ผีตัวที่ 1</span>
-                    </label>
-                    <label class="ghost-card">
-                        <input type="checkbox" name="favorite_ghost" value="Ghost_2">
-                        <img src="G2.png" alt="ผีตัวที่ 2">
-                        <span>ผีตัวที่ 2</span>
-                    </label>
-                    <label class="ghost-card">
-                        <input type="checkbox" name="favorite_ghost" value="Ghost_3">
-                        <img src="G3.png" alt="ผีตัวที่ 3">
-                        <span>ผีตัวที่ 3</span>
-                    </label>
-                    <label class="ghost-card">
-                        <input type="checkbox" name="favorite_ghost" value="Ghost_4">
-                        <img src="G4.png" alt="ผีตัวที่ 4">
-                        <span>ผีตัวที่ 4</span>
-                    </label>
-                    <label class="ghost-card">
-                        <input type="checkbox" name="favorite_ghost" value="Ghost_5">
-                        <img src="G5.png" alt="ผีตัวที่ 5">
-                        <span>ผีตัวที่ 5</span>
-                    </label>
-                    <label class="ghost-card">
-                        <input type="checkbox" name="favorite_ghost" value="Ghost_6">
-                        <img src="G6.png" alt="ผีตัวที่ 6">
-                        <span>ผีตัวที่ 6</span>
-                    </label>
-                    <label class="ghost-card">
-                        <input type="checkbox" name="favorite_ghost" value="Ghost_7">
-                        <img src="G7.png" alt="ผีตัวที่ 7">
-                        <span>ผีตัวที่ 7</span>
-                    </label>
+        <form id="assessmentForm">
+            <!-- ส่วนที่ 1: ข้อมูลทั่วไป -->
+            <div class="section">
+                <h2>1. ข้อมูลทั่วไป</h2>
+                <div class="question-box">
+                    <label class="main-q">ชื่อผู้เข้าชม (ถ้ามี)</label>
+                    <input type="text" name="name" placeholder="ระบุชื่อของคุณ...">
+                </div>
+                <div class="question-box">
+                    <label class="main-q">อายุ</label>
+                    <label><input type="radio" name="age" value="ต่ำกว่า 19 ปี" required> ต่ำกว่า 19 ปี</label><br><br>
+                    <label><input type="radio" name="age" value="19-23 ปี"> 19-23 ปี</label><br><br>
+                    <label><input type="radio" name="age" value="24 ปีขึ้นไป"> 24 ปีขึ้นไป</label>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="main-label" for="jumpscare">จังหวะ Jumpscare ทำให้คุณตกใจระดับไหน?:</label>
-                <select id="jumpscare" name="jumpscare" required>
-                    <option value="" style="background: #111;">-- โปรดเลือกระดับความตกใจ --</option>
-                    <option value="5" style="background: #111;">หัวใจแทบวาย สะดุ้งสุดตัว</option>
-                    <option value="4" style="background: #111;">ตกใจมาก ร้องลั่นเลย</option>
-                    <option value="3" style="background: #111;">ตกใจนิดหน่อย พอรับได้</option>
-                    <option value="2" style="background: #111;">เฉยๆ เซ็นเซอร์ทำงานช้าไปนะ</option>
-                    <option value="1" style="background: #111;">หลับตาเดินยังไม่กลัวเลย</option>
-                </select>
+            <!-- ส่วนที่ 2: ตารางประเมิน UX -->
+            <div class="section">
+                <h2>2. ด้านการใช้งาน (UX)</h2>
+                <table>
+                    <thead><tr><th>หัวข้อประเมิน</th><th>5</th><th>4</th><th>3</th><th>2</th><th>1</th></tr></thead>
+                    <tbody>
+                        <tr><td>ความแม่นยำในการตรวจจับของเซนเซอร์</td><td><input type="radio" name="ux_1" value="5" required></td><td><input type="radio" name="ux_1" value="4"></td><td><input type="radio" name="ux_1" value="3"></td><td><input type="radio" name="ux_1" value="2"></td><td><input type="radio" name="ux_1" value="1"></td></tr>
+                        <tr><td>จังหวะการแสดงผล Jumpscare</td><td><input type="radio" name="ux_2" value="5" required></td><td><input type="radio" name="ux_2" value="4"></td><td><input type="radio" name="ux_2" value="3"></td><td><input type="radio" name="ux_2" value="2"></td><td><input type="radio" name="ux_2" value="1"></td></tr>
+                        <tr><td>ลำดับขั้นตอนมีความลื่นไหลเข้าใจง่าย</td><td><input type="radio" name="ux_3" value="5" required></td><td><input type="radio" name="ux_3" value="4"></td><td><input type="radio" name="ux_3" value="3"></td><td><input type="radio" name="ux_3" value="2"></td><td><input type="radio" name="ux_3" value="1"></td></tr>
+                    </tbody>
+                </table>
             </div>
 
-            <div class="form-group">
-                <label class="main-label" for="atmosphere">บรรยากาศและเสียงประกอบสยองขวัญแค่ไหน?:</label>
-                <select id="atmosphere" name="atmosphere" required>
-                    <option value="" style="background: #111;">-- โปรดให้คะแนนบรรยากาศ --</option>
-                    <option value="5" style="background: #111;">หลอนจัด บิ้วอารมณ์ได้ดีมาก</option>
-                    <option value="4" style="background: #111;">น่ากลัวดี ได้ฟีลลิ่ง</option>
-                    <option value="3" style="background: #111;">ปานกลาง ทั่วไป</option>
-                    <option value="2" style="background: #111;">ยังไม่ค่อยอินเท่าไหร่</option>
-                    <option value="1" style="background: #111;">ไม่มีความน่ากลัวเลย</option>
-                </select>
+            <!-- ส่วนที่ 3: ด้านเทคโนโลยี/ออกแบบ -->
+            <div class="section">
+                <h2>3. ด้านเทคโนโลยีและงานออกแบบ</h2>
+                <table>
+                    <thead><tr><th>หัวข้อประเมิน</th><th>5</th><th>4</th><th>3</th><th>2</th><th>1</th></tr></thead>
+                    <tbody>
+                        <tr><td>ความสวยงามและรายละเอียดตัวละคร</td><td><input type="radio" name="design_1" value="5" required></td><td><input type="radio" name="design_1" value="4"></td><td><input type="radio" name="design_1" value="3"></td><td><input type="radio" name="design_1" value="2"></td><td><input type="radio" name="design_1" value="1"></td></tr>
+                        <tr><td>การตกแต่งบรรยากาศในห้อง</td><td><input type="radio" name="design_2" value="5" required></td><td><input type="radio" name="design_2" value="4"></td><td><input type="radio" name="design_2" value="3"></td><td><input type="radio" name="design_2" value="2"></td><td><input type="radio" name="design_2" value="1"></td></tr>
+                        <tr><td>คุณภาพของสื่อแสดงผล (Visual Quality)</td><td><input type="radio" name="design_3" value="5" required></td><td><input type="radio" name="design_3" value="4"></td><td><input type="radio" name="design_3" value="3"></td><td><input type="radio" name="design_3" value="2"></td><td><input type="radio" name="design_3" value="1"></td></tr>
+                    </tbody>
+                </table>
             </div>
 
-            <div class="form-group">
-                <label class="main-label" for="rating">ระดับความหวาดผวาโดยรวม:</label>
-                <select id="rating" name="rating" required>
-                    <option value="" style="background: #111;">-- โปรดเลือกความรู้สึกโดยรวม --</option>
-                    <option value="5" style="background: #111;">สุดยอดแห่งความสยอง</option>
-                    <option value="4" style="background: #111;">น่ากลัวใช้ได้</option>
-                    <option value="3" style="background: #111;">พอทนได้</option>
-                    <option value="2" style="background: #111;">ยังไม่ค่อยหลอน</option>
-                    <option value="1" style="background: #111;">ธรรมดาเกินไป</option>
-                </select>
+            <!-- ส่วนที่ 4: มาตราส่วน 1-5 -->
+            <div class="section">
+                <h2>4. ความพึงพอใจโดยรวม</h2>
+                <div class="question-box">
+                    <label class="main-q">ความสมจริงของ Hologram</label>
+                    <div class="scale-group">
+                        <span>น้อย</span>
+                        <input type="radio" name="hologram_score" value="1" required>
+                        <input type="radio" name="hologram_score" value="2">
+                        <input type="radio" name="hologram_score" value="3">
+                        <input type="radio" name="hologram_score" value="4">
+                        <input type="radio" name="hologram_score" value="5">
+                        <span>มาก</span>
+                    </div>
+                </div>
             </div>
 
-            <div class="form-group">
-                <label class="main-label" for="feedback">คำสั่งเสีย (ข้อเสนอแนะเพื่อการพัฒนา):</label>
-                <input type="text" id="feedback" name="feedback" placeholder="พิมพ์ข้อความของคุณที่นี่...">
+            <!-- ส่วนที่ 5: เลือกผี (Checkbox) -->
+            <div class="section">
+                <h2>5. วิญญาณที่ประทับใจ (เลือกได้หลายตัว)</h2>
+                <div class="ghost-grid">
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G1"><img src="G1.png"><span>ผี 1</span></label>
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G2"><img src="G2.png"><span>ผี 2</span></label>
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G3"><img src="G3.png"><span>ผี 3</span></label>
+                </div>
             </div>
-            
-            <button type="submit" id="submitBtn">ยืนยันการส่งวิญญาณ</button>
+
+            <div style="padding: 25px;"><button type="submit" id="submitBtn">ยืนยันการส่งข้อมูล</button></div>
         </form>
     </div>
 
     <script>
-        const textH1 = "ยินดีต้อนรับสู่ขุมนรก...";
-        const textP = "ขอบคุณที่หลงเข้ามาทำแบบประเมิน ข้อมูลของท่านจะเป็นประโยชน์อย่างยิ่งในการพัฒนาความหลอนครั้งต่อไป...";
-
-        function typeWriter(elementId, text, speed, callback) {
-            let i = 0;
-            const element = document.getElementById(elementId);
-            function type() {
-                if (i < text.length) {
-                    element.innerHTML += text.charAt(i);
-                    i++;
-                    setTimeout(type, speed);
-                } else {
-                    if (callback) callback();
-                }
-            }
-            type();
-        }
-
-        window.onload = function() {
-            setTimeout(function() {
-                const splash = document.getElementById('splash-screen');
-                splash.style.opacity = '0'; 
-
-                setTimeout(function() {
-                    splash.style.display = 'none';
-                    
-                    typeWriter("typing-h1", textH1, 100, function() {
-                        typeWriter("typing-p", textP, 60, function() {
-                            document.getElementById("enter-btn").classList.add("show");
-                        });
-                    });
-                }, 1000); 
-
-            }, 2500); 
-        };
-
-        function enterAssessment() {
-            document.getElementById('intro-section').style.display = 'none';
-            const assessmentSection = document.getElementById('assessment-section');
-            assessmentSection.style.display = 'block';
-            
-            assessmentSection.classList.add('creepy-show'); 
-            
-            window.scrollTo(0, 0);
-        }
+        // แสดง Splash Screen 2.5 วินาที
+        window.onload = () => setTimeout(() => { 
+            document.getElementById('splash-screen').style.opacity = '0';
+            setTimeout(() => document.getElementById('splash-screen').style.display = 'none', 1000);
+        }, 2500);
 
         const scriptURL = 'https://script.google.com/macros/s/AKfycby-r-6GWYc2F38A3GSXnKgNg2Paw-OkxcOSpHDjjmzd_OcLWAQkA5EeFVxM3rFjs2Iwmg/exec';
         const form = document.getElementById('assessmentForm');
 
         form.addEventListener('submit', e => {
-            e.preventDefault(); 
-            
-            const submitBtn = form.querySelector('button[type="submit"]');
-            const originalText = submitBtn.innerHTML;
-            
-            submitBtn.innerHTML = 'กำลังประกอบพิธีกรรม...';
+            e.preventDefault();
+            const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
+            submitBtn.innerText = 'กำลังส่งข้อมูล...';
 
-            // 🔴 ดึงค่าจากรูปผีทั้งหมดที่ถูกเลือก มารวมกันเป็นข้อความเดียว 🔴
+            // รวมค่า Checkbox ผีเป็นข้อความเดียว
             const formData = new FormData(form);
-            const selectedGhosts = [];
-            document.querySelectorAll('input[name="favorite_ghost"]:checked').forEach(cb => {
-                selectedGhosts.push(cb.value);
-            });
-            
-            // ลบของเดิมทิ้ง แล้วใส่ข้อความที่รวมแล้วเข้าไปแทน
-            formData.delete('favorite_ghost'); 
-            formData.append('favorite_ghost', selectedGhosts.length > 0 ? selectedGhosts.join(', ') : '-');
+            const ghosts = [];
+            document.querySelectorAll('input[name="fav_ghost"]:checked').forEach(cb => ghosts.push(cb.value));
+            formData.append('favorite_ghost', ghosts.join(', '));
 
             fetch(scriptURL, { method: 'POST', body: formData })
-                .then(response => {
-                    Swal.fire({
-                        title: 'สำเร็จ...',
-                        text: 'เราได้รับวิญญาณ... เอ้ย! ข้อมูลของคุณแล้ว',
-                        icon: 'success',
-                        background: '#111',
-                        color: '#ff4d4d',
-                        confirmButtonText: 'กลับสู่โลกความจริง',
-                        confirmButtonColor: '#8b0000'
-                    });
-                    
-                    form.reset(); 
-                    
-                    // ล้างการเลือกรูปภาพ
-                    document.querySelectorAll('.ghost-card input[type="checkbox"]').forEach(checkbox => {
-                        checkbox.checked = false;
-                    });
-
-                    submitBtn.innerHTML = originalText;
+                .then(res => {
+                    Swal.fire({ title: 'สำเร็จ!', text: 'เราได้รับข้อมูลของคุณแล้ว', icon: 'success', background: '#111', color: '#fff' });
+                    form.reset();
                     submitBtn.disabled = false;
+                    submitBtn.innerText = 'ยืนยันการส่งข้อมูล';
                 })
-                .catch(error => {
-                    console.error('Error!', error.message);
-                    Swal.fire({
-                        title: 'เกิดข้อผิดพลาด...',
-                        text: 'ไม่สามารถส่งข้อมูลได้ วิญญาณอาจติดขัด กรุณาลองใหม่',
-                        icon: 'error',
-                        background: '#111',
-                        color: '#ff4d4d',
-                        confirmButtonText: 'ลองอีกครั้ง',
-                        confirmButtonColor: '#dc3545'
-                    });
-                    
-                    submitBtn.innerHTML = originalText;
+                .catch(err => {
+                    Swal.fire({ title: 'ผิดพลาด!', text: 'ลองใหม่อีกครั้ง', icon: 'error' });
                     submitBtn.disabled = false;
                 });
         });
     </script>
-
 </body>
 </html>
