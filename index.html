@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>ระบบแบบประเมิน - ห้องเชือด</title>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <style>
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Kanit', sans-serif;
+            background-color: #050505;
+            background-image: radial-gradient(circle, #2a0000 0%, #000000 80%);
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+            color: #d3d3d3;
+            overflow-x: hidden;
+        }
+
+        /* 🔴 แอนิเมชัน 1: ชีพจรเลือด (Blood Pulse) เรืองแสงวูบวาบ */
+        @keyframes bloodPulse {
+            0% { box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); }
+            50% { box-shadow: 0 0 35px rgba(255, 0, 0, 0.9); }
+            100% { box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); }
+        }
+
+        .container {
+            background-color: rgba(15, 15, 15, 0.85);
+            padding: 30px 20px;
+            border-radius: 12px;
+            border: 1px solid #4a0000;
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            animation: bloodPulse 3s infinite ease-in-out; /* เรียกใช้ชีพจรเลือด */
+        }
+
+        /* 👻 แอนิเมชัน 2: วิญญาณปรากฏ (Creepy Reveal) ค่อยๆ ซูมเข้า */
+        @keyframes creepIn {
+            0% { opacity: 0; transform: scale(0.85) translateY(20px); filter: blur(5px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
+        }
+        .creepy-show {
+            animation: creepIn 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+        }
+
+        .typing-text { display: inline; }
+        .cursor {
+            display: inline-block;
+            width: 3px;
+            background-color: #8b0000;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0; }
+        }
+
+        .flicker-text {
+            animation: textFlicker 4s infinite alternate;
+        }
+        @keyframes textFlicker {
+            0%, 18%, 22%, 25%, 53%, 57%, 100% { 
+                opacity: 1; text-shadow: 0 0 10px #ff0000, 0 0 20px #8b0000; 
+            }
+            20%, 24%, 55% { opacity: 0.3; text-shadow: none; }
+        }
+
+        h1, h2 {
+            font-size: 26px;
+            color: #ff1a1a;
+            margin-top: 0;
+            margin-bottom: 15px;
+            min-height: 1.2em;
+            letter-spacing: 1px;
+        }
+
+        p {
+            font-size: 16px;
+            color: #aaa;
+            line-height: 1.6;
+            margin-bottom: 25px;
+            min-height: 3.2em;
+        }
+
+        #assessment-section {
+            display: none;
+            text-align: left;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            font-size: 15px;
+            color: #ff4d4d;
+        }
+
+        input[type="text"], select {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #444;
+            border-radius: 8px;
+            font-size: 16px; 
+            background-color: #111;
+            color: #fff;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus, select:focus {
+            outline: none;
+            border-color: #ff0000;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            background-color: #1a0000;
+        }
+
+        /* ⚠️ แอนิเมชัน 3: ปุ่มสั่นผวา (Glitch Shake) */
+        @keyframes glitchShake {
+            0% { transform: translate(0) }
+            20% { transform: translate(-2px, 2px) }
+            40% { transform: translate(-2px, -2px) }
+            60% { transform: translate(2px, 2px) }
+            80% { transform: translate(2px, -2px) }
+            100% { transform: translate(0) }
+        }
+
+        button {
+            background-color: #5c0000;
+            color: #fff;
+            border: 1px solid #8b0000;
+            padding: 16px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover:not(:disabled) {
+            background-color: #8b0000;
+            box-shadow: 0 0 15px #ff0000;
+            text-shadow: 0 0 5px #fff;
+            animation: glitchShake 0.3s infinite; /* เรียกใช้ปุ่มสั่น */
+        }
+        
+        button:active:not(:disabled) { transform: scale(0.98); }
+        button:disabled {
+            background-color: #333;
+            color: #666;
+            border-color: #222;
+            cursor: not-allowed;
+            box-shadow: none;
+            animation: none;
+        }
+
+        #enter-btn { opacity: 0; pointer-events: none; }
+        #enter-btn.show { opacity: 1; pointer-events: auto; }
+
+    </style>
+</head>
+<body>
+
+    <!-- 1. หน้า Intro -->
+    <div id="intro-section" class="container">
+        <h1 class="flicker-text"><span id="typing-h1" class="typing-text"></span><span class="cursor">&nbsp;</span></h1>
+        <p><span id="typing-p" class="typing-text"></span></p>
+        <button id="enter-btn" onclick="enterAssessment()">ก้าวเข้ามาสิ...</button>
+    </div>
+
+    <!-- 2. หน้าแบบประเมิน -->
+    <div id="assessment-section" class="container">
+        <h2 class="flicker-text" style="text-align: center;">บันทึกผู้รอดชีวิต</h2>
+        <p style="text-align: center; margin-bottom: 20px; min-height: auto;">โปรดทิ้งร่องรอยของคุณไว้ด้านล่าง</p>
+        
+        <form id="assessmentForm" method="POST">
+            <div class="form-group">
+                <label for="name">ชื่อผู้รอดชีวิต (ไม่บังคับ):</label>
+                <input type="text" id="name" name="name" placeholder="ระบุนามของคุณ...">
+            </div>
+
+            <div class="form-group">
+                <label for="jumpscare">จังหวะ Jumpscare ทำให้คุณตกใจระดับไหน?:</label>
+                <select id="jumpscare" name="jumpscare" required>
+                    <option value="" style="background: #111;">-- โปรดเลือกระดับความตกใจ --</option>
+                    <option value="5" style="background: #111;">หัวใจแทบวาย สะดุ้งสุดตัว</option>
+                    <option value="4" style="background: #111;">ตกใจมาก ร้องลั่นเลย</option>
+                    <option value="3" style="background: #111;">ตกใจนิดหน่อย พอรับได้</option>
+                    <option value="2" style="background: #111;">เฉยๆ เซ็นเซอร์ทำงานช้าไปนะ</option>
+                    <option value="1" style="background: #111;">หลับตาเดินยังไม่กลัวเลย</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="atmosphere">บรรยากาศและเสียงประกอบสยองขวัญแค่ไหน?:</label>
+                <select id="atmosphere" name="atmosphere" required>
+                    <option value="" style="background: #111;">-- โปรดให้คะแนนบรรยากาศ --</option>
+                    <option value="5" style="background: #111;">หลอนจัด บิ้วอารมณ์ได้ดีมาก</option>
+                    <option value="4" style="background: #111;">น่ากลัวดี ได้ฟีลลิ่ง</option>
+                    <option value="3" style="background: #111;">ปานกลาง ทั่วไป</option>
+                    <option value="2" style="background: #111;">ยังไม่ค่อยอินเท่าไหร่</option>
+                    <option value="1" style="background: #111;">ไม่มีความน่ากลัวเลย</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="rating">ระดับความหวาดผวาโดยรวม:</label>
+                <select id="rating" name="rating" required>
+                    <option value="" style="background: #111;">-- โปรดเลือกความรู้สึกโดยรวม --</option>
+                    <option value="5" style="background: #111;">สุดยอดแห่งความสยอง</option>
+                    <option value="4" style="background: #111;">น่ากลัวใช้ได้</option>
+                    <option value="3" style="background: #111;">พอทนได้</option>
+                    <option value="2" style="background: #111;">ยังไม่ค่อยหลอน</option>
+                    <option value="1" style="background: #111;">ธรรมดาเกินไป</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="feedback">คำสั่งเสีย (ข้อเสนอแนะเพื่อการพัฒนา):</label>
+                <input type="text" id="feedback" name="feedback" placeholder="พิมพ์ข้อความของคุณที่นี่...">
+            </div>
+            
+            <button type="submit" id="submitBtn">ยืนยันการส่งวิญญาณ</button>
+        </form>
+    </div>
+
+    <!-- 3. ส่วนควบคุม JavaScript -->
+    <script>
+        const textH1 = "ยินดีต้อนรับสู่ขุมนรก...";
+        const textP = "ขอบคุณที่หลงเข้ามาทำแบบประเมิน ข้อมูลของท่านจะเป็นประโยชน์อย่างยิ่งในการพัฒนาความหลอนครั้งต่อไป...";
+
+        function typeWriter(elementId, text, speed, callback) {
+            let i = 0;
+            const element = document.getElementById(elementId);
+            function type() {
+                if (i < text.length) {
+                    element.innerHTML += text.charAt(i);
+                    i++;
+                    setTimeout(type, speed);
+                } else {
+                    if (callback) callback();
+                }
+            }
+            type();
+        }
+
+        window.onload = function() {
+            typeWriter("typing-h1", textH1, 100, function() {
+                typeWriter("typing-p", textP, 60, function() {
+                    document.getElementById("enter-btn").classList.add("show");
+                });
+            });
+        };
+
+        function enterAssessment() {
+            document.getElementById('intro-section').style.display = 'none';
+            const assessmentSection = document.getElementById('assessment-section');
+            assessmentSection.style.display = 'block';
+            
+            // เพิ่มคลาส creepy-show เพื่อเรียกใช้แอนิเมชันตอนเปลี่ยนหน้า
+            assessmentSection.classList.add('creepy-show'); 
+            
+            window.scrollTo(0, 0);
+        }
+
+        // ⚠️ เอาลิงก์ Web App ของคุณมาใส่ตรงนี้ ⚠️
+        const scriptURL = 'ใส่_URL_ที่ได้จาก_Google_Script_ตรงนี้';
+        const form = document.getElementById('assessmentForm');
+
+        form.addEventListener('submit', e => {
+            e.preventDefault(); 
+            
+            const submitBtn = form.querySelector('button[type="submit"]');
+            const originalText = submitBtn.innerHTML;
+            
+            submitBtn.innerHTML = 'กำลังประกอบพิธีกรรม...';
+            submitBtn.disabled = true;
+
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+                .then(response => {
+                    Swal.fire({
+                        title: 'สำเร็จ...',
+                        text: 'เราได้รับวิญญาณ... เอ้ย! ข้อมูลของคุณแล้ว',
+                        icon: 'success',
+                        background: '#111',
+                        color: '#ff4d4d',
+                        confirmButtonText: 'กลับสู่โลกความจริง',
+                        confirmButtonColor: '#8b0000'
+                    });
+                    
+                    form.reset(); 
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                })
+                .catch(error => {
+                    console.error('Error!', error.message);
+                    Swal.fire({
+                        title: 'เกิดข้อผิดพลาด...',
+                        text: 'ไม่สามารถส่งข้อมูลได้ วิญญาณอาจติดขัด กรุณาลองใหม่',
+                        icon: 'error',
+                        background: '#111',
+                        color: '#ff4d4d',
+                        confirmButtonText: 'ลองอีกครั้ง',
+                        confirmButtonColor: '#dc3545'
+                    });
+                    
+                    submitBtn.innerHTML = originalText;
+                    submitBtn.disabled = false;
+                });
+        });
+    </script>
+
+</body>
+</html>
