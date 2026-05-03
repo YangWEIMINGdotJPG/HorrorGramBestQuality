@@ -3,124 +3,201 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HorrorGram - แบบประเมินประสิทธิภาพ</title>
+    <title>HorrorGram - แบบประเมินประสิทธิภาพสมบูรณ์</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
     <style>
-        :root { --blood: #8b0000; --dark-bg: #0f0f0f; --text: #d3d3d3; }
+        :root { --blood: #8b0000; --dark-bg: #0f0f0f; --text: #d3d3d3; --bright-red: #ff1a1a; }
         * { box-sizing: border-box; }
         body { font-family: 'Kanit', sans-serif; background: #000; color: var(--text); margin: 0; padding: 20px; display: flex; justify-content: center; }
         
-        .container { width: 100%; max-width: 800px; background: rgba(15, 15, 15, 0.95); border-radius: 10px; border: 1px solid #333; padding: 0 0 30px 0; overflow: hidden; box-shadow: 0 0 20px rgba(139, 0, 0, 0.2); }
-        .header-img { width: 100%; height: 200px; object-fit: cover; border-bottom: 5px solid var(--blood); }
+        .container { width: 100%; max-width: 800px; background: rgba(15, 15, 15, 0.95); border-radius: 10px; border: 1px solid #333; padding: 0 0 30px 0; overflow: hidden; box-shadow: 0 0 25px rgba(139, 0, 0, 0.4); }
+        .header-img { width: 100%; height: 200px; object-fit: cover; border-bottom: 2px solid var(--blood); }
+
+        /* --- ส่วนหัวบันทึกผู้รอดชีวิตแบบกะพริบ --- */
+        .survivor-header { text-align: center; padding: 40px 20px; background: #0a0a0a; border-top: 1px solid var(--blood); margin-bottom: 10px; }
+        .survivor-title { color: var(--bright-red); font-size: 32px; font-weight: 700; margin: 0; text-shadow: 0 0 15px rgba(255, 0, 0, 0.7); animation: pulse-blink 2s infinite ease-in-out; }
+        .survivor-subtext { color: #888; font-size: 16px; margin-top: 10px; letter-spacing: 1px; }
+
+        @keyframes pulse-blink {
+            0%, 100% { opacity: 1; text-shadow: 0 0 15px rgba(255, 0, 0, 0.8); transform: scale(1); }
+            50% { opacity: 0.4; text-shadow: 0 0 5px rgba(255, 0, 0, 0.2); transform: scale(0.98); }
+        }
+
+        /* --- ซ่อนจุดขาว Radio Button มาตรฐานทั้งหมด --- */
+        input[type="radio"] { display: none; }
+
         .section { padding: 25px; border-bottom: 1px solid #222; }
-        h2 { color: #ff1a1a; font-size: 22px; margin-bottom: 20px; border-left: 5px solid var(--blood); padding-left: 15px; }
+        h2 { color: var(--bright-red); font-size: 22px; margin-bottom: 20px; border-left: 5px solid var(--blood); padding-left: 15px; }
         .question-box { background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #222; }
         label.main-q { display: block; margin-bottom: 15px; font-weight: bold; color: #ff4d4d; }
-        
-        /* Table Styles for Grid */
-        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
-        th, td { padding: 12px; text-align: center; border-bottom: 1px solid #333; }
-        th { color: #888; font-weight: normal; }
-        td:first-child { text-align: left; width: 50%; color: var(--text); }
-        tr:hover { background: #220000; }
 
-        /* Scale & Ghost Grid Styles */
-        .scale-group { display: flex; justify-content: space-between; align-items: center; padding: 10px 40px; }
-        .ghost-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 10px; }
-        .ghost-card { cursor: pointer; text-align: center; }
-        .ghost-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; border: 2px solid #333; filter: grayscale(80%); transition: 0.3s; }
-        .ghost-card input:checked + img { border-color: #ff1a1a; filter: grayscale(0%); transform: scale(1.05); }
+        /* ตารางคะแนนแบบกล่องกด (Rating Labels) */
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { padding: 12px 5px; text-align: center; border-bottom: 1px solid #222; }
+        th { color: #888; font-weight: 300; font-size: 14px; }
+        td:first-child { text-align: left; width: 45%; color: var(--text); font-size: 15px; }
+
+        .rating-label { 
+            display: inline-block; width: 42px; height: 42px; line-height: 40px; text-align: center; 
+            border: 1px solid #444; border-radius: 6px; background: #0a0a0a; color: #666; 
+            cursor: pointer; transition: 0.2s; font-weight: bold; user-select: none;
+        }
+        .rating-label:hover { border-color: var(--bright-red); color: #fff; background: #220000; }
+        input[type="radio"]:checked + .rating-label { 
+            background: var(--blood); color: #fff; border-color: var(--bright-red); 
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.6); transform: scale(1.1); 
+        }
+
+        /* ตัวเลือกอายุแบบแถบกดกว้าง */
+        .age-label { display: block; padding: 14px; margin-bottom: 10px; background: #111; border: 1px solid #333; border-radius: 5px; cursor: pointer; transition: 0.3s; }
+        .age-label:hover { background: #1a1a1a; border-color: #555; }
+        input[type="radio"]:checked + .age-label { border-color: var(--bright-red); background: #2a0000; color: #fff; box-shadow: inset 0 0 10px rgba(255,0,0,0.2); }
+
+        /* Ghost Grid Selection */
+        .ghost-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); gap: 10px; }
+        .ghost-card { cursor: pointer; text-align: center; font-size: 12px; }
+        .ghost-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 8px; border: 2px solid #333; filter: grayscale(100%); transition: 0.3s; }
+        .ghost-card span { display: block; margin-top: 5px; color: #888; }
+        .ghost-card input:checked + img { border-color: var(--bright-red); filter: grayscale(0%); transform: translateY(-5px); box-shadow: 0 5px 15px rgba(255,0,0,0.3); }
+        .ghost-card input:checked ~ span { color: var(--bright-red); font-weight: bold; }
         .ghost-card input { display: none; }
 
-        input[type="text"] { width: 100%; padding: 12px; background: #000; border: 1px solid #444; color: #fff; border-radius: 5px; }
-        button { background: var(--blood); color: #fff; border: none; padding: 15px 40px; font-size: 18px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s; }
-        button:hover { background: #ff0000; box-shadow: 0 0 15px #ff0000; }
+        /* Input & Button */
+        input[type="text"] { width: 100%; padding: 14px; background: #000; border: 1px solid #444; color: #fff; border-radius: 5px; outline: none; font-size: 16px; }
+        input[type="text"]:focus { border-color: var(--bright-red); box-shadow: 0 0 10px rgba(255,0,0,0.2); }
+        
+        button { background: var(--blood); color: #fff; border: none; padding: 20px; font-size: 18px; cursor: pointer; width: 100%; font-weight: bold; transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; margin-top: 10px; }
+        button:hover:not(:disabled) { background: #ff0000; box-shadow: 0 0 25px #ff0000; }
+        button:disabled { background: #333; cursor: not-allowed; color: #777; }
         
         #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; background: #000; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: 1s; }
-        #logo-img { max-width: 200px; animation: pulse 2s infinite alternate; }
-        @keyframes pulse { from { transform: scale(1); filter: drop-shadow(0 0 5px #f00); } to { transform: scale(1.1); filter: drop-shadow(0 0 20px #f00); } }
+        #logo-img { max-width: 180px; animation: logo-pulse 2s infinite alternate; }
+        @keyframes logo-pulse { from { transform: scale(1); filter: drop-shadow(0 0 5px #f00); } to { transform: scale(1.1); filter: drop-shadow(0 0 25px #f00); } }
     </style>
 </head>
 <body>
 
-    <div id="splash-screen"><img src="LogoHG.png" id="logo-img"></div>
+    <div id="splash-screen"><img src="LogoHG.png" id="logo-img" alt="Logo"></div>
 
     <div class="container">
-        <img src="https://via.placeholder.com/800x200/400000/ffffff?text=HorrorGram+UX+Design" class="header-img">
+        <img src="https://via.placeholder.com/800x200/400000/ffffff?text=HorrorGram+Evaluation+System" class="header-img" alt="Banner">
         
+        <div class="survivor-header">
+            <h1 class="survivor-title">บันทึกผู้รอดชีวิต</h1>
+            <p class="survivor-subtext">โปรดทิ้งร่องรอยของคุณไว้ด้านล่าง</p>
+        </div>
+
         <form id="assessmentForm">
-            <!-- ส่วนที่ 1: ข้อมูลทั่วไป -->
             <div class="section">
-                <h2>1. ข้อมูลทั่วไป</h2>
+                <h2>1. ข้อมูลส่วนบุคคล</h2>
                 <div class="question-box">
-                    <label class="main-q">ชื่อผู้รอดชีวิต</label>
-                    <input type="text" name="name" placeholder="ระบุนามของคุณ...">
+                    <label class="main-q">นามของผู้รอดชีวิต</label>
+                    <input type="text" name="name" placeholder="ระบุนามของคุณ..." required>
                 </div>
                 <div class="question-box">
                     <label class="main-q">อายุ</label>
-                    <label><input type="radio" name="age" value="ต่ำกว่า 19 ปี" required> ต่ำกว่า 19 ปี</label><br><br>
-                    <label><input type="radio" name="age" value="19-23 ปี"> 19-23 ปี</label><br><br>
-                    <label><input type="radio" name="age" value="24 ปีขึ้นไป"> 24 ปีขึ้นไป</label>
+                    <input type="radio" id="age1" name="age" value="ต่ำกว่า 19 ปี" required>
+                    <label for="age1" class="age-label">ต่ำกว่า 19 ปี</label>
+                    
+                    <input type="radio" id="age2" name="age" value="19-23 ปี">
+                    <label for="age2" class="age-label">19-23 ปี</label>
+                    
+                    <input type="radio" id="age3" name="age" value="24 ปีขึ้นไป">
+                    <label for="age3" class="age-label">24 ปีขึ้นไป</label>
                 </div>
             </div>
 
-            <!-- ส่วนที่ 2: ตารางประเมิน UX -->
             <div class="section">
                 <h2>2. ด้านการใช้งาน (UX)</h2>
                 <table>
                     <thead><tr><th>หัวข้อประเมิน</th><th>5</th><th>4</th><th>3</th><th>2</th><th>1</th></tr></thead>
                     <tbody>
-                        <tr><td>ความแม่นยำในการตรวจจับของเซนเซอร์</td><td><input type="radio" name="ux_1" value="5" required></td><td><input type="radio" name="ux_1" value="4"></td><td><input type="radio" name="ux_1" value="3"></td><td><input type="radio" name="ux_1" value="2"></td><td><input type="radio" name="ux_1" value="1"></td></tr>
-                        <tr><td>จังหวะการแสดงผล Jumpscare</td><td><input type="radio" name="ux_2" value="5" required></td><td><input type="radio" name="ux_2" value="4"></td><td><input type="radio" name="ux_2" value="3"></td><td><input type="radio" name="ux_2" value="2"></td><td><input type="radio" name="ux_2" value="1"></td></tr>
-                        <tr><td>ลำดับขั้นตอนมีความลื่นไหลเข้าใจง่าย</td><td><input type="radio" name="ux_3" value="5" required></td><td><input type="radio" name="ux_3" value="4"></td><td><input type="radio" name="ux_3" value="3"></td><td><input type="radio" name="ux_3" value="2"></td><td><input type="radio" name="ux_3" value="1"></td></tr>
+                        <tr>
+                            <td>ความแม่นยำในการตรวจจับของเซนเซอร์</td>
+                            <td><input type="radio" id="ux1_5" name="ux_1" value="5" required><label for="ux1_5" class="rating-label">5</label></td>
+                            <td><input type="radio" id="ux1_4" name="ux_1" value="4"><label for="ux1_4" class="rating-label">4</label></td>
+                            <td><input type="radio" id="ux1_3" name="ux_1" value="3"><label for="ux1_3" class="rating-label">3</label></td>
+                            <td><input type="radio" id="ux1_2" name="ux_1" value="2"><label for="ux1_2" class="rating-label">2</label></td>
+                            <td><input type="radio" id="ux1_1" name="ux_1" value="1"><label for="ux1_1" class="rating-label">1</label></td>
+                        </tr>
+                        <tr>
+                            <td>จังหวะการแสดงผล Jumpscare</td>
+                            <td><input type="radio" id="ux2_5" name="ux_2" value="5" required><label for="ux2_5" class="rating-label">5</label></td>
+                            <td><input type="radio" id="ux2_4" name="ux_2" value="4"><label for="ux2_4" class="rating-label">4</label></td>
+                            <td><input type="radio" id="ux2_3" name="ux_2" value="3"><label for="ux2_3" class="rating-label">3</label></td>
+                            <td><input type="radio" id="ux2_2" name="ux_2" value="2"><label for="ux2_2" class="rating-label">2</label></td>
+                            <td><input type="radio" id="ux2_1" name="ux_2" value="1"><label for="ux2_1" class="rating-label">1</label></td>
+                        </tr>
+                        <tr>
+                            <td>ลำดับขั้นตอนมีความลื่นไหลเข้าใจง่าย</td>
+                            <td><input type="radio" id="ux3_5" name="ux_3" value="5" required><label for="ux3_5" class="rating-label">5</label></td>
+                            <td><input type="radio" id="ux3_4" name="ux_3" value="4"><label for="ux3_4" class="rating-label">4</label></td>
+                            <td><input type="radio" id="ux3_3" name="ux_3" value="3"><label for="ux3_3" class="rating-label">3</label></td>
+                            <td><input type="radio" id="ux3_2" name="ux_3" value="2"><label for="ux3_2" class="rating-label">2</label></td>
+                            <td><input type="radio" id="ux3_1" name="ux_3" value="1"><label for="ux3_1" class="rating-label">1</label></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- ส่วนที่ 3: ด้านเทคโนโลยี/ออกแบบ -->
             <div class="section">
                 <h2>3. ด้านเทคโนโลยีและงานออกแบบ</h2>
                 <table>
                     <thead><tr><th>หัวข้อประเมิน</th><th>5</th><th>4</th><th>3</th><th>2</th><th>1</th></tr></thead>
                     <tbody>
-                        <tr><td>ความสวยงามและรายละเอียดตัวละคร</td><td><input type="radio" name="design_1" value="5" required></td><td><input type="radio" name="design_1" value="4"></td><td><input type="radio" name="design_1" value="3"></td><td><input type="radio" name="design_1" value="2"></td><td><input type="radio" name="design_1" value="1"></td></tr>
-                        <tr><td>คุณภาพของสื่อแสดงผล (Visual Quality)</td><td><input type="radio" name="design_3" value="5" required></td><td><input type="radio" name="design_3" value="4"></td><td><input type="radio" name="design_3" value="3"></td><td><input type="radio" name="design_3" value="2"></td><td><input type="radio" name="design_3" value="1"></td></tr>
-                        <tr><td>การตกแต่งบรรยากาศในห้อง</td><td><input type="radio" name="design_2" value="5" required></td><td><input type="radio" name="design_2" value="4"></td><td><input type="radio" name="design_2" value="3"></td><td><input type="radio" name="design_2" value="2"></td><td><input type="radio" name="design_2" value="1"></td></tr>
+                        <tr>
+                            <td>ความสวยงามและรายละเอียดตัวละคร</td>
+                            <td><input type="radio" id="d1_5" name="design_1" value="5" required><label for="d1_5" class="rating-label">5</label></td>
+                            <td><input type="radio" id="d1_4" name="design_1" value="4"><label for="d1_4" class="rating-label">4</label></td>
+                            <td><input type="radio" id="d1_3" name="design_1" value="3"><label for="d1_3" class="rating-label">3</label></td>
+                            <td><input type="radio" id="d1_2" name="design_1" value="2"><label for="d1_2" class="rating-label">2</label></td>
+                            <td><input type="radio" id="d1_1" name="design_1" value="1"><label for="d1_1" class="rating-label">1</label></td>
+                        </tr>
+                        <tr>
+                            <td>คุณภาพของสื่อแสดงผล (Visual Quality)</td>
+                            <td><input type="radio" id="d2_5" name="design_3" value="5" required><label for="d2_5" class="rating-label">5</label></td>
+                            <td><input type="radio" id="d2_4" name="design_3" value="4"><label for="d2_4" class="rating-label">4</label></td>
+                            <td><input type="radio" id="d2_3" name="design_3" value="3"><label for="d2_3" class="rating-label">3</label></td>
+                            <td><input type="radio" id="d2_2" name="design_3" value="2"><label for="d2_2" class="rating-label">2</label></td>
+                            <td><input type="radio" id="d2_1" name="design_3" value="1"><label for="d2_1" class="rating-label">1</label></td>
+                        </tr>
+                        <tr>
+                            <td>การตกแต่งบรรยากาศภายในห้อง</td>
+                            <td><input type="radio" id="d3_5" name="design_2" value="5" required><label for="d3_5" class="rating-label">5</label></td>
+                            <td><input type="radio" id="d3_4" name="design_2" value="4"><label for="d3_4" class="rating-label">4</label></td>
+                            <td><input type="radio" id="d3_3" name="design_2" value="3"><label for="d3_3" class="rating-label">3</label></td>
+                            <td><input type="radio" id="d3_2" name="design_2" value="2"><label for="d3_2" class="rating-label">2</label></td>
+                            <td><input type="radio" id="d3_1" name="design_2" value="1"><label for="d3_1" class="rating-label">1</label></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
 
-            <!-- ส่วนที่ 4: มาตราส่วน 1-5 -->
             <div class="section">
                 <h2>4. ความพึงพอใจโดยรวม</h2>
                 <div class="question-box">
                     <label class="main-q">ความสมจริงของ Hologram</label>
-                    <div class="scale-group">
-                        <span>น้อย</span>
-                        <input type="radio" name="hologram_score" value="1" required>
-                        <input type="radio" name="hologram_score" value="2">
-                        <input type="radio" name="hologram_score" value="3">
-                        <input type="radio" name="hologram_score" value="4">
-                        <input type="radio" name="hologram_score" value="5">
-                        <span>มาก</span>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="h1" name="hologram_score" value="1" required><label for="h1" class="rating-label">1</label>
+                        <input type="radio" id="h2" name="hologram_score" value="2"><label for="h2" class="rating-label">2</label>
+                        <input type="radio" id="h3" name="hologram_score" value="3"><label for="h3" class="rating-label">3</label>
+                        <input type="radio" id="h4" name="hologram_score" value="4"><label for="h4" class="rating-label">4</label>
+                        <input type="radio" id="h5" name="hologram_score" value="5"><label for="h5" class="rating-label">5</label>
                     </div>
                 </div>
                 <div class="question-box">
-                    <label class="main-q">ความพึงพอใจในเสียง</label>
-                    <div class="scale-group">
-                        <span>น้อย</span>
-                        <input type="radio" name="hologram_score" value="1" required>
-                        <input type="radio" name="hologram_score" value="2">
-                        <input type="radio" name="hologram_score" value="3">
-                        <input type="radio" name="hologram_score" value="4">
-                        <input type="radio" name="hologram_score" value="5">
-                        <span>มาก</span>
+                    <label class="main-q">ความพึงพอใจในคุณภาพเสียง</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="s1" name="sound_score" value="1" required><label for="s1" class="rating-label">1</label>
+                        <input type="radio" id="s2" name="sound_score" value="2"><label for="s2" class="rating-label">2</label>
+                        <input type="radio" id="s3" name="sound_score" value="3"><label for="s3" class="rating-label">3</label>
+                        <input type="radio" id="s4" name="sound_score" value="4"><label for="s4" class="rating-label">4</label>
+                        <input type="radio" id="s5" name="sound_score" value="5"><label for="s5" class="rating-label">5</label>
                     </div>
                 </div>
             </div>
- 
-            <!-- ส่วนที่ 5: เลือกผี (Checkbox) -->
+
             <div class="section">
                 <h2>5. วิญญาณที่ประทับใจ (เลือกได้หลายตัว)</h2>
                 <div class="ghost-grid">
@@ -139,37 +216,54 @@
     </div>
 
     <script>
-        // แสดง Splash Screen 2.5 วินาที
+        // ควบคุม Splash Screen
         window.onload = () => setTimeout(() => { 
-            document.getElementById('splash-screen').style.opacity = '0';
-            setTimeout(() => document.getElementById('splash-screen').style.display = 'none', 1000);
-        }, 2500);
+            const ss = document.getElementById('splash-screen');
+            ss.style.opacity = '0';
+            setTimeout(() => ss.style.display = 'none', 1000);
+        }, 2000);
 
-        const scriptURL = 'https://script.google.com/macros/s/AKfycby-r-6GWYc2F38A3GSXnKgNg2Paw-OkxcOSpHDjjmzd_OcLWAQkA5EeFVxM3rFjs2Iwmg/exec';
+        // URL สำหรับส่งข้อมูลไปยัง Google Sheets
+        const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL_HERE';
         const form = document.getElementById('assessmentForm');
 
         form.addEventListener('submit', e => {
             e.preventDefault();
             const submitBtn = document.getElementById('submitBtn');
             submitBtn.disabled = true;
-            submitBtn.innerText = 'กำลังส่งข้อมูล...';
+            submitBtn.innerText = 'กำลังบันทึกร่องรอย...';
 
-            // รวมค่า Checkbox ผีเป็นข้อความเดียว
             const formData = new FormData(form);
+            
+            // ประมวลผล Checkbox วิญญาณ
             const ghosts = [];
             document.querySelectorAll('input[name="fav_ghost"]:checked').forEach(cb => ghosts.push(cb.value));
-            formData.append('favorite_ghost', ghosts.join(', '));
+            formData.set('fav_ghost', ghosts.join(', '));
 
             fetch(scriptURL, { method: 'POST', body: formData })
                 .then(res => {
-                    Swal.fire({ title: 'สำเร็จ!', text: 'เราได้รับข้อมูลของคุณแล้ว', icon: 'success', background: '#111', color: '#fff' });
+                    Swal.fire({ 
+                        title: 'สำเร็จ!', 
+                        text: 'ร่องรอยของคุณถูกบันทึกแล้ว', 
+                        icon: 'success', 
+                        background: '#111', 
+                        color: '#fff', 
+                        confirmButtonColor: '#8b0000' 
+                    });
                     form.reset();
                     submitBtn.disabled = false;
                     submitBtn.innerText = 'ยืนยันการส่งข้อมูล';
                 })
                 .catch(err => {
-                    Swal.fire({ title: 'ผิดพลาด!', text: 'ลองใหม่อีกครั้ง', icon: 'error' });
+                    Swal.fire({ 
+                        title: 'ล้มเหลว!', 
+                        text: 'วิญญาณรบกวนสัญญาณ กรุณาลองใหม่อีกครั้ง', 
+                        icon: 'error', 
+                        background: '#111', 
+                        color: '#fff' 
+                    });
                     submitBtn.disabled = false;
+                    submitBtn.innerText = 'ยืนยันการส่งข้อมูล';
                 });
         });
     </script>
