@@ -258,7 +258,7 @@ input[type="radio"]:checked + .age-label::after {
 }
 
 /* =========================================
-   👻 โซนเลือกวิญญาณ 
+   👻 โซนเลือกวิญญาณ (อัปเกรดให้เด่นและมีชีวิต)
    ========================================= */
 .ghost-grid { 
     display: grid; 
@@ -343,18 +343,22 @@ input[type="text"]:focus {
 
 
 /* =========================================
-   🔥 ปุ่ม Submit (โค้ดสั้น + ขยับเต้นตลอดเวลา)
+   🔥 ปุ่ม Submit (ขนาดพอดีข้อความ + ขยับเต้นตลอดเวลา)
    ========================================= */
 button { 
     background: linear-gradient(90deg, #4a0000, #8b0000, #ff1a1a, #8b0000);
     background-size: 300% 300%;
     color: #fff; 
     border: 1px solid var(--bright-red); 
-    padding: 18px; 
+    
+    /* ปรับขนาดให้พอดีข้อความ และจัดให้อยู่กึ่งกลาง */
+    padding: 18px 40px; 
+    display: block; 
+    margin: 0 auto; 
+    
     font-size: 20px; 
     font-weight: bold; 
     cursor: pointer; 
-    width: 100%; 
     border-radius: 8px; 
     text-transform: uppercase; 
     letter-spacing: 2px;
@@ -365,7 +369,7 @@ button {
 }
 
 button:hover:not(:disabled) { 
-    transform: scale(1.03);
+    transform: scale(1.05);
     box-shadow: 0 0 30px rgba(255, 26, 26, 1);
 }
 
@@ -528,4 +532,25 @@ button:disabled {
 .contact-link:hover span {
     color: #fff;
     text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+/* =========================================
+   📱 ปรับแต่งขนาดหน้าจอสำหรับมือถือ (Responsive)
+   ========================================= */
+@media screen and (max-width: 600px) {
+    .ghost-grid { 
+        /* ลดขนาดขั้นต่ำของรูปผีลง (จากเดิม 105px เหลือแค่ 75px) */
+        grid-template-columns: repeat(auto-fit, minmax(75px, 1fr)); 
+        gap: 10px; /* ลดระยะห่างระหว่างรูปนิดหน่อย */
+    }
+
+    .ghost-card span {
+        font-size: 12px; /* ลดขนาดตัวหนังสือชื่อผีลงให้สมส่วนกับรูป */
+    }
+
+    /* แถม: ปรับขนาดปุ่มกดส่งข้อมูลในมือถือให้กะทัดรัดขึ้นนิดนึง */
+    button {
+        padding: 15px 30px;
+        font-size: 18px;
+    }
 }
