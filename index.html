@@ -30,7 +30,7 @@
         .section { padding: 25px; border-bottom: 1px solid #222; }
         h2 { color: var(--bright-red); font-size: 22px; margin-bottom: 20px; border-left: 5px solid var(--blood); padding-left: 15px; }
         .question-box { background: #1a1a1a; padding: 20px; border-radius: 8px; margin-bottom: 20px; border: 1px solid #222; }
-        label.main-q { display: block; margin-bottom: 15px; font-weight: bold; color: #ff4d4d; }
+        label.main-q { display: block; margin-bottom: 15px; font-weight: bold; color: #ffffff; }
 
         /* ตารางคะแนนแบบกล่องกด (Rating Labels) */
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
@@ -110,68 +110,76 @@
 
             <div class="section">
                 <h2>2. ด้านการใช้งาน (UX)</h2>
-                <table>
-                    <thead><tr><th>หัวข้อประเมิน</th><th>5</th><th>4</th><th>3</th><th>2</th><th>1</th></tr></thead>
-                    <tbody>
-                        <tr>
-                            <td>ความแม่นยำในการตรวจจับของเซนเซอร์</td>
-                            <td><input type="radio" id="ux1_5" name="ux_1" value="5" required><label for="ux1_5" class="rating-label">5</label></td>
-                            <td><input type="radio" id="ux1_4" name="ux_1" value="4"><label for="ux1_4" class="rating-label">4</label></td>
-                            <td><input type="radio" id="ux1_3" name="ux_1" value="3"><label for="ux1_3" class="rating-label">3</label></td>
-                            <td><input type="radio" id="ux1_2" name="ux_1" value="2"><label for="ux1_2" class="rating-label">2</label></td>
-                            <td><input type="radio" id="ux1_1" name="ux_1" value="1"><label for="ux1_1" class="rating-label">1</label></td>
-                        </tr>
-                        <tr>
-                            <td>จังหวะการแสดงผล Jumpscare</td>
-                            <td><input type="radio" id="ux2_5" name="ux_2" value="5" required><label for="ux2_5" class="rating-label">5</label></td>
-                            <td><input type="radio" id="ux2_4" name="ux_2" value="4"><label for="ux2_4" class="rating-label">4</label></td>
-                            <td><input type="radio" id="ux2_3" name="ux_2" value="3"><label for="ux2_3" class="rating-label">3</label></td>
-                            <td><input type="radio" id="ux2_2" name="ux_2" value="2"><label for="ux2_2" class="rating-label">2</label></td>
-                            <td><input type="radio" id="ux2_1" name="ux_2" value="1"><label for="ux2_1" class="rating-label">1</label></td>
-                        </tr>
-                        <tr>
-                            <td>ลำดับขั้นตอนมีความลื่นไหลเข้าใจง่าย</td>
-                            <td><input type="radio" id="ux3_5" name="ux_3" value="5" required><label for="ux3_5" class="rating-label">5</label></td>
-                            <td><input type="radio" id="ux3_4" name="ux_3" value="4"><label for="ux3_4" class="rating-label">4</label></td>
-                            <td><input type="radio" id="ux3_3" name="ux_3" value="3"><label for="ux3_3" class="rating-label">3</label></td>
-                            <td><input type="radio" id="ux3_2" name="ux_3" value="2"><label for="ux3_2" class="rating-label">2</label></td>
-                            <td><input type="radio" id="ux3_1" name="ux_3" value="1"><label for="ux3_1" class="rating-label">1</label></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <!-- ข้อ 2.1 -->
+                <div class="question-box">
+                    <label class="main-q">ความแม่นยำในการตรวจจับของเซนเซอร์</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="ux1_1" name="ux_1" value="1" required><label for="ux1_1" class="rating-label">1</label>
+                        <input type="radio" id="ux1_2" name="ux_1" value="2"><label for="ux1_2" class="rating-label">2</label>
+                        <input type="radio" id="ux1_3" name="ux_1" value="3"><label for="ux1_3" class="rating-label">3</label>
+                        <input type="radio" id="ux1_4" name="ux_1" value="4"><label for="ux1_4" class="rating-label">4</label>
+                        <input type="radio" id="ux1_5" name="ux_1" value="5"><label for="ux1_5" class="rating-label">5</label>
+                    </div>
+                </div>
+                <!-- ข้อ 2.2 -->
+                <div class="question-box">
+                    <label class="main-q">จังหวะการแสดงผล Jumpscare</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="ux2_1" name="ux_2" value="1" required><label for="ux2_1" class="rating-label">1</label>
+                        <input type="radio" id="ux2_2" name="ux_2" value="2"><label for="ux2_2" class="rating-label">2</label>
+                        <input type="radio" id="ux2_3" name="ux_2" value="3"><label for="ux2_3" class="rating-label">3</label>
+                        <input type="radio" id="ux2_4" name="ux_2" value="4"><label for="ux2_4" class="rating-label">4</label>
+                        <input type="radio" id="ux2_5" name="ux_2" value="5"><label for="ux2_5" class="rating-label">5</label>
+                    </div>
+                </div>
+                <!-- ข้อ 2.3 -->
+                <div class="question-box">
+                    <label class="main-q">ลำดับขั้นตอนมีความลื่นไหลเข้าใจง่าย</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="ux3_1" name="ux_3" value="1" required><label for="ux3_1" class="rating-label">1</label>
+                        <input type="radio" id="ux3_2" name="ux_3" value="2"><label for="ux3_2" class="rating-label">2</label>
+                        <input type="radio" id="ux3_3" name="ux_3" value="3"><label for="ux3_3" class="rating-label">3</label>
+                        <input type="radio" id="ux3_4" name="ux_3" value="4"><label for="ux3_4" class="rating-label">4</label>
+                        <input type="radio" id="ux3_5" name="ux_3" value="5"><label for="ux3_5" class="rating-label">5</label>
+                    </div>
+                </div>
             </div>
 
             <div class="section">
                 <h2>3. ด้านเทคโนโลยีและงานออกแบบ</h2>
-                <table>
-                    <thead><tr><th>หัวข้อประเมิน</th><th>5</th><th>4</th><th>3</th><th>2</th><th>1</th></tr></thead>
-                    <tbody>
-                        <tr>
-                            <td>ความสวยงามและรายละเอียดตัวละคร</td>
-                            <td><input type="radio" id="d1_5" name="design_1" value="5" required><label for="d1_5" class="rating-label">5</label></td>
-                            <td><input type="radio" id="d1_4" name="design_1" value="4"><label for="d1_4" class="rating-label">4</label></td>
-                            <td><input type="radio" id="d1_3" name="design_1" value="3"><label for="d1_3" class="rating-label">3</label></td>
-                            <td><input type="radio" id="d1_2" name="design_1" value="2"><label for="d1_2" class="rating-label">2</label></td>
-                            <td><input type="radio" id="d1_1" name="design_1" value="1"><label for="d1_1" class="rating-label">1</label></td>
-                        </tr>
-                        <tr>
-                            <td>คุณภาพของสื่อแสดงผล (Visual Quality)</td>
-                            <td><input type="radio" id="d2_5" name="design_3" value="5" required><label for="d2_5" class="rating-label">5</label></td>
-                            <td><input type="radio" id="d2_4" name="design_3" value="4"><label for="d2_4" class="rating-label">4</label></td>
-                            <td><input type="radio" id="d2_3" name="design_3" value="3"><label for="d2_3" class="rating-label">3</label></td>
-                            <td><input type="radio" id="d2_2" name="design_3" value="2"><label for="d2_2" class="rating-label">2</label></td>
-                            <td><input type="radio" id="d2_1" name="design_3" value="1"><label for="d2_1" class="rating-label">1</label></td>
-                        </tr>
-                        <tr>
-                            <td>การตกแต่งบรรยากาศภายในห้อง</td>
-                            <td><input type="radio" id="d3_5" name="design_2" value="5" required><label for="d3_5" class="rating-label">5</label></td>
-                            <td><input type="radio" id="d3_4" name="design_2" value="4"><label for="d3_4" class="rating-label">4</label></td>
-                            <td><input type="radio" id="d3_3" name="design_2" value="3"><label for="d3_3" class="rating-label">3</label></td>
-                            <td><input type="radio" id="d3_2" name="design_2" value="2"><label for="d3_2" class="rating-label">2</label></td>
-                            <td><input type="radio" id="d3_1" name="design_2" value="1"><label for="d3_1" class="rating-label">1</label></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <!-- ข้อ 3.1 -->
+                <div class="question-box">
+                    <label class="main-q">ความสวยงามและรายละเอียดตัวละคร</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="d1_1" name="design_1" value="1" required><label for="d1_1" class="rating-label">1</label>
+                        <input type="radio" id="d1_2" name="design_1" value="2"><label for="d1_2" class="rating-label">2</label>
+                        <input type="radio" id="d1_3" name="design_1" value="3"><label for="d1_3" class="rating-label">3</label>
+                        <input type="radio" id="d1_4" name="design_1" value="4"><label for="d1_4" class="rating-label">4</label>
+                        <input type="radio" id="d1_5" name="design_1" value="5"><label for="d1_5" class="rating-label">5</label>
+                    </div>
+                </div>
+                <!-- ข้อ 3.2 -->
+                <div class="question-box">
+                    <label class="main-q">คุณภาพของสื่อแสดงผล (Visual Quality)</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="d2_1" name="design_3" value="1" required><label for="d2_1" class="rating-label">1</label>
+                        <input type="radio" id="d2_2" name="design_3" value="2"><label for="d2_2" class="rating-label">2</label>
+                        <input type="radio" id="d2_3" name="design_3" value="3"><label for="d2_3" class="rating-label">3</label>
+                        <input type="radio" id="d2_4" name="design_3" value="4"><label for="d2_4" class="rating-label">4</label>
+                        <input type="radio" id="d2_5" name="design_3" value="5"><label for="d2_5" class="rating-label">5</label>
+                    </div>
+                </div>
+                <!-- ข้อ 3.3 -->
+                <div class="question-box">
+                    <label class="main-q">การตกแต่งบรรยากาศภายในห้อง</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="d3_1" name="design_2" value="1" required><label for="d3_1" class="rating-label">1</label>
+                        <input type="radio" id="d3_2" name="design_2" value="2"><label for="d3_2" class="rating-label">2</label>
+                        <input type="radio" id="d3_3" name="design_2" value="3"><label for="d3_3" class="rating-label">3</label>
+                        <input type="radio" id="d3_4" name="design_2" value="4"><label for="d3_4" class="rating-label">4</label>
+                        <input type="radio" id="d3_5" name="design_2" value="5"><label for="d3_5" class="rating-label">5</label>
+                    </div>
+                </div>
             </div>
 
             <div class="section">
