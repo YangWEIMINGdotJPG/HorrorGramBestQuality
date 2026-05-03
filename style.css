@@ -257,52 +257,74 @@ input[type="radio"]:checked + .age-label::after {
     100% { transform: translateX(100%); }
 }
 
-/* Ghost Grid Selection */
+/* =========================================
+   👻 โซนเลือกวิญญาณ 
+   ========================================= */
 .ghost-grid { 
     display: grid; 
-    grid-template-columns: repeat(auto-fit, minmax(90px, 1fr)); 
-    gap: 10px; 
+    grid-template-columns: repeat(auto-fit, minmax(105px, 1fr)); 
+    gap: 15px; 
+    padding: 10px 0;
 }
 
 .ghost-card { 
     cursor: pointer; 
     text-align: center; 
-    font-size: 12px; 
+    font-size: 14px; 
+    position: relative;
 }
 
 .ghost-card img { 
     width: 100%; 
     aspect-ratio: 1; 
     object-fit: cover; 
-    border-radius: 8px; 
-    border: 2px solid #333; 
-    filter: grayscale(100%); 
-    transition: 0.3s; 
+    border-radius: 12px; 
+    border: 3px solid #222; 
+    filter: grayscale(100%) brightness(0.5); 
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+}
+
+.ghost-card:hover img {
+    filter: grayscale(40%) brightness(0.9); 
+    transform: scale(1.05) translateY(-5px); 
+    border-color: #550000;
+    box-shadow: 0 8px 20px rgba(139, 0, 0, 0.5);
 }
 
 .ghost-card span { 
     display: block; 
-    margin-top: 5px; 
-    color: #888; 
+    margin-top: 8px; 
+    color: #666; 
+    transition: 0.3s;
+    letter-spacing: 1px;
 }
 
 .ghost-card input:checked + img { 
-    border-color: var(--bright-red); 
-    filter: grayscale(0%); 
-    transform: translateY(-5px); 
-    box-shadow: 0 5px 15px rgba(255,0,0,0.3); 
+    border-color: #ff1a1a; 
+    filter: grayscale(0%) brightness(1.1) contrast(1.2); 
+    transform: scale(1.1) translateY(-8px); 
+    box-shadow: 0 10px 25px rgba(255, 26, 26, 0.8), 0 0 15px rgba(255, 26, 26, 0.5); 
+    animation: ghostBreath 2s infinite alternate; 
 }
 
 .ghost-card input:checked ~ span { 
-    color: var(--bright-red); 
-    font-weight: bold; 
+    color: #ff1a1a; 
+    font-weight: 800; 
+    text-shadow: 0 0 10px rgba(255, 26, 26, 0.6);
+    transform: scale(1.1); 
 }
 
 .ghost-card input { 
     display: none; 
 }
 
-/* Input & Button */
+@keyframes ghostBreath {
+    0% { box-shadow: 0 5px 15px rgba(255, 26, 26, 0.5), 0 0 5px rgba(255, 26, 26, 0.3); }
+    100% { box-shadow: 0 15px 35px rgba(255, 26, 26, 0.9), 0 0 25px rgba(255, 26, 26, 0.7); }
+}
+
+/* Input text */
 input[type="text"] { 
     width: 100%; 
     padding: 14px; 
@@ -319,32 +341,59 @@ input[type="text"]:focus {
     box-shadow: 0 0 10px rgba(255,0,0,0.2); 
 }
 
+
+/* =========================================
+   🔥 ปุ่ม Submit (โค้ดสั้น + ขยับเต้นตลอดเวลา)
+   ========================================= */
 button { 
-    background: var(--blood); 
+    background: linear-gradient(90deg, #4a0000, #8b0000, #ff1a1a, #8b0000);
+    background-size: 300% 300%;
     color: #fff; 
-    border: none; 
-    padding: 20px; 
-    font-size: 18px; 
+    border: 1px solid var(--bright-red); 
+    padding: 18px; 
+    font-size: 20px; 
+    font-weight: bold; 
     cursor: pointer; 
     width: 100%; 
-    font-weight: bold; 
-    transition: 0.3s; 
+    border-radius: 8px; 
     text-transform: uppercase; 
-    letter-spacing: 2px; 
-    margin-top: 10px; 
+    letter-spacing: 2px;
+    
+    /* สั่งให้อนิเมชันเต้นและสีไหลตลอดเวลา */
+    animation: breathingGlow 2s infinite alternate, bgShift 3s infinite linear;
+    transition: 0.3s;
 }
 
 button:hover:not(:disabled) { 
-    background: #ff0000; 
-    box-shadow: 0 0 25px #ff0000; 
+    transform: scale(1.03);
+    box-shadow: 0 0 30px rgba(255, 26, 26, 1);
 }
 
 button:disabled { 
-    background: #333; 
+    background: #1a1a1a; 
+    border-color: #333; 
+    color: #555; 
     cursor: not-allowed; 
-    color: #777; 
+    animation: none; 
+    box-shadow: none;
 }
 
+/* 🫀 เอฟเฟกต์เต้นตุบๆ + เรืองแสง */
+@keyframes breathingGlow {
+    0% { box-shadow: 0 0 10px rgba(139, 0, 0, 0.5); }
+    100% { box-shadow: 0 0 25px rgba(255, 26, 26, 0.9); transform: scale(1.01); }
+}
+
+/* 🩸 เอฟเฟกต์สีเลือดไหลวนที่พื้นหลัง */
+@keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+
+/* =========================================
+   📱 หน้าจอโชว์ Instagram Intro
+   ========================================= */
 #splash-screen { 
     position: fixed; 
     top: 0; 
@@ -369,9 +418,6 @@ button:disabled {
     to { transform: scale(1.1); filter: drop-shadow(0 0 25px #f00); } 
 }
 
-/* =========================================
-   📱 หน้าจอโชว์ Instagram Credit
-   ========================================= */
 #ig-screen { 
     position: fixed; 
     top: 0; left: 0; 
@@ -412,8 +458,74 @@ button:disabled {
     100% { transform: scale(1.03); filter: drop-shadow(0 0 15px rgba(255,255,255,0.3)); }
 }
 
-/* เอฟเฟกต์ค่อยๆ ปรากฏตัวสำหรับหน้าแบบประเมิน */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* =========================================
+   🔗 Footer Contact (ปุ่มติดต่อ IG แบบกระจก)
+   ========================================= */
+.footer-contact {
+    text-align: center;
+    padding: 0 25px 25px 25px;
+    margin-top: 20px;
+    border-top: 1px dashed #333; 
+    padding-top: 25px;
+}
+
+.contact-text {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
+    margin-top: 0;
+    letter-spacing: 0.5px;
+}
+
+.contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(5px);
+    padding: 12px 30px;
+    border-radius: 50px; 
+    border: 1px solid #333;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+}
+
+.contact-link img {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    filter: grayscale(100%) opacity(0.6); 
+    transition: 0.4s ease;
+}
+
+.contact-link span {
+    color: #888;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1px;
+    transition: 0.4s ease;
+}
+
+.contact-link:hover {
+    border-color: var(--bright-red);
+    background: rgba(139, 0, 0, 0.15);
+    box-shadow: 0 0 20px rgba(255, 26, 26, 0.5);
+    transform: translateY(-5px) scale(1.02);
+}
+
+.contact-link:hover img {
+    filter: grayscale(0%) opacity(1); 
+    transform: scale(1.2) rotate(5deg); 
+}
+
+.contact-link:hover span {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
 }
