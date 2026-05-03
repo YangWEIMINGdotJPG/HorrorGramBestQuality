@@ -143,15 +143,13 @@
             background-color: #1a0000;
         }
 
-        /* 🔴 สไตล์สำหรับตารางเลือกรูปผี */
         .ghost-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr); /* แบ่งเป็น 3 คอลัมน์ */
+            grid-template-columns: repeat(3, 1fr); 
             gap: 10px;
             margin-top: 10px;
         }
         
-        /* ให้รูปที่ 7 อยู่ตรงกลางแถวสุดท้าย */
         .ghost-card:nth-child(7) {
             grid-column: 2; 
         }
@@ -163,18 +161,17 @@
             position: relative;
         }
 
-        /* ซ่อนปุ่ม Radio ของจริง */
         .ghost-card input[type="radio"] {
             display: none;
         }
 
         .ghost-card img {
             width: 100%;
-            aspect-ratio: 1 / 1; /* บังคับให้เป็นสี่เหลี่ยมจัตุรัส */
+            aspect-ratio: 1 / 1; 
             object-fit: cover;
             border-radius: 8px;
             border: 2px solid #333;
-            filter: grayscale(80%) brightness(0.5); /* มืดๆ หม่นๆ */
+            filter: grayscale(80%) brightness(0.5); 
             transition: all 0.3s ease;
         }
 
@@ -186,18 +183,16 @@
             transition: all 0.3s ease;
         }
 
-        /* เอฟเฟกต์ตอนชี้เมาส์ */
         .ghost-card:hover img {
             filter: grayscale(30%) brightness(0.8);
             border-color: #666;
         }
 
-        /* เอฟเฟกต์ตอนถูกเลือก (คลิก) */
         .ghost-card input[type="radio"]:checked + img {
-            filter: grayscale(0%) brightness(1); /* สีสดใสขึ้น */
-            border-color: #ff0000; /* ขอบแดง */
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8); /* เรืองแสง */
-            transform: scale(1.05); /* เด้งขึ้นมานิดนึง */
+            filter: grayscale(0%) brightness(1); 
+            border-color: #ff0000; 
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.8); 
+            transform: scale(1.05); 
         }
 
         .ghost-card input[type="radio"]:checked ~ span {
@@ -254,7 +249,7 @@
 </head>
 <body>
 
-    <!-- 0. หน้า Splash Screen (โลโก้) -->
+    <!-- 0. หน้า Splash Screen (โลโก้) แก้ไขให้ดึงรูป LogoHG.png มาแสดง -->
     <div id="splash-screen">
         <img src="LogoHG.png" alt="HorrorGram Logo" id="logo-img">
     </div>
@@ -281,43 +276,36 @@
             <div class="form-group">
                 <label class="main-label">ประทับใจวิญญาณตนไหนมากที่สุด?:</label>
                 <div class="ghost-grid">
-                    <!-- รูปที่ 1 -->
                     <label class="ghost-card">
                         <input type="radio" name="favorite_ghost" value="Ghost_1" required>
                         <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+1" alt="ผีตัวที่ 1">
                         <span>ผีตัวที่ 1</span>
                     </label>
-                    <!-- รูปที่ 2 -->
                     <label class="ghost-card">
                         <input type="radio" name="favorite_ghost" value="Ghost_2" required>
                         <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+2" alt="ผีตัวที่ 2">
                         <span>ผีตัวที่ 2</span>
                     </label>
-                    <!-- รูปที่ 3 -->
                     <label class="ghost-card">
                         <input type="radio" name="favorite_ghost" value="Ghost_3" required>
                         <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+3" alt="ผีตัวที่ 3">
                         <span>ผีตัวที่ 3</span>
                     </label>
-                    <!-- รูปที่ 4 -->
                     <label class="ghost-card">
                         <input type="radio" name="favorite_ghost" value="Ghost_4" required>
                         <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+4" alt="ผีตัวที่ 4">
                         <span>ผีตัวที่ 4</span>
                     </label>
-                    <!-- รูปที่ 5 -->
                     <label class="ghost-card">
                         <input type="radio" name="favorite_ghost" value="Ghost_5" required>
                         <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+5" alt="ผีตัวที่ 5">
                         <span>ผีตัวที่ 5</span>
                     </label>
-                    <!-- รูปที่ 6 -->
                     <label class="ghost-card">
                         <input type="radio" name="favorite_ghost" value="Ghost_6" required>
                         <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+6" alt="ผีตัวที่ 6">
                         <span>ผีตัวที่ 6</span>
                     </label>
-                    <!-- รูปที่ 7 (จะจัดให้อยู่ตรงกลางแถวที่ 3 อัตโนมัติ) -->
                     <label class="ghost-card">
                         <input type="radio" name="favorite_ghost" value="Ghost_7" required>
                         <img src="https://via.placeholder.com/150/111/ff0000?text=Ghost+7" alt="ผีตัวที่ 7">
@@ -418,7 +406,6 @@
             window.scrollTo(0, 0);
         }
 
-        // ฝัง URL ของคุณไว้ตรงนี้เรียบร้อยแล้ว!
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwNozFr7rVaqdynguigFN4PSilW9OBGegsV1JnrB1tEfFWGhe8gUQPXYLNFDlysA2YjEg/exec';
         const form = document.getElementById('assessmentForm');
 
@@ -445,7 +432,6 @@
                     
                     form.reset(); 
                     
-                    // รีเซ็ตการแสดงผลรูปที่ถูกเลือกให้กลับไปเป็นแบบเดิม
                     document.querySelectorAll('.ghost-card input[type="radio"]').forEach(radio => {
                         radio.checked = false;
                     });
