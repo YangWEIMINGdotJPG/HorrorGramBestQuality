@@ -25,7 +25,34 @@
             overflow-x: hidden;
         }
 
-        /* 🔴 แอนิเมชัน 1: ชีพจรเลือด (Blood Pulse) เรืองแสงวูบวาบ */
+        /* 🔴 1. สไตล์สำหรับหน้าจอโลโก้ (Splash Screen) */
+        #splash-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-color: #000; /* พื้นหลังดำสนิท */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999; /* บังคับให้อยู่หน้าสุดเสมอ */
+            transition: opacity 1s ease-out; /* เอฟเฟกต์ตอนเฟดหายไป (ใช้เวลา 1 วินาที) */
+        }
+
+        /* เอฟเฟกต์ให้รูปโลโก้เต้นเป็นจังหวะชีพจร */
+        #logo-img {
+            max-width: 250px;
+            width: 80%;
+            animation: pulseLogo 2s infinite alternate;
+        }
+
+        @keyframes pulseLogo {
+            0% { transform: scale(1); filter: drop-shadow(0 0 5px #ff0000); }
+            100% { transform: scale(1.05); filter: drop-shadow(0 0 25px #8b0000); }
+        }
+        /* ------------------------------------------- */
+
         @keyframes bloodPulse {
             0% { box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); }
             50% { box-shadow: 0 0 35px rgba(255, 0, 0, 0.9); }
@@ -40,10 +67,9 @@
             width: 100%;
             max-width: 500px;
             text-align: center;
-            animation: bloodPulse 3s infinite ease-in-out; /* เรียกใช้ชีพจรเลือด */
+            animation: bloodPulse 3s infinite ease-in-out;
         }
 
-        /* 👻 แอนิเมชัน 2: วิญญาณปรากฏ (Creepy Reveal) ค่อยๆ ซูมเข้า */
         @keyframes creepIn {
             0% { opacity: 0; transform: scale(0.85) translateY(20px); filter: blur(5px); }
             100% { opacity: 1; transform: scale(1) translateY(0); filter: blur(0); }
@@ -128,7 +154,6 @@
             background-color: #1a0000;
         }
 
-        /* ⚠️ แอนิเมชัน 3: ปุ่มสั่นผวา (Glitch Shake) */
         @keyframes glitchShake {
             0% { transform: translate(0) }
             20% { transform: translate(-2px, 2px) }
@@ -156,7 +181,7 @@
             background-color: #8b0000;
             box-shadow: 0 0 15px #ff0000;
             text-shadow: 0 0 5px #fff;
-            animation: glitchShake 0.3s infinite; /* เรียกใช้ปุ่มสั่น */
+            animation: glitchShake 0.3s infinite;
         }
         
         button:active:not(:disabled) { transform: scale(0.98); }
@@ -175,6 +200,12 @@
     </style>
 </head>
 <body>
+
+    <!-- 0. หน้า Splash Screen (โลโก้) -->
+    <div id="splash-screen">
+        <!-- ⚠️ แก้ไขลิงก์รูปภาพโลโก้ตรง src ด้านล่างนี้ ให้เป็นรูปของคุณ -->
+        <img src="https://via.placeholder.com/300x300/000000/ff0000?text=HorrorGram+Logo" alt="Logo" id="logo-img">
+    </div>
 
     <!-- 1. หน้า Intro -->
     <div id="intro-section" class="container">
@@ -259,12 +290,26 @@
             type();
         }
 
+        // จัดการเรื่องการแสดงผลตามลำดับเวลา
         window.onload = function() {
-            typeWriter("typing-h1", textH1, 100, function() {
-                typeWriter("typing-p", textP, 60, function() {
-                    document.getElementById("enter-btn").classList.add("show");
-                });
-            });
+            // 1. รอให้โลโก้แสดง 2.5 วินาที (2500ms) แล้วค่อยเริ่มเฟดออก
+            setTimeout(function() {
+                const splash = document.getElementById('splash-screen');
+                splash.style.opacity = '0'; // สั่งให้โปร่งใส
+
+                // 2. รออีก 1 วินาที ให้เอฟเฟกต์เฟดออกทำงานเสร็จ ค่อยซ่อนกล่องโลโก้ทิ้ง
+                setTimeout(function() {
+                    splash.style.display = 'none';
+                    
+                    // 3. หลังจากหน้าโลโก้หายไปสนิทแล้ว จึงเริ่มเล่นเอฟเฟกต์เครื่องพิมพ์ดีด
+                    typeWriter("typing-h1", textH1, 100, function() {
+                        typeWriter("typing-p", textP, 60, function() {
+                            document.getElementById("enter-btn").classList.add("show");
+                        });
+                    });
+                }, 1000); 
+
+            }, 2500); 
         };
 
         function enterAssessment() {
@@ -272,7 +317,6 @@
             const assessmentSection = document.getElementById('assessment-section');
             assessmentSection.style.display = 'block';
             
-            // เพิ่มคลาส creepy-show เพื่อเรียกใช้แอนิเมชันตอนเปลี่ยนหน้า
             assessmentSection.classList.add('creepy-show'); 
             
             window.scrollTo(0, 0);
