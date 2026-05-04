@@ -3,170 +3,253 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stardust Core OS | Galaxy Edition</title>
-    
-    <!-- เชื่อมต่อ Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600&family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
-    
-    <!-- เชื่อมต่อ SweetAlert2 -->
+    <title>HorrorGram - แบบประเมินประสิทธิภาพสมบูรณ์</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;700&display=swap" rel="stylesheet">
     
-    <!-- เชื่อมต่อ CSS -->
+    <!-- เชื่อมต่อกับไฟล์ CSS -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    
+    <!-- 1. หน้าจอโลโก้ HorrorGram -->
+    <div id="splash-screen"><img src="LogoHG.png" id="logo-img" alt="Logo"></div>
 
-    <!-- หน้าจอเปิดตัวโลโก้ (Splash Screen) -->
-    <div id="splash-screen">
-        <!-- เปลี่ยน LogoHG.png เป็นชื่อไฟล์รูปโลโก้ของคุณ -->
-        <img src="LogoSC.png" alt="StardustCoreLogo" id="splash-logo">
-        <div class="loading-text">INITIALIZING SYSTEM...</div>
-    </div>
-
-    <!-- หน้าจอโชว์ IG -->
+    <!-- 2. หน้าจอ Credit IG -->
     <div id="ig-screen">
         <div class="ig-content">
-            <!-- เปลี่ยน Instagram_icon.png เป็นชื่อไฟล์รูปไอคอน IG ของคุณ -->
             <img src="Instagram_icon.png" class="ig-icon-img" alt="Instagram">
             <span class="ig-handle">sileiabeans</span>
         </div>
     </div>
 
-    <!-- เอฟเฟกต์ดาวระยิบระยับพื้นหลัง -->
-    <div class="starfield"></div>
-
-    <main class="container" id="main-content" style="display: none; opacity: 0; transform: translateY(20px); transition: all 1s ease-in-out;">        <!-- ส่วนหัว (Hero) -->
-        <header class="hero">
-            <div class="status-badge">System Online</div>
-            <h1>Stardust Core</h1>
-            <p class="subtitle">บันทึกพิกัดและประเมินสถานะการสำรวจเนบิวลา</p>
-        </header>
+    <!-- 3. หน้าจอแบบประเมินหลัก (Container) -->
+    <div class="container">
+        <img src="Banner.png" class="header-img" alt="Banner">
+        
+        <div class="survivor-header">
+            <h1 class="survivor-title flicker-text">บันทึกผู้รอดชีวิต</h1>
+            <p class="survivor-subtext">โปรดทิ้งร่องรอยของคุณไว้ด้านล่าง</p>
+        </div>
 
         <form id="assessmentForm">
-            <!-- ส่วนที่ 1: ข้อมูลนักบิน -->
-            <section class="form-section">
-                <div class="section-label">01 / PERSONNEL IDENTITY</div>
-                
-                <div class="input-group">
-                    <label for="pilot-name">นามเรียกขาน (Name)</label>
-                    <input type="text" id="pilot-name" name="name" placeholder="ENTER PILOT NAME..." required>
+            <div class="section">
+                <h2>ข้อมูลส่วนบุคคล</h2>
+                <div class="question-box">
+                    <label class="main-q">นามของผู้รอดชีวิต</label>
+                    <input type="text" name="name" placeholder="ระบุนามของคุณ..." required>
                 </div>
-
-                <div class="input-group">
-                    <label>ระดับชั้นอายุ (Age)</label>
-                    <div class="custom-select">
-                        <input type="radio" id="rank1" name="rank" value="ต่ำกว่า 19 ปี" required>
-                        <label for="rank1" class="select-box">ต่ำกว่า 19 ปี</label>
-                        
-                        <input type="radio" id="rank2" name="rank" value="19-23 ปี">
-                        <label for="rank2" class="select-box">19-23 ปี</label>
-                        
-                        <input type="radio" id="rank3" name="rank" value="23">
-                        <label for="rank3" class="select-box">23 ปีขึ้นไป</label>
-                    </div>
-                </div>
-            </section>
-
-            <!-- ส่วนที่ 2: การประเมินภารกิจ -->
-            <section class="form-section">
-                <div class="section-label">02 / MISSION FEEDBACK</div>
-
-                <div class="input-group">
-                    <label>ความเสถียรของระบบวาร์ป (Warp Drive Stability)</label>
-                    <div class="star-rating">
-                        <input type="radio" id="r5" name="rate" value="5" required>
-                        <label for="r5" class="rating-label">5</label>
-                        
-                        <input type="radio" id="r4" name="rate" value="4">
-                        <label for="r4" class="rating-label">4</label>
-                        
-                        <input type="radio" id="r3" name="rate" value="3">
-                        <label for="r3" class="rating-label">3</label>
-                        
-                        <input type="radio" id="r2" name="rate" value="2">
-                        <label for="r2" class="rating-label">2</label>
-                        
-                        <input type="radio" id="r1" name="rate" value="1">
-                        <label for="r1" class="rating-label">1</label>
-                    </div>
-                </div>
-
-                <div class="input-group">
-                    <label for="message">ข้อความถึงศูนย์ควบคุม (Logs)</label>
-                    <textarea id="message" name="feedback" rows="4" placeholder="TRANSMIT YOUR MESSAGE HERE..."></textarea>
-                </div>
-            </section>
-
-
-            <!-- ส่วนที่ 3: เลือกตัวละคร (Entity Encounter) -->
-            <section class="form-section">
-                <div class="section-label">03 / ENTITY ENCOUNTER</div>
-
-                <div class="input-group">
-                    <label>ระบุสิ่งมีชีวิต/ตัวละครที่คุณประทับใจมากที่สุดในภารกิจนี้</label>
+                <div class="question-box">
+                    <label class="main-q">อายุ</label>
+                    <input type="radio" id="age1" name="age" value="ต่ำกว่า 19 ปี" required>
+                    <label for="age1" class="age-label">ต่ำกว่า 19 ปี</label>
                     
-                    <div class="character-grid">
-                        <!-- ตัวละครที่ 1 -->
-                        <label class="character-card">
-                            <input type="radio" name="fav_character" value="Character 1" required>
-                            <!-- อย่าลืมเปลี่ยน src เป็นชื่อไฟล์รูปของคุณ เช่น char1.png -->
-                            <img src="Asteroisuar.png" alt="Char 1">
-                            <span class="char-name">ASTEROISUAR</span>
-                        </label>
+                    <input type="radio" id="age2" name="age" value="19-23 ปี">
+                    <label for="age2" class="age-label">19-23 ปี</label>
+                    
+                    <input type="radio" id="age3" name="age" value="24 ปีขึ้นไป">
+                    <label for="age3" class="age-label">23 ปีขึ้นไป</label>
+                </div>
+            </div>
 
-                        <!-- ตัวละครที่ 2 -->
-                        <label class="character-card">
-                            <input type="radio" name="fav_character" value="Character 2">
-                            <img src="Yang.png" alt="Char 2">
-                            <span class="char-name">YANGWEIMING</span>
-                        </label>
-
-                        <!-- ตัวละครที่ 3 -->
-                        <label class="character-card">
-                            <input type="radio" name="fav_character" value="Character 3">
-                            <img src="Korsdaver.png" alt="Char 3">
-                            <span class="char-name">KORS DAVER 03</span>
-                        </label>
-
-                        <!-- ตัวละครที่ 4 -->
-                        <label class="character-card">
-                            <input type="radio" name="fav_character" value="Character 4">
-                            <img src="Jaxx.png" alt="Char 4">
-                            <span class="char-name">JAXX 04</span>
-                        </label>
-
-                        <!-- ตัวละครที่ 5 -->
-                        <label class="character-card">
-                            <input type="radio" name="fav_character" value="Character 5">
-                            <img src="Chariot.png" alt="Char 5">
-                            <span class="char-name">CHARIOT</span>
-                        </label>
-
-                        <!-- ตัวละครที่ 6 -->
-                        <label class="character-card">
-                            <input type="radio" name="fav_character" value="Character 6">
-                            <img src="Ego.png" alt="Char 6">
-                            <span class="char-name">E.G.O</span>
-                        </label>
+            <!-- เริ่มส่วนคำถามที่เรียง 5 4 3 2 1 -->
+            <div class="section">
+                <h2>1. User Interface - UI</h2>
+                <div class="question-box">
+                    <label class="main-q">ความสวยงามและรายละเอียดของตัวละครผี</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="ui1_5" name="ui_1" value="5" required><label for="ui1_5" class="rating-label">5</label>
+                        <input type="radio" id="ui1_4" name="ui_1" value="4"><label for="ui1_4" class="rating-label">4</label>
+                        <input type="radio" id="ui1_3" name="ui_1" value="3"><label for="ui1_3" class="rating-label">3</label>
+                        <input type="radio" id="ui1_2" name="ui_1" value="2"><label for="ui1_2" class="rating-label">2</label>
+                        <input type="radio" id="ui1_1" name="ui_1" value="1"><label for="ui1_1" class="rating-label">1</label>
                     </div>
                 </div>
-            </section>
+                <div class="question-box">
+                    <label class="main-q">การตกแต่งบรรยากาศบูธมีความสอดคล้องกัน</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="ui2_5" name="ui_2" value="5" required><label for="ui2_5" class="rating-label">5</label>
+                        <input type="radio" id="ui2_4" name="ui_2" value="4"><label for="ui2_4" class="rating-label">4</label>
+                        <input type="radio" id="ui2_3" name="ui_2" value="3"><label for="ui2_3" class="rating-label">3</label>
+                        <input type="radio" id="ui2_2" name="ui_2" value="2"><label for="ui2_2" class="rating-label">2</label>
+                        <input type="radio" id="ui2_1" name="ui_2" value="1"><label for="ui2_1" class="rating-label">1</label>
+                    </div>
+                </div>
+                <div class="question-box">
+                    <label class="main-q">ความชัดเจนและการจัดวางองค์ประกอบบนบอร์ด</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="ui3_5" name="ui_3" value="5" required><label for="ui3_5" class="rating-label">5</label>
+                        <input type="radio" id="ui3_4" name="ui_3" value="4"><label for="ui3_4" class="rating-label">4</label>
+                        <input type="radio" id="ui3_3" name="ui_3" value="3"><label for="ui3_3" class="rating-label">3</label>
+                        <input type="radio" id="ui3_2" name="ui_3" value="2"><label for="ui3_2" class="rating-label">2</label>
+                        <input type="radio" id="ui3_1" name="ui_3" value="1"><label for="ui3_1" class="rating-label">1</label>
+                    </div>
+                </div>
+                <div class="question-box">
+                    <label class="main-q">การจัดวางพื้นที่ใช้งาน (Spatial Design)</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="ui4_5" name="ui_4" value="5" required><label for="ui4_5" class="rating-label">5</label>
+                        <input type="radio" id="ui4_4" name="ui_4" value="4"><label for="ui4_4" class="rating-label">4</label>
+                        <input type="radio" id="ui4_3" name="ui_4" value="3"><label for="ui4_3" class="rating-label">3</label>
+                        <input type="radio" id="ui4_2" name="ui_4" value="2"><label for="ui4_2" class="rating-label">2</label>
+                        <input type="radio" id="ui4_1" name="ui_4" value="1"><label for="ui4_1" class="rating-label">1</label>
+                    </div>
+                </div>
+                <div class="question-box">
+                    <label class="main-q">ความสร้างสรรค์ในการออกแบบ (Creativity)</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="ui5_5" name="ui_5" value="5" required><label for="ui5_5" class="rating-label">5</label>
+                        <input type="radio" id="ui5_4" name="ui_5" value="4"><label for="ui5_4" class="rating-label">4</label>
+                        <input type="radio" id="ui5_3" name="ui_5" value="3"><label for="ui5_3" class="rating-label">3</label>
+                        <input type="radio" id="ui5_2" name="ui_5" value="2"><label for="ui5_2" class="rating-label">2</label>
+                        <input type="radio" id="ui5_1" name="ui_5" value="1"><label for="ui5_1" class="rating-label">1</label>
+                    </div>
+                </div>
+                <div class="question-box">
+                    <label class="main-q">คุณภาพของสื่อแสดงผล (Visual Quality)</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="ui6_5" name="ui_6" value="5" required><label for="ui6_5" class="rating-label">5</label>
+                        <input type="radio" id="ui6_4" name="ui_6" value="4"><label for="ui6_4" class="rating-label">4</label>
+                        <input type="radio" id="ui6_3" name="ui_6" value="3"><label for="ui6_3" class="rating-label">3</label>
+                        <input type="radio" id="ui6_2" name="ui_6" value="2"><label for="ui6_2" class="rating-label">2</label>
+                        <input type="radio" id="ui6_1" name="ui_6" value="1"><label for="ui6_1" class="rating-label">1</label>
+                    </div>
+                </div>
+            </div>
 
-            <!-- ปุ่มส่งข้อมูล -->
-            <button type="submit" id="submitBtn">INITIATE LAUNCH</button>
+            <div class="section">
+                <h2>2. User Experience - UX</h2>
+                <div class="question-box">
+                    <label class="main-q">ความแม่นยำในการตรวจจับของเซนเซอร์</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="ux1_5" name="ux_1" value="5" required><label for="ux1_5" class="rating-label">5</label>
+                        <input type="radio" id="ux1_4" name="ux_1" value="4"><label for="ux1_4" class="rating-label">4</label>
+                        <input type="radio" id="ux1_3" name="ux_1" value="3"><label for="ux1_3" class="rating-label">3</label>
+                        <input type="radio" id="ux1_2" name="ux_1" value="2"><label for="ux1_2" class="rating-label">2</label>
+                        <input type="radio" id="ux1_1" name="ux_1" value="1"><label for="ux1_1" class="rating-label">1</label>
+                    </div>
+                </div>
+                <div class="question-box">
+                    <label class="main-q">จังหวะการแสดงผล Jumpscare</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="ux2_5" name="ux_2" value="5" required><label for="ux2_5" class="rating-label">5</label>
+                        <input type="radio" id="ux2_4" name="ux_2" value="4"><label for="ux2_4" class="rating-label">4</label>
+                        <input type="radio" id="ux2_3" name="ux_2" value="3"><label for="ux2_3" class="rating-label">3</label>
+                        <input type="radio" id="ux2_2" name="ux_2" value="2"><label for="ux2_2" class="rating-label">2</label>
+                        <input type="radio" id="ux2_1" name="ux_2" value="1"><label for="ux2_1" class="rating-label">1</label>
+                    </div>
+                </div>
+                <div class="question-box">
+                    <label class="main-q">ลำดับขั้นตอนมีความลื่นไหลเข้าใจง่าย</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="ux3_5" name="ux_3" value="5" required><label for="ux3_5" class="rating-label">5</label>
+                        <input type="radio" id="ux3_4" name="ux_3" value="4"><label for="ux3_4" class="rating-label">4</label>
+                        <input type="radio" id="ux3_3" name="ux_3" value="3"><label for="ux3_3" class="rating-label">3</label>
+                        <input type="radio" id="ux3_2" name="ux_3" value="2"><label for="ux3_2" class="rating-label">2</label>
+                        <input type="radio" id="ux3_1" name="ux_3" value="1"><label for="ux3_1" class="rating-label">1</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>3. ด้านเทคโนโลยีและงานออกแบบ</h2>
+                <div class="question-box">
+                    <label class="main-q">ความสวยงามและรายละเอียดตัวละคร</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="d1_5" name="design_1" value="5" required><label for="d1_5" class="rating-label">5</label>
+                        <input type="radio" id="d1_4" name="design_1" value="4"><label for="d1_4" class="rating-label">4</label>
+                        <input type="radio" id="d1_3" name="design_1" value="3"><label for="d1_3" class="rating-label">3</label>
+                        <input type="radio" id="d1_2" name="design_1" value="2"><label for="d1_2" class="rating-label">2</label>
+                        <input type="radio" id="d1_1" name="design_1" value="1"><label for="d1_1" class="rating-label">1</label>
+                    </div>
+                </div>
+                <div class="question-box">
+                    <label class="main-q">คุณภาพของสื่อแสดงผล (Visual Quality)</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="d2_5" name="design_3" value="5" required><label for="d2_5" class="rating-label">5</label>
+                        <input type="radio" id="d2_4" name="design_3" value="4"><label for="d2_4" class="rating-label">4</label>
+                        <input type="radio" id="d2_3" name="design_3" value="3"><label for="d2_3" class="rating-label">3</label>
+                        <input type="radio" id="d2_2" name="design_3" value="2"><label for="d2_2" class="rating-label">2</label>
+                        <input type="radio" id="d2_1" name="design_3" value="1"><label for="d2_1" class="rating-label">1</label>
+                    </div>
+                </div>
+                <div class="question-box">
+                    <label class="main-q">การตกแต่งบรรยากาศภายในห้อง</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="d3_5" name="design_2" value="5" required><label for="d3_5" class="rating-label">5</label>
+                        <input type="radio" id="d3_4" name="design_2" value="4"><label for="d3_4" class="rating-label">4</label>
+                        <input type="radio" id="d3_3" name="design_2" value="3"><label for="d3_3" class="rating-label">3</label>
+                        <input type="radio" id="d3_2" name="design_2" value="2"><label for="d3_2" class="rating-label">2</label>
+                        <input type="radio" id="d3_1" name="design_2" value="1"><label for="d3_1" class="rating-label">1</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>4. ความพึงพอใจโดยรวม</h2>
+                <div class="question-box">
+                    <label class="main-q">ความสมจริงของ Hologram</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="h5" name="hologram_score" value="5" required><label for="h5" class="rating-label">5</label>
+                        <input type="radio" id="h4" name="hologram_score" value="4"><label for="h4" class="rating-label">4</label>
+                        <input type="radio" id="h3" name="hologram_score" value="3"><label for="h3" class="rating-label">3</label>
+                        <input type="radio" id="h2" name="hologram_score" value="2"><label for="h2" class="rating-label">2</label>
+                        <input type="radio" id="h1" name="hologram_score" value="1"><label for="h1" class="rating-label">1</label>
+                    </div>
+                </div>
+                <div class="question-box">
+                    <label class="main-q">ความพึงพอใจในคุณภาพเสียง</label>
+                    <div style="display:flex; gap:12px; justify-content: center;">
+                        <input type="radio" id="s5" name="sound_score" value="5" required><label for="s5" class="rating-label">5</label>
+                        <input type="radio" id="s4" name="sound_score" value="4"><label for="s4" class="rating-label">4</label>
+                        <input type="radio" id="s3" name="sound_score" value="3"><label for="s3" class="rating-label">3</label>
+                        <input type="radio" id="s2" name="sound_score" value="2"><label for="s2" class="rating-label">2</label>
+                        <input type="radio" id="s1" name="sound_score" value="1"><label for="s1" class="rating-label">1</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section">
+                <h2>5. วิญญาณที่ประทับใจ (เลือกได้หลายตัว)</h2>
+                <div class="ghost-grid">
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G1"><img src="G1.png"><span>ผี 1</span></label>
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G2"><img src="G2.png"><span>ผี 2</span></label>
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G3"><img src="G3.png"><span>ผี 3</span></label>
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G4"><img src="G4.png"><span>ผี 4</span></label>
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G5"><img src="G5.png"><span>ผี 5</span></label>
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G6"><img src="G6.png"><span>ผี 6</span></label>
+                    <label class="ghost-card"><input type="checkbox" name="fav_ghost" value="G7"><img src="G7.png"><span>ผี 7</span></label>
+                </div>
+            </div>
+
+            <!-- 🔴 ส่วนที่เพิ่มใหม่: ข้อเสนอแนะ -->
+            <div class="section">
+                <h2>6. ข้อเสนอแนะเพิ่มเติม</h2>
+                <div class="question-box">
+                    <label class="main-q">คุณมีอะไรอยากบอกผู้สร้างอาณาจักรความหลอนนี้ไหม?</label>
+                    <textarea name="feedback" rows="4" placeholder="พิมพ์ข้อความของคุณที่นี่..."></textarea>
+                </div>
+            </div>
+
+            <div style="padding: 25px;"><button type="submit" id="submitBtn">ยืนยันการส่งข้อมูล</button></div>
         </form>
 
-        <!-- ส่วนท้าย -->
-        <footer class="main-footer">
-            <p>©2026 ART TOYS PROJECT | GALAXY EDITION</p>
-            <div class="social-links">
-                <a href="https://www.instagram.com/sileiabeans/">INSTAGRAM</a>
-                <a href="#">GITHUB</a>
-            </div>
-        </footer>
-    </main>
+        <div class="footer-contact">
+            <p class="contact-text">หากวิญญาณมีข้อสงสัย... ติดต่อผู้สร้างอาณาจักรความหลอน</p>
+            <a href="https://www.instagram.com/sileiabeans/" target="_blank" class="contact-link">
+                <!-- 🔴 บังคับขนาดไอจีไม่ให้ขยายร่างทะลุจอ -->
+                <img src="Instagram_icon.png" alt="Instagram" style="width: 25px; height: 25px; min-width: 25px; object-fit: contain;">
+                <span>@sileiabeans</span>
+            </a>
+        </div>
+    </div>
 
-    <!-- เชื่อมต่อ JavaScript -->
+    <!-- 👻 องค์ประกอบ Jumpscare -->
+    <div id="jumpscare-container">
+        <img src="Jumpscare.PNG" id="jumpscare-img" alt="Jumpscare">
+    </div>
+
+    <!-- เชื่อมต่อกับไฟล์ JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
