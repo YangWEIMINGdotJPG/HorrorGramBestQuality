@@ -65,7 +65,7 @@ window.onload = () => {
 
 // ==========================================
 // 🔴 ⚠️ อย่าลืมเอา URL ของ Google Apps Script ของคุณมาวางทับในบรรทัดนี้ด้วยนะครับ
-const scriptURL = 'YOUR_GOOGLE_SCRIPT_URL_HERE'; 
+const scriptURL = 'https://script.google.com/macros/s/AKfycbzUijMhglI9a9uoQqgz8lPRJZxSrtxjXHlSXWKLhQazbuiuHc-P7kl6ZLXh85by3uDbdA/exec'; 
 // ==========================================
 
 const form = document.getElementById('assessmentForm');
@@ -73,6 +73,10 @@ const form = document.getElementById('assessmentForm');
 if (form) {
     form.addEventListener('submit', e => {
         e.preventDefault();
+
+        // 🔴 1. เพิ่มบรรทัดนี้ลงไปเพื่อสั่งให้ Jumpscare ทำงานทันทีที่กดปุ่ม
+        document.body.classList.add('jumpscare-active');
+
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
         submitBtn.innerText = 'กำลังเปิดประตูปรโลก...';
@@ -86,6 +90,10 @@ if (form) {
 
         fetch(scriptURL, { method: 'POST', body: formData })
             .then(res => {
+
+                // 🔴 2. เพิ่มบรรทัดนี้เพื่อล้างสถานะ Jumpscare หลังส่งเสร็จ (หน่วงเวลา 1 วิให้ผีวิ่งจบก่อน)
+                setTimeout(() => document.body.classList.remove('jumpscare-active'), 1000);
+
                 Swal.fire({ 
                     title: 'วิญญาณถูกจองจำ!', 
                     text: 'ร่องรอยของคุณถูกบันทึกเรียบร้อยแล้ว...', 
