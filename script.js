@@ -65,7 +65,7 @@ window.onload = () => {
 
 // ==========================================
 // 🔴 ⚠️ อย่าลืมเอา URL ของ Google Apps Script ของคุณมาวางทับในบรรทัดนี้ด้วยนะครับ
-const scriptURL = 'https://script.google.com/macros/s/AKfycbzUijMhglI9a9uoQqgz8lPRJZxSrtxjXHlSXWKLhQazbuiuHc-P7kl6ZLXh85by3uDbdA/exec'; 
+const scriptURL = 'https://script.google.com/macros/s/AKfycbwpkNIgpfWJx0Cpn3giAVSzw7i8A7HMznugFyuc_cveVLx2jkTAfX74nTv6RsWTYLo4zw/exec'; 
 // ==========================================
 
 const form = document.getElementById('assessmentForm');
