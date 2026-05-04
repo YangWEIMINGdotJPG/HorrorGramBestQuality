@@ -1,5 +1,72 @@
-// URL ของ Google Apps Script (ถ้ามี) ให้นำมาใส่ตรงนี้
-// const scriptURL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+const textTitle = "บันทึกผู้รอดชีวิต...";
+const textSub = "โปรดทิ้งร่องรอยของคุณไว้ด้านล่าง ข้อมูลนี้จะเป็นประโยชน์ต่อการพัฒนาความหลอน...";
+
+// ฟังก์ชันสำหรับพิมพ์ดีดข้อความ
+function typeWriter(element, text, speed, i = 0) {
+    if (i < text.length) {
+        element.innerHTML += text.charAt(i);
+        setTimeout(() => typeWriter(element, text, speed, i + 1), speed);
+    }
+}
+
+// 🎬 จัดคิวฉากเปิดตัว (Logo -> Credit IG -> แบบฟอร์ม)
+window.onload = () => {
+    const logoSplash = document.getElementById('splash-screen');
+    const igSplash = document.getElementById('ig-screen');
+    const container = document.querySelector('.container');
+    const titleElement = document.querySelector('.survivor-title');
+
+    // 🛑 1. ซ่อนหน้าแบบประเมินไว้ก่อน
+    if (container) container.style.display = 'none'; 
+    
+    // 2. โชว์โลโก้ HorrorGram ค้างไว้ 2 วินาที แล้วสั่งให้จางหาย
+    setTimeout(() => {
+        if (logoSplash) logoSplash.style.opacity = '0';
+        
+        // 3. รอ 1 วิ ให้โลโก้จางสนิท -> ปิดกล่องโลโก้ -> เปิดกล่อง IG
+        setTimeout(() => {
+            if (logoSplash) logoSplash.style.display = 'none';
+            if (igSplash) igSplash.style.display = 'flex';
+            
+            // สั่งให้ IG ค่อยๆ ชัดขึ้น
+            setTimeout(() => {
+                if (igSplash) igSplash.style.opacity = '1';
+                
+                // 4. โชว์ IG Credit ค้างไว้ 2.5 วินาที แล้วสั่งให้จางหาย
+                setTimeout(() => {
+                    if (igSplash) igSplash.style.opacity = '0';
+                    
+                    // 5. จบ Intro -> ปิดจอ IG ทิ้ง -> โชว์หน้าแบบประเมิน!
+                    setTimeout(() => {
+                        if (igSplash) igSplash.style.display = 'none';
+                        
+                        // เสกหน้าฟอร์มขึ้นมา พร้อมเอฟเฟกต์ Fade in
+                        if (container) {
+                            container.style.display = 'block'; 
+                            container.style.animation = 'fadeIn 1s ease-in-out';
+                        }
+                        
+                        // เริ่มพิมพ์ข้อความหัวเรื่อง
+                        if (titleElement) {
+                            titleElement.innerHTML = "";
+                            typeWriter(titleElement, textTitle, 100);
+                        }
+                    }, 1000);
+                    
+                }, 2500); 
+                
+            }, 50); 
+            
+        }, 1000); 
+        
+    }, 2000); 
+};
+
+
+// ==========================================
+// 🔴 ⚠️ อย่าลืมเอา URL ของ Google Apps Script ของคุณมาวางทับในบรรทัดนี้ด้วยนะครับ
+const scriptURL = 'https://script.google.com/macros/s/AKfycbwpkNIgpfWJx0Cpn3giAVSzw7i8A7HMznugFyuc_cveVLx2jkTAfX74nTv6RsWTYLo4zw/exec'; 
+// ==========================================
 
 const form = document.getElementById('assessmentForm');
 
@@ -7,124 +74,48 @@ if (form) {
     form.addEventListener('submit', e => {
         e.preventDefault();
 
-        const submitBtn = document.getElementById('submitBtn');
-        const originalText = submitBtn.innerText;
-        
-        // เปลียนข้อความปุ่มขณะกำลังส่งข้อมูล
-        submitBtn.disabled = true;
-        submitBtn.innerText = 'TRANSMITTING...';
-        submitBtn.style.opacity = '0.7';
+        // 🔴 1. เพิ่มบรรทัดนี้ลงไปเพื่อสั่งให้ Jumpscare ทำงานทันทีที่กดปุ่ม
+        document.body.classList.add('jumpscare-active',1000);
 
-        // -----------------------------------------------------
-        // หากต้องการส่งข้อมูลเข้า Google Sheets ให้เปิดคอมเมนต์ชุดด้านล่างนี้
-        // และเอา setTimeout ชุดล่างสุดออก
-        // -----------------------------------------------------
-        /*
+        const submitBtn = document.getElementById('submitBtn');
+        submitBtn.disabled = true;
+        submitBtn.innerText = 'กำลังเปิดประตูปรโลก...';
+
         const formData = new FormData(form);
+        
+        // ประมวลผล Checkbox วิญญาณ
+        const ghosts = [];
+        document.querySelectorAll('input[name="fav_ghost"]:checked').forEach(cb => ghosts.push(cb.value));
+        formData.set('fav_ghost', ghosts.join(', '));
+
         fetch(scriptURL, { method: 'POST', body: formData })
             .then(res => {
-                showSuccessAlert();
+
+                // 🔴 2. เพิ่มบรรทัดนี้เพื่อล้างสถานะ Jumpscare หลังส่งเสร็จ (หน่วงเวลา 1 วิให้ผีวิ่งจบก่อน)
+                setTimeout(() => document.body.classList.remove('jumpscare-active'), 1000);
+
+                Swal.fire({ 
+                    title: 'วิญญาณถูกจองจำ!', 
+                    text: 'ร่องรอยของคุณถูกบันทึกเรียบร้อยแล้ว...', 
+                    icon: 'success', 
+                    background: '#111', 
+                    color: '#ff1a1a', 
+                    confirmButtonColor: '#8b0000' 
+                });
                 form.reset();
-                resetButton(submitBtn, originalText);
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'ยืนยันการส่งข้อมูล';
             })
             .catch(err => {
-                showErrorAlert();
-                resetButton(submitBtn, originalText);
+                Swal.fire({ 
+                    title: 'ล้มเหลว!', 
+                    text: 'วิญญาณรบกวนสัญญาณ กรุณาลองใหม่อีกครั้ง', 
+                    icon: 'error', 
+                    background: '#111', 
+                    color: '#fff' 
+                });
+                submitBtn.disabled = false;
+                submitBtn.innerText = 'ยืนยันการส่งข้อมูล';
             });
-        */
-
-        // -----------------------------------------------------
-        // การจำลองการส่งข้อมูล (Simulation) สำหรับทดสอบ UI
-        // -----------------------------------------------------
-        setTimeout(() => {
-            showSuccessAlert();
-            form.reset();
-            resetButton(submitBtn, originalText);
-        }, 1500);
     });
 }
-
-// ฟังก์ชันแสดง Alert สำเร็จสไตล์อวกาศ
-function showSuccessAlert() {
-    Swal.fire({ 
-        title: 'TRANSMISSION COMPLETE', 
-        text: 'ข้อมูลพิกัดถูกบันทึกเข้าสู่ฐานข้อมูลหลักแล้ว', 
-        icon: 'success', 
-        background: 'rgba(15, 23, 42, 0.95)', 
-        color: '#f5f5f7', 
-        confirmButtonColor: '#00d4ff',
-        backdrop: `rgba(0,0,0,0.8)`
-    });
-}
-
-// ฟังก์ชันแสดง Alert ล้มเหลว
-function showErrorAlert() {
-    Swal.fire({ 
-        title: 'CONNECTION LOST', 
-        text: 'ไม่สามารถส่งข้อมูลได้ กรุณาลองใหม่อีกครั้ง', 
-        icon: 'error', 
-        background: 'rgba(15, 23, 42, 0.95)', 
-        color: '#f5f5f7', 
-        confirmButtonColor: '#ff3b30',
-        backdrop: `rgba(0,0,0,0.8)`
-    });
-}
-
-// ฟังก์ชันรีเซ็ตปุ่ม
-function resetButton(btn, text) {
-    btn.disabled = false;
-    btn.innerText = text;
-    btn.style.opacity = '1';
-}
-
-// =========================================
-// 🎬 ควบคุม Sequence การเปิดตัว (Logo -> IG -> Form)
-// =========================================
-window.addEventListener('load', () => {
-    document.body.classList.add('loading'); // ล็อกหน้าจอไม่ให้เลื่อน
-    
-    const logoSplash = document.getElementById('splash-screen');
-    const igSplash = document.getElementById('ig-screen');
-    const mainContent = document.getElementById('main-content');
-    
-    // คิวที่ 1: โชว์โลโก้ 2 วินาที
-    setTimeout(() => {
-        if (logoSplash) logoSplash.style.opacity = '0';
-        
-        // คิวที่ 2: รอโลโก้จางหาย (0.8 วิ) แล้วเปิดหน้า IG
-        setTimeout(() => {
-            if (logoSplash) logoSplash.style.display = 'none';
-            
-            if (igSplash) {
-                igSplash.style.display = 'flex';
-                // หน่วงเวลาเล็กน้อยเพื่อให้เอฟเฟกต์เฟดอินทำงาน
-                setTimeout(() => { igSplash.style.opacity = '1'; }, 50);
-            }
-            
-            // คิวที่ 3: โชว์หน้า IG ค้างไว้ 2.5 วินาที
-            setTimeout(() => {
-                if (igSplash) igSplash.style.opacity = '0';
-                
-                // คิวที่ 4 (สุดท้าย): รอหน้า IG จางหายสนิท (0.8 วิ) ค่อยโชว์หน้าฟอร์มประเมิน!
-                setTimeout(() => {
-                    if (igSplash) igSplash.style.display = 'none';
-                    
-                    // ปลดล็อกหน้าจอ
-                    document.body.classList.remove('loading');
-                    
-                    // สั่งโชว์หน้าประเมิน
-                    if (mainContent) {
-                        mainContent.style.display = 'block'; // ให้กินพื้นที่บนหน้าเว็บ
-                        setTimeout(() => {
-                            mainContent.style.opacity = '1'; // เฟดความสว่างขึ้นมา
-                            mainContent.style.transform = 'translateY(0)'; // เลื่อนขึ้นมาสวยๆ
-                        }, 50);
-                    }
-                }, 800);
-                
-            }, 2500); 
-            
-        }, 800); 
-        
-    }, 2000); 
-});
