@@ -75,7 +75,7 @@ if (form) {
         e.preventDefault();
 
         // 🔴 1. เพิ่มบรรทัดนี้ลงไปเพื่อสั่งให้ Jumpscare ทำงานทันทีที่กดปุ่ม
-        document.body.classList.add('jumpscare-active');
+        document.body.classList.add('jumpscare-active',1000);
 
         const submitBtn = document.getElementById('submitBtn');
         submitBtn.disabled = true;
