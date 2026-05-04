@@ -1,486 +1,597 @@
-:root {
-    --apple-dark: #1d1d1f;
-    --apple-gray: #86868b;
-    --galaxy-accent: #00d4ff;
-    --glass-bg: rgba(25, 25, 35, 0.65);
-    --glass-border: rgba(255, 255, 255, 0.1);
+:root { 
+    --blood: #8b0000; 
+    --dark-bg: #0f0f0f; 
+    --text: #d3d3d3; 
+    --bright-red: #ff1a1a; 
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+* { 
+    box-sizing: border-box; 
 }
 
-body {
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Kanit", sans-serif;
-    background-color: #000;
-    /* พื้นหลังแนวอวกาศลึก */
-    background-image: radial-gradient(circle at 50% -20%, #1e1b4b 0%, #020617 80%);
-    color: #f5f5f7;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    padding: 20px;
-    -webkit-font-smoothing: antialiased;
-    position: relative;
-    z-index: 1;
+body { 
+    font-family: 'Kanit', sans-serif; 
+    background: #000; 
+    color: var(--text); 
+    margin: 0; 
+    padding: 20px; 
+    display: flex; 
+    justify-content: center; 
+    /* เมาส์หลอน */
+    cursor: url('https://cur.cursors-4u.net/symbols/sym-1/sym46.cur'), auto;
 }
 
-/* เอฟเฟกต์ดาวระยิบระยับ */
-.starfield {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: url('https://www.transparenttextures.com/patterns/stardust.png');
-    opacity: 0.4;
-    z-index: -1;
-    pointer-events: none;
+.container { 
+    width: 100%; 
+    max-width: 800px; 
+    background: rgba(15, 15, 15, 0.95); 
+    border-radius: 10px; 
+    border: 1px solid #333; 
+    padding: 0 0 30px 0; 
+    overflow: hidden; 
+    box-shadow: 0 0 25px rgba(139, 0, 0, 0.4); 
+    animation: bloodPulse 3s infinite ease-in-out;
 }
 
-/* กล่องหลักแบบ Glassmorphism (Apple Style) */
-.container {
-    width: 100%;
-    max-width: 650px;
-    background: var(--glass-bg);
-    backdrop-filter: blur(25px);
-    -webkit-backdrop-filter: blur(25px);
-    border-radius: 24px;
-    border: 1px solid var(--glass-border);
-    padding: 40px;
-    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+.header-img { 
+    width: 100%; 
+    height: 200px; 
+    object-fit: cover; 
+    border-bottom: 2px solid var(--blood); 
 }
 
-/* Hero Section */
-.hero {
-    margin-bottom: 40px;
+/* --- ส่วนหัวบันทึกผู้รอดชีวิตแบบกะพริบ --- */
+.survivor-header { 
+    text-align: center; 
+    padding: 40px 20px; 
+    background: #0a0a0a; 
+    border-top: 1px solid var(--blood); 
+    margin-bottom: 10px; 
 }
 
-.status-badge {
-    display: inline-block;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 12px;
-    color: var(--galaxy-accent);
-    letter-spacing: 2px;
-    margin-bottom: 15px;
-    text-transform: uppercase;
-    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
+.survivor-title { 
+    color: var(--bright-red); 
+    font-size: 32px; 
+    font-weight: 700; 
+    margin: 0; 
+    text-shadow: 0 0 15px rgba(255, 0, 0, 0.7); 
+    animation: pulse-blink 2s infinite ease-in-out; 
 }
 
-.hero h1 {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 36px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    margin-bottom: 8px;
-    background: linear-gradient(180deg, #ffffff 0%, #a1a1a6 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
+.survivor-subtext { 
+    color: #888; 
+    font-size: 16px; 
+    margin-top: 10px; 
+    letter-spacing: 1px; 
 }
 
-.subtitle {
-    color: var(--apple-gray);
-    font-size: 16px;
-    font-weight: 400;
+/* เอฟเฟกต์กรอบแดงกะพริบ */
+@keyframes bloodPulse {
+    0% { box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); border-color: #4a0000; }
+    50% { box-shadow: 0 0 35px rgba(255, 0, 0, 0.9); border-color: #ff0000; }
+    100% { box-shadow: 0 0 15px rgba(139, 0, 0, 0.4); border-color: #4a0000; }
 }
 
-/* Form Sections */
-.form-section {
-    margin-bottom: 35px;
+/* เอฟเฟกต์ตัวอักษรกะพริบ */
+.flicker-text {
+    animation: textFlicker 4s infinite alternate;
 }
 
-.section-label {
-    font-family: 'Orbitron', sans-serif;
-    font-size: 13px;
-    color: #fff;
-    margin-bottom: 20px;
-    letter-spacing: 1px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding-bottom: 8px;
+@keyframes textFlicker {
+    0%, 18%, 22%, 25%, 53%, 57%, 100% { 
+        opacity: 1; text-shadow: 0 0 10px #ff0000, 0 0 20px #8b0000; 
+    }
+    20%, 24%, 55% { opacity: 0.3; text-shadow: none; }
 }
 
-.input-group {
-    margin-bottom: 20px;
+/* --- ซ่อนจุดขาว Radio Button มาตรฐานทั้งหมด --- */
+input[type="radio"] { display: none; }
+
+.section { 
+    padding: 25px; 
+    border-bottom: 1px solid #222; 
 }
 
-label {
-    display: block;
-    font-size: 14px;
-    color: var(--apple-gray);
-    margin-bottom: 8px;
-    font-weight: 500;
+h2 { 
+    color: var(--bright-red); 
+    font-size: 22px; 
+    margin-bottom: 20px; 
+    border-left: 5px solid var(--blood); 
+    padding-left: 15px; 
 }
 
-/* Inputs & Textareas */
-input[type="text"], textarea {
-    width: 100%;
-    background: rgba(255, 255, 255, 0.04);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    border-radius: 12px;
-    padding: 16px;
-    color: #fff;
-    font-family: 'Kanit', sans-serif;
-    font-size: 16px;
-    transition: all 0.3s ease;
-    outline: none;
-    resize: none;
+/* เอฟเฟกต์หน้าจอช็อตตอนชี้เมาส์ */
+h2:hover, .survivor-title:hover {
+    animation: glitch-skew 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both infinite;
+    color: #ff0000;
 }
 
-input[type="text"]:focus, textarea:focus {
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--galaxy-accent);
-    box-shadow: 0 0 15px rgba(0, 212, 255, 0.15);
+@keyframes glitch-skew {
+    0% { transform: skew(0deg); text-shadow: none; }
+    20% { transform: skew(-10deg); text-shadow: 4px 4px #8b0000, -4px -4px #000; }
+    40% { transform: skew(10deg); text-shadow: -4px 4px #ff1a1a, 4px -4px #000; }
+    60% { transform: skew(-5deg); }
+    80% { transform: skew(5deg); text-shadow: 2px -2px #8b0000; }
+    100% { transform: skew(0deg); text-shadow: none; }
 }
 
-/* Custom Radios (Glass Pills & Circles) */
-.custom-select, .star-rating {
-    display: flex;
-    gap: 10px;
-    flex-wrap: wrap;
+.question-box { 
+    background: #1a1a1a; 
+    padding: 20px; 
+    border-radius: 8px; 
+    margin-bottom: 20px; 
+    border: 1px solid #222; 
 }
 
-input[type="radio"] {
-    display: none;
+label.main-q { 
+    display: block; 
+    margin-bottom: 15px; 
+    font-weight: bold; 
+    color: #ffffff; 
 }
 
-.select-box, .rating-label {
-    padding: 12px 20px;
-    background: rgba(255, 255, 255, 0.05);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    color: var(--apple-gray);
-    font-size: 15px;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    user-select: none;
+/* ตารางคะแนนแบบกล่องกด (Rating Labels) */
+table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 10px; 
 }
 
-.select-box:hover, .rating-label:hover {
-    background: rgba(255, 255, 255, 0.1);
-    color: #fff;
+th, td { 
+    padding: 12px 5px; 
+    text-align: center; 
+    border-bottom: 1px solid #222; 
 }
 
-/* Active State สำหรับ Rank */
-input[type="radio"]:checked + .select-box {
-    background: #fff;
-    color: #000;
-    border-color: #fff;
-    box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+th { 
+    color: #888; 
+    font-weight: 300; 
+    font-size: 14px; 
 }
 
-/* Active State สำหรับ Rating (ไล่สีอวกาศ) */
-.star-rating .rating-label {
-    width: 48px;
-    height: 48px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    padding: 0;
-}
-
-input[type="radio"]:checked + .rating-label {
-    background: linear-gradient(135deg, #00d4ff 0%, #6a0dad 100%);
-    color: #fff;
-    border-color: transparent;
-    box-shadow: 0 0 20px rgba(0, 212, 255, 0.4);
-    transform: scale(1.05);
-}
-
-/* Submit Button */
-button {
-    width: 100%;
-    background: linear-gradient(135deg, #00d4ff 0%, #007aff 100%);
-    color: #fff;
-    border: none;
-    padding: 18px;
-    border-radius: 16px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: 1px;
-    cursor: pointer;
-    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s;
-    margin-top: 10px;
-}
-
-button:hover {
-    transform: scale(0.98);
-    box-shadow: 0 10px 20px rgba(0, 212, 255, 0.3);
-}
-
-button:active {
-    transform: scale(0.95);
-}
-
-/* Footer */
-.main-footer {
-    margin-top: 30px;
-    padding-top: 20px;
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-    color: var(--apple-gray);
-}
-
-.social-links a {
-    color: var(--apple-gray);
-    text-decoration: none;
-    margin-left: 15px;
-    transition: color 0.3s;
-}
-
-.social-links a:hover {
-    color: #fff;
+td:first-child { 
+    text-align: left; 
+    width: 45%; 
+    color: var(--text); 
+    font-size: 15px; 
 }
 
 /* =========================================
-   🚀 SPLASH SCREEN (หน้าเปิดตัว)
+   💀 อัปเกรดปุ่มคะแนน 5 4 3 2 1 (ไล่ขนาดใหญ่ไปเล็ก)
    ========================================= */
-#splash-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: #000;
-    background-image: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
-    display: flex;
-    flex-direction: column;
+.rating-label { 
+    display: flex; 
     justify-content: center;
     align-items: center;
-    z-index: 9999;
-    transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
+    border: 2px solid #222; 
+    border-radius: 50%; 
+    background: linear-gradient(145deg, #1a1a1a, #0a0a0a); 
+    color: #ffffff; 
+    cursor: pointer; 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    font-weight: bold; 
+    box-shadow: 3px 3px 6px #000000, -3px -3px 6px #1c1c1c; 
+    user-select: none;
 }
 
-/* เอฟเฟกต์โลโก้เรืองแสงและขยับ */
-#splash-logo {
-    width: 160px;
-    max-width: 80%;
-    margin-bottom: 25px;
-    animation: logoPulse 2s infinite alternate;
-    filter: drop-shadow(0 0 15px rgba(0, 212, 255, 0.4));
+.rating-label:nth-of-type(1) { width: 55px; height: 55px; font-size: 22px; } 
+.rating-label:nth-of-type(2) { width: 50px; height: 50px; font-size: 19px; } 
+.rating-label:nth-of-type(3) { width: 45px; height: 45px; font-size: 16px; } 
+.rating-label:nth-of-type(4) { width: 40px; height: 40px; font-size: 14px; } 
+.rating-label:nth-of-type(5) { width: 35px; height: 35px; font-size: 12px; } 
+
+.rating-label:hover { 
+    border-color: #8b0000; 
+    color: #ff4d4d; 
+    transform: translateY(-4px) scale(1.1); 
+    box-shadow: 0 5px 15px rgba(139, 0, 0, 0.5); 
 }
 
-/* ข้อความกำลังโหลด */
-.loading-text {
-    font-family: 'Orbitron', sans-serif;
-    color: var(--galaxy-accent);
-    font-size: 14px;
-    letter-spacing: 4px;
-    animation: textBlink 1.5s infinite ease-in-out;
+input[type="radio"]:checked + .rating-label { 
+    background: linear-gradient(145deg, #8b0000, #4a0000); 
+    color: #fff; 
+    border-color: var(--bright-red); 
+    animation: heartbeat 1.5s infinite; 
 }
 
-@keyframes logoPulse {
-    0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.2)); }
-    100% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(0, 212, 255, 0.8)); }
+.question-box div[style*="display:flex"] {
+    align-items: center !important;
 }
 
-@keyframes textBlink {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.3; }
+@keyframes heartbeat {
+    0% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 26, 26, 0.6); }
+    14% { transform: scale(1.25); box-shadow: 0 0 25px rgba(255, 26, 26, 1); }
+    28% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 26, 26, 0.6); }
+    42% { transform: scale(1.25); box-shadow: 0 0 25px rgba(255, 26, 26, 1); }
+    70% { transform: scale(1.1); box-shadow: 0 0 15px rgba(255, 26, 26, 0.6); }
 }
 
-/* ซ่อนและค่อยๆ โชว์หน้าหลัก */
-body.loading {
+/* =========================================
+   🔪 อัปเกรดปุ่มแถวยาว (เช่น เลือกอายุ) 
+   ========================================= */
+.age-label { 
+    display: block; 
+    padding: 16px 20px; 
+    margin-bottom: 12px; 
+    background: #0f0f0f; 
+    border: 1px solid #333; 
+    border-left: 5px solid #333; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    transition: all 0.3s ease; 
+    position: relative;
     overflow: hidden;
+    color: #888;
+    font-size: 16px;
 }
 
-#main-content {
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 1s cubic-bezier(0.4, 0, 0.2, 1), transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+.age-label:hover { 
+    background: #1a1a1a; 
+    border-left-color: var(--blood); 
+    color: #ccc; 
+    transform: translateX(10px); 
+    box-shadow: 0 5px 15px rgba(0,0,0,0.5);
 }
 
-body.loaded #main-content {
-    opacity: 1;
-    transform: translateY(0);
+input[type="radio"]:checked + .age-label { 
+    border-color: var(--blood); 
+    border-left: 5px solid var(--bright-red); 
+    background: rgba(139, 0, 0, 0.15); 
+    color: var(--bright-red); 
+    font-weight: bold; 
+    box-shadow: 0 0 20px rgba(139, 0, 0, 0.3); 
+    transform: translateX(10px);
 }
 
-/* =========================================
-   👽 โซนเลือกตัวละคร (Character Grid)
-   ========================================= */
-.character-grid {
-    display: grid;
-    /* ในจอคอมให้เรียงแถวละ 3 รูป */
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    margin-top: 15px;
-}
-
-.character-card {
-    cursor: pointer;
-    text-align: center;
-    position: relative;
-    display: block;
-    user-select: none;
-}
-
-/* ซ่อนปุ่ม Radio */
-.character-card input[type="radio"],
-.character-card input[type="checkbox"] {
-    display: none;
-}
-
-/* สไตล์รูปภาพให้อารมณ์โฮโลแกรมที่ยังไม่ถูกใช้งาน */
-.character-card img {
-    width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: contain; /* เปลี่ยนจาก cover เป็น contain เพื่อไม่ให้รูปโดนตัดขอบ */
-    border-radius: 16px;
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.5); /* เพิ่มพื้นหลังดำให้กลืนกับกรอบเมื่อรูปไม่เต็ม */
-    filter: grayscale(80%) brightness(0.6);
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.char-name {
-    display: block;
-    margin-top: 8px;
-    font-family: 'Orbitron', sans-serif;
-    font-size: 11px;
-    color: var(--apple-gray);
-    letter-spacing: 1.5px;
-    transition: color 0.3s;
-}
-
-/* เอฟเฟกต์ตอนเอาเมาส์ชี้ (Hover) */
-.character-card:hover img {
-    filter: grayscale(30%) brightness(0.9);
-    transform: translateY(-4px);
-    border-color: rgba(0, 212, 255, 0.4);
-}
-.character-card:hover .char-name {
-    color: #fff;
-}
-
-/* เอฟเฟกต์ตอนกดเลือก (Active/Checked) */
-.character-card input:checked + img {
-    filter: grayscale(0%) brightness(1.1);
-    transform: translateY(-6px) scale(1.02);
-    border-color: var(--galaxy-accent);
-    box-shadow: 0 10px 25px rgba(0, 212, 255, 0.4);
-}
-
-.character-card input:checked ~ .char-name {
-    color: var(--galaxy-accent);
-    text-shadow: 0 0 10px rgba(0, 212, 255, 0.5);
-    font-weight: 700;
-}
-
-/* =========================================
-   📱 IG SCREEN (หน้าจอโชว์โซเชียล)
-   ========================================= */
-#ig-screen {
-    position: fixed;
+input[type="radio"]:checked + .age-label::after {
+    content: '';
+    position: absolute;
     top: 0; left: 0;
-    width: 100%; height: 100vh;
-    background-color: #000;
-    background-image: radial-gradient(circle at center, #1e1b4b 0%, #020617 100%);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 9998;
-    opacity: 0;
-    transition: opacity 0.8s ease-in-out;
+    width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 26, 26, 0.1), transparent);
+    animation: scanline 2s infinite linear;
+}
+
+@keyframes scanline {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+}
+
+/* =========================================
+   👻 โซนเลือกวิญญาณ (อัปเกรดให้เด่นและมีชีวิต)
+   ========================================= */
+.ghost-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(105px, 1fr)); 
+    gap: 15px; 
+    padding: 10px 0;
+}
+
+.ghost-card { 
+    cursor: pointer; 
+    text-align: center; 
+    font-size: 14px; 
+    position: relative;
+}
+
+.ghost-card img { 
+    width: 100%; 
+    aspect-ratio: 1; 
+    object-fit: cover; 
+    border-radius: 12px; 
+    border: 3px solid #222; 
+    filter: grayscale(100%) brightness(0.5); 
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.8);
+}
+
+.ghost-card:hover img {
+    filter: grayscale(40%) brightness(0.9); 
+    transform: scale(1.05) translateY(-5px); 
+    border-color: #550000;
+    box-shadow: 0 8px 20px rgba(139, 0, 0, 0.5);
+}
+
+.ghost-card span { 
+    display: block; 
+    margin-top: 8px; 
+    color: #666; 
+    transition: 0.3s;
+    letter-spacing: 1px;
+}
+
+.ghost-card input:checked + img { 
+    border-color: #ff1a1a; 
+    filter: grayscale(0%) brightness(1.1) contrast(1.2); 
+    transform: scale(1.1) translateY(-8px); 
+    box-shadow: 0 10px 25px rgba(255, 26, 26, 0.8), 0 0 15px rgba(255, 26, 26, 0.5); 
+    animation: ghostBreath 2s infinite alternate; 
+}
+
+.ghost-card input:checked ~ span { 
+    color: #ff1a1a; 
+    font-weight: 800; 
+    text-shadow: 0 0 10px rgba(255, 26, 26, 0.6);
+    transform: scale(1.1); 
+}
+
+.ghost-card input { 
+    display: none; 
+}
+
+@keyframes ghostBreath {
+    0% { box-shadow: 0 5px 15px rgba(255, 26, 26, 0.5), 0 0 5px rgba(255, 26, 26, 0.3); }
+    100% { box-shadow: 0 15px 35px rgba(255, 26, 26, 0.9), 0 0 25px rgba(255, 26, 26, 0.7); }
+}
+
+/* Input text */
+input[type="text"] { 
+    width: 100%; 
+    padding: 14px; 
+    background: #000; 
+    border: 1px solid #444; 
+    color: #fff; 
+    border-radius: 5px; 
+    outline: none; 
+    font-size: 16px; 
+}
+
+input[type="text"]:focus { 
+    border-color: var(--bright-red); 
+    box-shadow: 0 0 10px rgba(255,0,0,0.2); 
+}
+
+
+/* =========================================
+   🔥 ปุ่ม Submit (ขนาดพอดีข้อความ + ขยับเต้นตลอดเวลา)
+   ========================================= */
+button { 
+    background: linear-gradient(90deg, #4a0000, #8b0000, #ff1a1a, #8b0000);
+    background-size: 300% 300%;
+    color: #fff; 
+    border: 1px solid var(--bright-red); 
+    
+    /* ปรับขนาดให้พอดีข้อความ และจัดให้อยู่กึ่งกลาง */
+    padding: 18px 40px; 
+    display: block; 
+    margin: 0 auto; 
+    
+    font-size: 20px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    border-radius: 8px; 
+    text-transform: uppercase; 
+    letter-spacing: 2px;
+    
+    /* สั่งให้อนิเมชันเต้นและสีไหลตลอดเวลา */
+    animation: breathingGlow 2s infinite alternate, bgShift 3s infinite linear;
+    transition: 0.3s;
+}
+
+button:hover:not(:disabled) { 
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 26, 26, 1);
+}
+
+button:disabled { 
+    background: #1a1a1a; 
+    border-color: #333; 
+    color: #555; 
+    cursor: not-allowed; 
+    animation: none; 
+    box-shadow: none;
+}
+
+/* 🫀 เอฟเฟกต์เต้นตุบๆ + เรืองแสง */
+@keyframes breathingGlow {
+    0% { box-shadow: 0 0 10px rgba(139, 0, 0, 0.5); }
+    100% { box-shadow: 0 0 25px rgba(255, 26, 26, 0.9); transform: scale(1.01); }
+}
+
+/* 🩸 เอฟเฟกต์สีเลือดไหลวนที่พื้นหลัง */
+@keyframes bgShift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+
+/* =========================================
+   📱 หน้าจอโชว์ Instagram Intro
+   ========================================= */
+#splash-screen { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100vh; 
+    background: #000; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    z-index: 9999; 
+    transition: 1s; 
+}
+
+#logo-img { 
+    max-width: 180px; 
+    animation: logo-pulse 2s infinite alternate; 
+}
+
+@keyframes logo-pulse { 
+    from { transform: scale(1); filter: drop-shadow(0 0 5px #f00); } 
+    to { transform: scale(1.1); filter: drop-shadow(0 0 25px #f00); } 
+}
+
+#ig-screen { 
+    position: fixed; 
+    top: 0; left: 0; 
+    width: 100%; height: 100vh; 
+    background: #000; 
+    display: none; 
+    justify-content: center; 
+    align-items: center; 
+    z-index: 9998; 
+    opacity: 0; 
+    transition: opacity 1s ease-in-out; 
 }
 
 .ig-content {
     display: flex;
     align-items: center;
-    gap: 20px;
-    animation: pulse-ig 2s infinite alternate;
+    gap: 15px; 
+    animation: pulse-ig 2s infinite alternate; 
 }
 
 .ig-icon-img {
-    width: 75px;  
-    height: 75px;
-    object-fit: contain;
-    filter: drop-shadow(0 0 20px rgba(0, 212, 255, 0.6));
+    width: 65px;  
+    height: 65px; 
+    object-fit: contain; 
+    filter: drop-shadow(0 0 15px rgba(220, 39, 67, 0.6)); 
 }
 
 .ig-handle {
     color: #ffffff;
     font-size: 55px;
     font-weight: 700;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
+    font-family: Arial, Helvetica, sans-serif; 
     letter-spacing: -1px;
-    text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
 }
 
 @keyframes pulse-ig {
-    0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(0, 212, 255, 0.2)); }
-    100% { transform: scale(1.05); filter: drop-shadow(0 0 25px rgba(0, 212, 255, 0.6)); }
+    0% { transform: scale(1); filter: drop-shadow(0 0 5px rgba(255,255,255,0.1)); }
+    100% { transform: scale(1.03); filter: drop-shadow(0 0 15px rgba(255,255,255,0.3)); }
 }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 
 /* =========================================
-   📱 RESPONSIVE สำหรับมือถือ (ย้ายมาไว้ล่างสุด)
+   🔗 Footer Contact (ปุ่มติดต่อ IG แบบกระจก)
    ========================================= */
-@media (max-width: 600px) {
-    .container {
-        padding: 30px 20px;
-        border-radius: 20px;
-    }
-    .hero h1 {
-        font-size: 28px;
-    }
-    .main-footer {
-        flex-direction: column;
-        gap: 15px;
-        text-align: center;
-    }
-    .social-links a {
-        margin: 0 10px;
-    }
-    
-    /* บังคับให้แบ่งรูปเป็น 2 คอลัมน์ในหน้าจอมือถือ */
-    .character-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-    }
+.footer-contact {
+    text-align: center;
+    padding: 0 25px 25px 25px;
+    margin-top: 20px;
+    border-top: 1px dashed #333; 
+    padding-top: 25px;
 }
+
+.contact-text {
+    color: #666;
+    font-size: 14px;
+    margin-bottom: 15px;
+    margin-top: 0;
+    letter-spacing: 0.5px;
+}
+
+.contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    background: rgba(20, 20, 20, 0.8);
+    backdrop-filter: blur(5px);
+    padding: 12px 30px;
+    border-radius: 50px; 
+    border: 1px solid #333;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+}
+
+.contact-link img {
+    width: 25px;
+    height: 25px;
+    object-fit: contain;
+    filter: grayscale(100%) opacity(0.6); 
+    transition: 0.4s ease;
+}
+
+.contact-link span {
+    color: #888;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 1px;
+    transition: 0.4s ease;
+}
+
+.contact-link:hover {
+    border-color: var(--bright-red);
+    background: rgba(139, 0, 0, 0.15);
+    box-shadow: 0 0 20px rgba(255, 26, 26, 0.5);
+    transform: translateY(-5px) scale(1.02);
+}
+
+.contact-link:hover img {
+    filter: grayscale(0%) opacity(1); 
+    transform: scale(1.2) rotate(5deg); 
+}
+
+.contact-link:hover span {
+    color: #fff;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+}
+
+
+/* ตกแต่งช่องข้อเสนอแนะ */
+textarea {
+    width: 100%;
+    padding: 15px;
+    background: #000;
+    border: 1px solid #444;
+    color: #fff;
+    border-radius: 8px;
+    outline: none;
+    font-family: 'Kanit', sans-serif;
+    font-size: 16px;
+    resize: none; /* ห้ามลากปรับขนาดเพื่อไม่ให้ Layout พัง */
+}
+
+textarea:focus {
+    border-color: var(--bright-red);
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+}
+
+
+/* 👻 โซน Jumpscare */
+#jumpscare-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 10000; pointer-events: none; display: none; justify-content: center; align-items: flex-end; }
+#jumpscare-img { width: 100%; max-width: 600px; height: auto; transform: translateY(100%); }
+.jumpscare-active #jumpscare-container { display: flex; }
+.jumpscare-active #jumpscare-img { animation: ghostFly 2.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; }
+@keyframes ghostFly { 0% { transform: translateY(100%); opacity: 1; } 100% { transform: translateY(-130%); opacity: 0; } }
+
+
 
 /* =========================================
-   ✨ TEXT ANIMATIONS (เอฟเฟกต์ข้อความขยับ)
+   📱 ปรับแต่งขนาดหน้าจอสำหรับมือถือ (Responsive)
    ========================================= */
-
-/* 1. อนิเมชันป้ายสถานะ (System Online) ขยับขึ้นลงเบาๆ */
-.status-badge {
-    animation: floatBadge 3s ease-in-out infinite;
-}
-
-@keyframes floatBadge {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-5px); text-shadow: 0 0 15px rgba(0, 212, 255, 0.8); }
-}
-
-/* 2. อนิเมชันหัวข้อหลัก (Stardust Core) สั่นแบบโฮโลแกรม (Glitch Effect เบาๆ) */
-.hero h1 {
-    position: relative;
-    animation: holoFlicker 4s infinite alternate;
-}
-
-@keyframes holoFlicker {
-    0%, 18%, 22%, 25%, 53%, 57%, 100% {
-        opacity: 1;
-        transform: skew(0deg);
+/* =========================================
+   📱 ปรับแต่งสำหรับมือถือ (เรียงแถวละ 2 รูป)
+   ========================================= */
+@media screen and (max-width: 600px) {
+    .ghost-grid { 
+        /* 🔴 เปลี่ยนจาก auto-fit เป็น grid-template-columns แบบ 2 คอลัมน์เท่ากัน */
+        grid-template-columns: 1fr 1fr; 
+        gap: 15px; /* ระยะห่างระหว่างรูป */
+        padding: 10px;
     }
-    20%, 24%, 55% {
-        opacity: 0.8;
-        transform: skew(-2deg);
-        text-shadow: 2px 0px rgba(0, 212, 255, 0.5), -2px 0px rgba(124, 58, 237, 0.5);
+
+    .ghost-card img {
+        /* ปรับมุมมนให้ดูซอฟต์ลงแบบในรูปตัวอย่าง */
+        border-radius: 15px; 
+    }
+
+    .ghost-card span {
+        font-size: 13px;
+        margin-top: 10px;
+    }
+
+    /* ปรับปุ่ม Submit ให้เล็กลงนิดนึงเพื่อให้รับกับหน้าจอมือถือ */
+    button {
+        padding: 15px 35px;
+        font-size: 18px;
     }
 }
 
-/* 3. (แถม) อนิเมชันข้อความ Subtitle พิมพ์ดีดแบบค่อยๆ เฟด */
-.subtitle {
-    animation: pulseSubtitle 2.5s infinite;
-}
-
-@keyframes pulseSubtitle {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 1; }
-}
